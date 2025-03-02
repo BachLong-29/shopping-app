@@ -1,6 +1,9 @@
 import "./globals.css";
 
+import { Button } from "@/components/ui/button";
 import type { Metadata } from "next";
+import { Providers } from "@/core/provider/Provider";
+import UserDropdown from "@/components/layout/UserPopover";
 
 export const metadata: Metadata = {
   title: "Create Next App",
@@ -14,7 +17,36 @@ export default function RootLayout({
 }>) {
   return (
     <html lang="en">
-      <body>{children}</body>
+      <body>
+        <Providers>
+          <div className="flex flex-col min-h-screen">
+            {/* Navigation */}
+            <nav className="w-full bg-white shadow-md p-4 fixed top-0 left-0 z-50 transition-all">
+              <div className="container mx-auto flex justify-between items-center">
+                <h1 className="text-xl font-bold">
+                  학생<span>.</span>
+                </h1>
+                <div className="flex items-center space-x-4">
+                  <Button variant="outline">Home</Button>
+                  <Button variant="outline">Shop</Button>
+                  <Button variant="outline">Cart</Button>
+                  <UserDropdown />
+                </div>
+              </div>
+            </nav>
+
+            {/* Main Content */}
+            <main className="flex-1 pt-20 container mx-auto p-4">
+              {children}
+            </main>
+
+            {/* Footer */}
+            <footer className="bg-gray-800 text-white p-4 mt-8 text-center">
+              <p>&copy; 2025 Shop. All rights reserved.</p>
+            </footer>
+          </div>
+        </Providers>
+      </body>
     </html>
   );
 }

@@ -1,4 +1,4 @@
-import { Category } from "@/core/model/Category";
+import Category from "@/core/model/Category";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 
