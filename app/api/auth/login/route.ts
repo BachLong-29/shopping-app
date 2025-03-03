@@ -2,8 +2,10 @@ import { NextResponse } from "next/server";
 import User from "@/core/model/User";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
-import cookie from "cookie";
+import { serialize } from "cookie";
 import { signToken } from "@/lib/auth";
+
+// import cookie from "cookie";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function POST(req: any) {
@@ -24,6 +26,8 @@ export async function POST(req: any) {
 
     // Kiểm tra mật khẩu
     const isMatch = await bcrypt.compare(password, user.password);
+    console.log({ password });
+    console.log("user.password", user.password);
     if (!isMatch) {
       return NextResponse.json(
         { message: "Mật khẩu không đúng" },
@@ -33,20 +37,24 @@ export async function POST(req: any) {
 
     // Tạo JWT
     const token = signToken(user);
-
+    console.log({ token });
+    console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+    // console.log("cookie", cookie);
     // Tạo cookie chứa token
-    const serializedCookie = cookie.serialize("token", token, {
+    const serializedCookie = serialize("token", token, {
       httpOnly: true, // Ngăn chặn truy cập từ JavaScript
       secure: process.env.NODE_ENV === "production", // Chỉ dùng HTTPS ở production
       sameSite: "strict", // Bảo vệ CSRF
       maxAge: 86400, // Hết hạn sau 1 ngày (86400 giây)
       path: "/", // Cookie có hiệu lực trên toàn trang
     });
+    console.log({ serializedCookie });
     // Trả về response với cookie
     const response = NextResponse.json(
       { message: "Đăng nhập thành công", user, access_token: token },
       { status: 200 }
     );
+    console.log({ response });
     response.headers.set("Set-Cookie", serializedCookie);
     return response;
   } catch (error) {
