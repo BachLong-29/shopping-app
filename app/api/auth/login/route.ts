@@ -22,12 +22,12 @@ export async function POST(req: any) {
         { status: 401 }
       );
     }
-    console.log({ user });
+    // console.log({ user });
 
     // Kiểm tra mật khẩu
     const isMatch = await bcrypt.compare(password, user.password);
-    console.log({ password });
-    console.log("user.password", user.password);
+    // console.log({ password });
+    // console.log("user.password", user.password);
     if (!isMatch) {
       return NextResponse.json(
         { message: "Mật khẩu không đúng" },
@@ -37,8 +37,8 @@ export async function POST(req: any) {
 
     // Tạo JWT
     const token = signToken(user);
-    console.log({ token });
-    console.log("process.env.NODE_ENV", process.env.NODE_ENV);
+    // console.log({ token });
+    // console.log("process.env.NODE_ENV", process.env.NODE_ENV);
     // console.log("cookie", cookie);
     // Tạo cookie chứa token
     const serializedCookie = serialize("token", token, {
@@ -48,13 +48,13 @@ export async function POST(req: any) {
       maxAge: 86400, // Hết hạn sau 1 ngày (86400 giây)
       path: "/", // Cookie có hiệu lực trên toàn trang
     });
-    console.log({ serializedCookie });
+    // console.log({ serializedCookie });
     // Trả về response với cookie
     const response = NextResponse.json(
       { message: "Đăng nhập thành công", user, access_token: token },
       { status: 200 }
     );
-    console.log({ response });
+    // console.log({ response });
     response.headers.set("Set-Cookie", serializedCookie);
     return response;
   } catch (error) {

@@ -1,22 +1,15 @@
 "use client";
 
-import { redirect } from "next/navigation";
 import { useAuth } from "@/core/context/AuthContext";
-import { useEffect } from "react";
 
 const withAuth = <P extends object>(
-  WrappedComponent: React.ComponentType<P>
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  WrappedComponent: React.ComponentType<P & { user: any }>
 ) => {
   const AuthComponent = (props: P) => {
     const { user } = useAuth();
-    console.log({ user });
-    useEffect(() => {
-      if (!user?.id) {
-        redirect("/login");
-      }
-    }, [user]);
 
-    return <WrappedComponent {...props} />;
+    return <WrappedComponent {...props} user={user} />;
   };
 
   return AuthComponent;

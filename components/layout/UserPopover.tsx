@@ -7,14 +7,16 @@ import {
 } from "@/components/ui/popover";
 
 import Image from "next/image";
+import Link from "next/link";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
-import { useRouter } from "next/navigation";
+import { redirect } from "next/navigation";
 
 export default function UserDropdown() {
-  const router = useRouter();
   const handleLogout = () => {
-    authService.logout().then(() => router.push("/login"));
+    authService.logout().then(() => {
+      redirect("/login");
+    });
   };
   return (
     <Popover>
@@ -39,12 +41,23 @@ export default function UserDropdown() {
         className="w-40 bg-white border border-gray-200 shadow-lg rounded-lg p-2"
       >
         <ul className="space-y-2">
-          <li className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100">
-            Profile
-          </li>
-          <li className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100">
-            Settings
-          </li>
+          <Link href="/my-task/profile">
+            <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-gray-100">
+              Profile
+            </li>
+          </Link>
+          <Link href="/my-task">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+              My Task
+            </li>
+          </Link>
+          <Link href="/settings">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+              Settings
+            </li>
+          </Link>
+          {/* Divider */}
+          <hr className="border-t border-gray-300 my-2" />
           <li
             className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100"
             onClick={handleLogout}

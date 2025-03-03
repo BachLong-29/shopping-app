@@ -1,12 +1,6 @@
 "use client"; // 🚀 Bắt buộc để dùng hooks trong Next.js 15
 
-import {
-  ReactNode,
-  createContext,
-  useContext,
-  useEffect,
-  useState,
-} from "react";
+import { ReactNode, createContext, useEffect, useState } from "react";
 
 interface User {
   id: string;
@@ -47,10 +41,24 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
   );
 };
 
-export const useAuth = () => {
-  const context = useContext(AuthContext);
-  if (!context) {
-    throw new Error("useAuth phải được sử dụng trong AuthProvider");
-  }
-  return context;
-};
+// export const useAuth = () => {
+//   const context = useContext(AuthContext);
+//   if (!context) {
+//     throw new Error("useAuth phải được sử dụng trong AuthProvider");
+//   }
+//   return context;
+// };
+export function useAuth() {
+  const [user, setUser] = useState(null);
+
+  useEffect(() => {
+    fetch("/api/auth/me")
+      .then((res) => res.json())
+      .then((data) => {
+        if (data.user) setUser(data.user);
+      })
+      .catch(() => setUser(null));
+  }, []);
+
+  return { user };
+}
