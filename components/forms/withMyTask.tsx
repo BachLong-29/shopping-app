@@ -8,6 +8,7 @@ import { Input } from "../ui/input";
 import React from "react";
 import UserDropdown from "../layout/UserPopover";
 import { redirect } from "next/navigation";
+import { useAuth } from "@/core/context/AuthContext";
 import withAuth from "./withAuth";
 
 const withMyTask = <P extends object>(
@@ -15,8 +16,8 @@ const withMyTask = <P extends object>(
 ) => {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const MyTaskComponent = (props: P & { user: any }) => {
-    // const { user } = props;
-    // console.log({ user });
+    const { user } = useAuth();
+    console.log({ user });
     const goHome = () => redirect("/");
     return (
       <>
@@ -62,8 +63,8 @@ const withMyTask = <P extends object>(
               </div>
 
               {/* User Dropdown */}
-              {/* {user?.id ? <UserDropdown /> : <div></div>} */}
-              <UserDropdown />
+              {user?.id ? <UserDropdown userInfo={user} /> : <div></div>}
+              {/* <UserDropdown /> */}
             </div>
           </nav>
 

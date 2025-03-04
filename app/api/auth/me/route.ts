@@ -11,7 +11,6 @@ export async function GET() {
   }
 
   const user = verifyToken(token); // Giải mã token để lấy user
-
   if (!user) {
     return NextResponse.json(
       { message: "Token không hợp lệ" },

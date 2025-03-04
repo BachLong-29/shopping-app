@@ -2,6 +2,7 @@ import "./globals.css";
 
 import type { Metadata } from "next";
 import { Providers } from "@/core/provider/Provider";
+import ReduxProvider from "@/redux/Provider";
 
 export const metadata: Metadata = {
   title: "Home Page",
@@ -21,7 +22,9 @@ export default async function RootLayout({
   return (
     <html lang="en">
       <body>
-        <Providers>{children}</Providers>
+        <ReduxProvider>
+          <Providers>{children}</Providers>
+        </ReduxProvider>
       </body>
     </html>
   );

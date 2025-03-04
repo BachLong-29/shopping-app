@@ -12,7 +12,8 @@ import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-export default function UserDropdown() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export default function UserDropdown({ userInfo }: any) {
   const handleLogout = () => {
     authService.logout().then(() => {
       redirect("/login");
@@ -33,7 +34,7 @@ export default function UserDropdown() {
             src="/images/default-avatar.jpg"
             className="rounded-full border border-pink-500"
           />
-          <span className="truncate">Markky</span>
+          <span className="truncate">{userInfo.name}</span>
         </div>
       </PopoverTrigger>
       <PopoverContent

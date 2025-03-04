@@ -49,7 +49,8 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 //   return context;
 // };
 export function useAuth() {
-  const [user, setUser] = useState(null);
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const [user, setUser] = useState<any>(null);
 
   useEffect(() => {
     fetch("/api/auth/me")
