@@ -1,6 +1,9 @@
 import HttpService from "./httpService";
 
 class AuthService extends HttpService {
+  constructor() {
+    super();
+  }
   login(req: { email: string; password: string }) {
     const { email, password } = req;
     return this.post("/api/auth/login", { email, password });

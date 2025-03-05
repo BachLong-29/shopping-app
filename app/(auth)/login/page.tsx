@@ -1,61 +1,48 @@
 "use client";
 
-import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
-import React, { useEffect, useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
-
-import { Button } from "@/components/ui/button";
-import { Input } from "@/components/ui/input";
-import { RootState } from "@/redux/store/store";
-import { loginRequest } from "@/redux/actions/user.action";
-import { redirect } from "next/navigation";
+import { Card } from "@/components/ui/card";
+import Image from "next/image";
+import SignIn from "./component/SignIn";
+import SignUp from "./component/SignUp";
+import { cn } from "@/lib/utils";
+import { useState } from "react";
 import withMyTask from "@/components/forms/withMyTask";
 
 const LoginPage = () => {
-  const [email, setEmail] = useState("");
-  const [password, setPassword] = useState("");
-  const dispatch = useDispatch();
-  const error = useSelector((state: RootState) => state.me.error);
-  const isAuthenticated = useSelector(
-    (state: RootState) => state.me.isAuthenticated
+  const [currentForm, setCurrentForm] = useState<"sign-in" | "sign-up">(
+    "sign-in"
   );
-
-  const handleLogin = async (e: React.FormEvent) => {
-    e.preventDefault();
-    dispatch(loginRequest(email, password));
-  };
-
-  useEffect(() => {
-    if (isAuthenticated) {
-      redirect("/");
-    }
-  }, [isAuthenticated]);
-
   return (
-    <Card className="max-w-md mx-auto mt-10">
-      <CardHeader>
-        <CardTitle>{"Login"}</CardTitle>
-      </CardHeader>
-      <CardContent>
-        {/* {isRegistering && <Input placeholder="Name" className="mb-2" />} */}
-        <Input
-          type="email"
-          placeholder="Email"
-          className="mb-2"
-          onChange={(e) => setEmail(e.target.value)}
-        />
-        <Input
-          type="password"
-          placeholder="Password"
-          className="mb-2"
-          onChange={(e) => setPassword(e.target.value)}
-        />
-        {error && <p className="font-semibold text-red-500 mb-2">{error}</p>}
-        <Button className="w-full" onClick={handleLogin}>
-          {"Login"}
-        </Button>
-      </CardContent>
-    </Card>
+    <div className="flex justify-center items-center h-[84vh]">
+      <Card className="relative w-[1000px] h-[600px] overflow-hidden shadow-lg">
+        <div className="flex h-full w-full absolute">
+          <SignIn currentForm={currentForm} setCurrentForm={setCurrentForm} />
+          <Image
+            src="/banner/login.jpg"
+            alt="sign-in"
+            className={cn(
+              "w-1/2 h-full relative transition-all duration-500",
+              currentForm === "sign-in" ? "left-0" : "left-[-100%]"
+            )}
+            width={500}
+            height={600}
+          />
+        </div>
+        <div className="flex h-full">
+          <Image
+            src="/banner/register.jpg"
+            alt="sign-up"
+            className={cn(
+              "w-1/2 h-full relative transition-all duration-500",
+              currentForm === "sign-up" ? "left-0" : "left-[-100%]"
+            )}
+            width={500}
+            height={600}
+          />
+          <SignUp currentForm={currentForm} setCurrentForm={setCurrentForm} />
+        </div>
+      </Card>
+    </div>
   );
 };
 
