@@ -37,9 +37,8 @@ function* handleLogin(action: {
     if (response.status === "success") {
       yield put(loginSuccess(response.user));
     }
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } catch (error: any) {
-    yield put(loginFailure(error?.message));
+  } catch (error) {
+    yield put(loginFailure((error as Error)?.message));
   }
 }
 

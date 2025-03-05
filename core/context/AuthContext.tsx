@@ -2,6 +2,7 @@
 
 import { ReactNode, createContext, useEffect, useState } from "react";
 
+import { UserInfo } from "../model/User";
 import { usePathname } from "next/navigation";
 
 interface User {
@@ -51,8 +52,11 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 //   return context;
 // };
 export function useAuth() {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const [user, setUser] = useState<any>(null);
+  const [user, setUser] = useState<Pick<UserInfo, "id" | "name" | "email">>({
+    id: "",
+    email: "",
+    name: "",
+  });
   const pathName = usePathname();
 
   useEffect(() => {
@@ -62,9 +66,15 @@ export function useAuth() {
         .then((data) => {
           if (data.user) setUser(data.user);
         })
-        .catch(() => setUser(null));
+        .catch(() =>
+          setUser({
+            id: "",
+            email: "",
+            name: "",
+          })
+        );
     }
-  }, []);
+  }, [setUser, pathName]);
 
   return { user };
 }

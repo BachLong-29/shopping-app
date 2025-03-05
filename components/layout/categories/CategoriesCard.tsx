@@ -3,16 +3,11 @@ import React from "react";
 
 const CategoriesCard = ({
   category,
-  key,
 }: {
   category: { id: string; name: string; image: string };
-  key: string;
 }) => {
   return (
-    <div
-      key={key}
-      className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md cursor-pointer"
-    >
+    <div className="flex flex-col items-center p-4 bg-white rounded-lg shadow-md cursor-pointer">
       <Image
         src={category.image}
         alt={category.name}

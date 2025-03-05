@@ -1,9 +1,9 @@
-import Category from "@/core/model/Category";
-import { NextResponse } from "next/server";
+import { NextRequest, NextResponse } from "next/server";
+
+import Category from "@/core/schema/Category";
 import { connectDB } from "@/lib/mongodb";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export async function POST(req: any) {
+export async function POST(req: NextRequest) {
   await connectDB();
   try {
     const body = await req.json();

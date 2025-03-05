@@ -7,6 +7,7 @@ import Image from "next/image";
 import { Input } from "../ui/input";
 import React from "react";
 import UserDropdown from "../layout/UserPopover";
+import { UserInfo } from "@/core/model/User";
 import { redirect } from "next/navigation";
 import { useAuth } from "@/core/context/AuthContext";
 import withAuth from "./withAuth";
@@ -14,8 +15,9 @@ import withAuth from "./withAuth";
 const withMyTask = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  const MyTaskComponent = (props: P & { user: any }) => {
+  const MyTaskComponent = (
+    props: P & { user: Pick<UserInfo, "id" | "name" | "email"> }
+  ) => {
     const { user } = useAuth();
     const goHome = () => redirect("/");
     return (

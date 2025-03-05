@@ -1,11 +1,11 @@
 import React, { ReactNode } from "react";
 
-interface ISecion {
+interface IProps {
   title: string;
   children?: ReactNode;
 }
 
-const Section = ({ title, children }: ISecion) => {
+const Section = ({ title, children }: IProps) => {
   return (
     <>
       <h2 className="text-xl font-bold mb-4">{title}</h2>

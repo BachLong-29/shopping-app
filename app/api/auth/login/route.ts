@@ -1,11 +1,9 @@
 import { NextResponse } from "next/server";
-import User from "@/core/model/User";
+import User from "@/core/schema/User";
 import bcrypt from "bcryptjs";
 import { connectDB } from "@/lib/mongodb";
 import { serialize } from "cookie";
 import { signToken } from "@/lib/auth";
-
-// import cookie from "cookie";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function POST(req: any) {
@@ -13,6 +11,7 @@ export async function POST(req: any) {
   try {
     const body = await req.json();
     const { email, password } = body;
+
     // Kiểm tra user có tồn tại không
     const user = await User.findOne({ email });
     if (!user) {

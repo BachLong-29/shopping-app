@@ -1,21 +1,21 @@
-import mongoose, { Document, Schema } from "mongoose";
-
-export interface IUser extends Document {
+export interface UserInfo {
+  id: string;
   name: string;
   email: string;
-  password: string;
-  role: "admin" | "seller" | "user";
+  gender: Gender;
+  avatar: string;
+  birthdate: Date;
+  role: Role;
 }
 
-const UserSchema = new Schema<IUser>(
-  {
-    name: { type: String, required: true },
-    email: { type: String, required: true, unique: true },
-    password: { type: String, required: true },
-    role: { type: String, enum: ["admin", "seller", "user"], default: "user" },
-  },
-  { timestamps: true }
-);
+export enum Role {
+  User = "user",
+  Seller = "seller",
+  Admin = "admin",
+}
 
-export default mongoose.models.User ||
-  mongoose.model<IUser>("User", UserSchema);
+export enum Gender {
+  Male = "male",
+  Female = "female",
+  Other = "other",
+}

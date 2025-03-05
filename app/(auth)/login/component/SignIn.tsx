@@ -1,7 +1,6 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
-
 import React, { useState } from "react";
 
+import { AuthType } from "@/core/types/AuthType";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
@@ -10,23 +9,31 @@ import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { useFetch } from "@/core/hooks/useFetch";
 
-const SignIn = ({ currentForm, setCurrentForm }: any) => {
+const SignIn = ({
+  currentForm,
+  setCurrentForm,
+}: {
+  currentForm: AuthType;
+  setCurrentForm: (value: AuthType) => void;
+}) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const { fetchData, error, loading } = useFetch(
-    (req: any) => authService.login(req),
-    {
-      email,
-      password,
-    }
-  );
+  const {
+    fetchData: login,
+    error,
+    loading,
+  } = useFetch((req) => authService.login(req), {
+    email,
+    password,
+  });
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetchData().then(() => {
+    login().then(() => {
       redirect("/");
     });
   };
+
   return (
     <CardContent
       className={cn(
@@ -58,7 +65,7 @@ const SignIn = ({ currentForm, setCurrentForm }: any) => {
         <p className="mt-4 text-sm">
           {"Don't have an account?"}
           <button
-            onClick={() => setCurrentForm("sign-up")}
+            onClick={() => setCurrentForm(AuthType.SignUp)}
             className="text-blue-500 underline ml-1"
           >
             Sign up.

@@ -2,15 +2,9 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import React, { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Product } from "@/core/model/Product";
 import ProductCard from "./ProductCard";
 import Section from "../Section";
-
-export type Product = {
-  id: number;
-  name: string;
-  price: string;
-  image: string;
-};
 
 interface IProps {
   data: Product[];
@@ -29,7 +23,7 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
   const totalPages = 10;
   useEffect(() => {
     fetchProducts(page).then((res) => setProducts(res));
-  }, [page]);
+  }, [page, setProducts]);
   return (
     <>
       <Section title="All Products">

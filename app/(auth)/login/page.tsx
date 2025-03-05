@@ -1,5 +1,6 @@
 "use client";
 
+import { AuthType } from "@/core/types/AuthType";
 import { Card } from "@/components/ui/card";
 import Image from "next/image";
 import SignIn from "./component/SignIn";
@@ -9,9 +10,7 @@ import { useState } from "react";
 import withMyTask from "@/components/forms/withMyTask";
 
 const LoginPage = () => {
-  const [currentForm, setCurrentForm] = useState<"sign-in" | "sign-up">(
-    "sign-in"
-  );
+  const [currentForm, setCurrentForm] = useState<AuthType>(AuthType.SignIn);
   return (
     <div className="flex justify-center items-center h-[84vh]">
       <Card className="relative w-[1000px] h-[600px] overflow-hidden shadow-lg">

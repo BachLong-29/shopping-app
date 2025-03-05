@@ -8,12 +8,16 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
+import { UserInfo } from "@/core/model/User";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-export default function UserDropdown({ userInfo }: any) {
+export default function UserDropdown({
+  userInfo,
+}: {
+  userInfo: Pick<UserInfo, "id" | "name" | "email">;
+}) {
   const handleLogout = () => {
     authService.logout().then(() => {
       redirect("/login");

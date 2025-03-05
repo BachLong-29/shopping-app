@@ -1,10 +1,12 @@
 "use client";
 
+import { UserInfo } from "@/core/model/User";
 import { useAuth } from "@/core/context/AuthContext";
 
 const withAuth = <P extends object>(
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  WrappedComponent: React.ComponentType<P & { user: any }>
+  WrappedComponent: React.ComponentType<
+    P & { user: Pick<UserInfo, "id" | "name" | "email"> }
+  >
 ) => {
   const AuthComponent = (props: P) => {
     const { user } = useAuth();
