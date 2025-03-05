@@ -17,7 +17,6 @@ const withMyTask = <P extends object>(
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const MyTaskComponent = (props: P & { user: any }) => {
     const { user } = useAuth();
-    console.log({ user });
     const goHome = () => redirect("/");
     return (
       <>

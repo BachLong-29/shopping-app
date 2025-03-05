@@ -14,10 +14,8 @@ export function useFetch<T>(effect: any, params: any) {
     console.log("params", params);
     try {
       const res = await effect(params);
-      console.log("res", res);
-      if (!res.ok) throw new Error("Không thể lấy dữ liệu");
-      const result = await res.json();
-      setData(result);
+      if (!res.status) throw new Error("Không thể lấy dữ liệu");
+      setData(res);
     } catch (err) {
       setError((err as Error).message);
     } finally {

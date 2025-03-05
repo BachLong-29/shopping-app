@@ -2,6 +2,8 @@
 
 import { ReactNode, createContext, useEffect, useState } from "react";
 
+import { usePathname } from "next/navigation";
+
 interface User {
   id: string;
   email: string;
@@ -51,14 +53,17 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 export function useAuth() {
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const [user, setUser] = useState<any>(null);
+  const pathName = usePathname();
 
   useEffect(() => {
-    fetch("/api/auth/me")
-      .then((res) => res.json())
-      .then((data) => {
-        if (data.user) setUser(data.user);
-      })
-      .catch(() => setUser(null));
+    if (pathName !== "/login") {
+      fetch("/api/auth/me")
+        .then((res) => res.json())
+        .then((data) => {
+          if (data.user) setUser(data.user);
+        })
+        .catch(() => setUser(null));
+    }
   }, []);
 
   return { user };

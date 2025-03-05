@@ -48,6 +48,4 @@ const LoginPage = () => {
 
 export default withMyTask(LoginPage);
 
-// cần custom lại để đẹp hơn.
-// có thể dùng hình ảnh cho sống động.
 // thêm các icon đăng nhập bằng google, facebook, ...
