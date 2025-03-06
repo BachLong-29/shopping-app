@@ -1,24 +1,16 @@
 "use client";
 
 import { Card, CardContent, CardHeader } from "@/components/ui/card";
-import React, { useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import { Label } from "@/components/ui/label";
-import profileService from "./services/profileService";
-import { useFetch } from "@/core/hooks/useFetch";
+import { useProfile } from "./context/ProfileContext";
 import withMyTask from "@/components/forms/withMyTask";
 
 const ProfilePage = () => {
-  const { data, fetchData } = useFetch(() => profileService.getUserInfo(), {});
-
-  useEffect(() => {
-    fetchData();
-    // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
-
+  const profile = useProfile();
   return (
     <div className="flex justify-center items-center h-[84vh]">
       <Card className="w-[500px] shadow-lg">
@@ -30,13 +22,13 @@ const ProfilePage = () => {
             height={120}
             className="rounded-full border"
           />
-          <h2 className="text-xl font-semibold mt-2">{data?.user?.name}</h2>
+          <h2 className="text-xl font-semibold mt-2">{profile?.user?.name}</h2>
         </CardHeader>
         <CardContent>
           <div className="space-y-4">
             <div>
               <Label>Email</Label>
-              <Input type="email" value={data?.user?.email} readOnly />
+              <Input type="email" value="nguyenvanZZ@example.com" readOnly />
             </div>
             <div>
               <Label>Birthday</Label>

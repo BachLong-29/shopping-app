@@ -5,6 +5,9 @@ class ProfileService extends HttpService {
   getUserInfo(): Promise<{ user: UserInfo }> {
     return this.get("/api/user", {});
   }
+  getProfile(id: string): Promise<{ user: UserInfo }> {
+    return this.get(`/api/user/${id}`, {});
+  }
 }
 
 const profileService = new ProfileService();

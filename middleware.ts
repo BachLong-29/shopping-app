@@ -24,5 +24,5 @@ export function middleware(req: NextRequest) {
 
 // Chỉ áp dụng middleware cho các route cần bảo vệ
 export const config = {
-  matcher: ["/", "/login"], // Các route yêu cầu đăng nhập
+  matcher: ["/", "/my-task/:path*", "/login"], // Các route yêu cầu đăng nhập
 };

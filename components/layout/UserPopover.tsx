@@ -23,6 +23,7 @@ export default function UserDropdown({
       redirect("/login");
     });
   };
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -46,7 +47,7 @@ export default function UserDropdown({
         className="w-40 bg-white border border-gray-200 shadow-lg rounded-lg p-2"
       >
         <ul className="space-y-2">
-          <Link href="/my-task/profile">
+          <Link href={`/my-task/${userInfo.id}/profile`}>
             <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-gray-100">
               Profile
             </li>
