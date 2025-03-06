@@ -6,7 +6,7 @@ import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
-import { useFetch } from "@/core/hooks/useFetch";
+import { useFetch } from "@/hooks/useFetch";
 
 const SignUp = ({
   currentForm,

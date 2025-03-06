@@ -52,7 +52,7 @@ export default function UserDropdown({
               Profile
             </li>
           </Link>
-          <Link href="/my-task">
+          <Link href={`/my-task/${userInfo.id}/product`}>
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
               My Task
             </li>

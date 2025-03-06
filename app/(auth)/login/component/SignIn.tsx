@@ -7,7 +7,7 @@ import { Input } from "@/components/ui/input";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { useFetch } from "@/core/hooks/useFetch";
+import { useFetch } from "@/hooks/useFetch";
 
 const SignIn = ({
   currentForm,
