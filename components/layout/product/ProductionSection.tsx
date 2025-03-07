@@ -1,10 +1,11 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import React, { useEffect, useState } from "react";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
 import ProductCard from "./ProductCard";
 import Section from "../Section";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 interface IProps {
   data: Product[];
@@ -20,13 +21,15 @@ const fetchProducts = async (page: number) => {
 };
 const ProductionSection = ({ data, setProducts }: IProps) => {
   const [page, setPage] = useState(1);
+  const { t } = useLanguage();
+
   const totalPages = 10;
   useEffect(() => {
     fetchProducts(page).then((res) => setProducts(res));
   }, [page, setProducts]);
   return (
-    <>
-      <Section title="All Products">
+    <div>
+      <Section title={t("general.all_products")}>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
           {data.map((product) => (
             <ProductCard product={product} key={product.id} />
@@ -38,7 +41,8 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
             onClick={() => setPage((p) => Math.max(p - 1, 1))}
             disabled={page === 1}
           >
-            <ChevronLeft size={16} /> Prev
+            <ChevronLeft size={16} />
+            {t("pagination.prev")}
           </Button>
           <span className="mx-4 text-lg font-semibold">
             {page} / {totalPages}
@@ -48,11 +52,12 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
             onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
             disabled={page === totalPages}
           >
-            Next <ChevronRight size={16} />
+            {t("pagination.next")}
+            <ChevronRight size={16} />
           </Button>
         </div>
       </Section>
-    </>
+    </div>
   );
 };
 

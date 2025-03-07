@@ -8,6 +8,7 @@ import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { useFetch } from "@/hooks/useFetch";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 const SignIn = ({
   currentForm,
@@ -26,6 +27,7 @@ const SignIn = ({
     email,
     password,
   });
+  const { t } = useLanguage();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
@@ -41,7 +43,9 @@ const SignIn = ({
         currentForm === "sign-in" ? "left-0" : "left-full"
       )}
     >
-      <div className="text-lg font-semibold uppercase">Login</div>
+      <div className="text-lg font-semibold uppercase">
+        {t("action.sign_in")}
+      </div>
       <div className="w-full">
         <Input
           className="mt-4"
@@ -59,16 +63,16 @@ const SignIn = ({
           onClick={handleLogin}
           disabled={loading}
         >
-          Sign In
+          {t("action.sign_in")}
         </Button>
         {error && <p className="font-semibold text-red-500 mb-2">{error}</p>}
         <p className="mt-4 text-sm">
-          {"Don't have an account?"}
+          {t("dont_have_account")}
           <button
             onClick={() => setCurrentForm(AuthType.SignUp)}
             className="text-blue-500 underline ml-1"
           >
-            Sign up.
+            {`${t("action.sign_up")}.`}
           </button>
         </p>
       </div>

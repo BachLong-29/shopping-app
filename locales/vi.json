@@ -1,4 +1,27 @@
 {
-  "welcome": "Chào mừng bạn đến với trang web của chúng tôi",
-  "theme": "Giao diện"
+  "product": "sản phẩm",
+  "general": {
+    "product": "sản phẩm",
+    "all_products": "Tất cả sản phẩm",
+    "category": "Loại sản phẩm",
+    "see_more": "Xem thêm"
+  },
+  "pagination": {
+    "prev": "Trước",
+    "next": "Sau"
+  },
+  "module": {
+    "profile": "Hồ sơ",
+    "my_task": "Công việc",
+    "setting": "Cài đặt"
+  },
+  "action": {
+    "log_out": "Đăng xuất",
+    "search": "Tìm kiếm sản phẩm...",
+    "create_account": "Tạo tài khoản",
+    "sign_up": "Đăng ký",
+    "sign_in": "Đăng nhập"
+  },
+  "dont_have_account": "Chưa có tài khoản?",
+  "already_have_account": "Đã có tài khoản?"
 }

@@ -8,7 +8,7 @@ interface IProps {
 const Section = ({ title, children }: IProps) => {
   return (
     <>
-      <h2 className="text-xl font-bold mb-4">{title}</h2>
+      <h2 className="text-xl font-bold mb-4 capitalize">{title}</h2>
       {children}
     </>
   );

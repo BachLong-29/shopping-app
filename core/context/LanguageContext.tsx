@@ -29,7 +29,6 @@ export const LanguageProvider = ({
   });
   const [isLoading, setIsLoading] = useState(true);
 
-  console.log({ locale });
   const [t, setT] = useState<(key: string) => string>(
     () => (key: string) => key
   );

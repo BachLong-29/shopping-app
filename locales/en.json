@@ -1,4 +1,27 @@
 {
-  "welcome": "Welcome to our website",
-  "theme": "Theme"
+  "product": "product",
+  "general": {
+    "product": "product",
+    "all_products": "all products",
+    "category": "category",
+    "see_more": "See more"
+  },
+  "pagination": {
+    "prev": "Prev",
+    "next": "Next"
+  },
+  "module": {
+    "profile": "Profile",
+    "my_task": "My task",
+    "setting": "Settings"
+  },
+  "action": {
+    "log_out": "Log out",
+    "search": "Search for product...",
+    "create_account": "Create an account",
+    "sign_up": "Sign up",
+    "sign_in": "Sign in"
+  },
+  "dont_have_account": "Don't have an account?",
+  "already_have_account": "Already have an account?"
 }

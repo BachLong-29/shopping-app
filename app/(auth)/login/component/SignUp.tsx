@@ -7,6 +7,7 @@ import { Input } from "@/components/ui/input";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { useFetch } from "@/hooks/useFetch";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 const SignUp = ({
   currentForm,
@@ -15,6 +16,8 @@ const SignUp = ({
   currentForm: AuthType;
   setCurrentForm: (value: AuthType) => void;
 }) => {
+  const { t } = useLanguage();
+
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
@@ -38,7 +41,9 @@ const SignUp = ({
         currentForm === "sign-up" ? "left-0" : "left-full"
       )}
     >
-      <h2 className="text-lg font-semibold uppercase">Create an account</h2>
+      <h2 className="text-lg font-semibold uppercase">
+        {t("action.create_account")}
+      </h2>
       <div className="w-full">
         <Input
           className="mt-4"
@@ -67,15 +72,15 @@ const SignUp = ({
           onClick={handleSignUp}
           disabled={loading}
         >
-          Sign Up
+          {t("action.sign_up")}
         </Button>
         <p className="mt-4 text-sm">
-          Already have an account?
+          {t("already_have_account")}
           <button
             onClick={() => setCurrentForm(AuthType.SignIn)}
             className="text-blue-500 underline ml-1"
           >
-            Sign in.
+            {t("action.sign_in")}
           </button>
         </p>
       </div>

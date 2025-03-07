@@ -12,12 +12,14 @@ import { UserInfo } from "@/core/model/User";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 export default function UserDropdown({
   userInfo,
 }: {
   userInfo: Pick<UserInfo, "id" | "name" | "email">;
 }) {
+  const { t } = useLanguage();
   const handleLogout = () => {
     authService.logout().then(() => {
       redirect("/login");
@@ -29,7 +31,7 @@ export default function UserDropdown({
       <PopoverTrigger asChild>
         <div
           className={cn(
-            "flex items-center gap-2 rounded-full bg-black p-2 text-white cursor-pointer shrink-0"
+            "flex items-center gap-2 rounded-full bg-black p-2 pr-3 text-white cursor-pointer shrink-0"
           )}
         >
           <Image
@@ -49,17 +51,17 @@ export default function UserDropdown({
         <ul className="space-y-2">
           <Link href={`/my-task/${userInfo.id}/profile`}>
             <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-gray-100">
-              Profile
+              {t("module.profile")}
             </li>
           </Link>
           <Link href={`/my-task/${userInfo.id}/product`}>
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
-              My Task
+              {t("module.my_task")}
             </li>
           </Link>
           <Link href="/settings">
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
-              Settings
+              {t("module.setting")}
             </li>
           </Link>
           {/* Divider */}
@@ -68,7 +70,7 @@ export default function UserDropdown({
             className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100"
             onClick={handleLogout}
           >
-            Logout
+            {t("action.log_out")}
           </li>
         </ul>
       </PopoverContent>

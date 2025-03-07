@@ -16,7 +16,7 @@ const Banner = () => {
         {[1, 2, 3, 4].map((i) => (
           <CarouselItem key={i} className="h-[450px]">
             <Image
-              src={`/images/banner${i}.jpg`}
+              src={`/banner/banner${i}.jpg`}
               alt="Banner"
               width={1472}
               height={450}

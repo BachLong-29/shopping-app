@@ -4,7 +4,6 @@
 import Banner from "@/components/layout/Banner";
 import CategoriesSection from "@/components/layout/categories/CategoriesSection";
 import ProductionSection from "@/components/layout/product/ProductionSection";
-import { useLanguage } from "@/core/context/LanguageContext";
 import { useState } from "react";
 import withMyTask from "@/components/forms/withMyTask";
 
@@ -36,10 +35,8 @@ const categories = [
 
 const Home = () => {
   const [products, setProducts] = useState<any>([]);
-  const { t } = useLanguage();
   return (
     <div className="space-y-10 p-4 container mx-auto">
-      <h1>{t("welcome")}</h1>
       <Banner />
       <CategoriesSection data={categories} />
       <ProductionSection data={products} setProducts={setProducts} />

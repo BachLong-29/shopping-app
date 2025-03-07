@@ -7,9 +7,11 @@ import LanguageSwitcher from "./LanguageSwitcher";
 import Link from "next/link";
 import UserDropdown from "./UserPopover";
 import { useAuth } from "@/core/context/AuthContext";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 const Navigation = () => {
   const { user } = useAuth();
+  const { t } = useLanguage();
   return (
     <nav className="w-full bg-white shadow-md p-4 fixed top-0 left-0 z-50 transition-all">
       <div className="container mx-auto flex justify-between items-center">
@@ -19,12 +21,12 @@ const Navigation = () => {
         </Link>
 
         {/* Search Bar + Cart */}
-        <div className="flex items-center gap-4 w-full max-w-2xl">
+        <div className="flex items-center gap-4 w-full max-w-3xl">
           {/* Search Input */}
           <div className="relative flex items-center w-full">
             <Input
               type="text"
-              placeholder="Search for products..."
+              placeholder={t("action.search")}
               className="w-full pl-4 pr-12 py-2.5 text-lg border border-gray-300 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500"
               style={{ height: "36px" }}
             />
@@ -47,9 +49,8 @@ const Navigation = () => {
 
         {/* User Dropdown */}
         <div className="flex gap-2.5">
-          {user?.id ? <UserDropdown userInfo={user} /> : <div></div>}
-
           <LanguageSwitcher />
+          {user?.id ? <UserDropdown userInfo={user} /> : <div></div>}
         </div>
       </div>
     </nav>

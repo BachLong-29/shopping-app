@@ -20,10 +20,10 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {...props}
       className="h-auto bg-white relative !border-r-0"
     >
-      <SidebarHeader className="bg-white">
+      <SidebarHeader>
         <TeamSwitcher teams={sidebarConfig.teams} />
       </SidebarHeader>
-      <SidebarContent className="bg-white">
+      <SidebarContent>
         <NavMain items={sidebarConfig.navMain} />
       </SidebarContent>
       <SidebarRail />
