@@ -16,7 +16,7 @@ const LanguageSwitcher = () => {
       <PopoverTrigger asChild>
         <div
           className={cn(
-            "flex items-center border rounded-md cursor-pointer shrink-0 hover:bg-gray-100"
+            "flex items-center border rounded-md cursor-pointer shrink-0 h-[51px] hover:bg-gray-100"
           )}
         >
           {locale === "vi" ? (

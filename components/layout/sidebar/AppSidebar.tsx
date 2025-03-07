@@ -6,7 +6,6 @@ import {
   Sidebar,
   SidebarContent,
   SidebarHeader,
-  SidebarRail,
 } from "@/components/ui/sidebar";
 
 import { NavMain } from "./NavMain";
@@ -20,13 +19,12 @@ export function AppSidebar({ ...props }: React.ComponentProps<typeof Sidebar>) {
       {...props}
       className="h-auto bg-white relative !border-r-0"
     >
-      <SidebarHeader>
+      <SidebarHeader className="bg-white">
         <TeamSwitcher teams={sidebarConfig.teams} />
       </SidebarHeader>
-      <SidebarContent>
+      <SidebarContent className="bg-white">
         <NavMain items={sidebarConfig.navMain} />
       </SidebarContent>
-      <SidebarRail />
     </Sidebar>
   );
 }

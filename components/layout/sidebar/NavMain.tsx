@@ -17,6 +17,10 @@ import {
   CollapsibleContent,
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
+import { useLanguage } from "@/core/context/LanguageContext";
+import { useGetUserId } from "@/hooks/useGetUserId";
+import { usePathname } from "next/navigation";
+import { cn } from "@/lib/utils";
 
 export function NavMain({
   items,
@@ -29,9 +33,16 @@ export function NavMain({
     items?: {
       title: string;
       url: string;
+      key: string;
     }[];
   }[];
 }) {
+  const { t } = useLanguage();
+  const id = useGetUserId();
+  const pathName = usePathname();
+
+  const [, , , module] = pathName.split("/");
+
   return (
     <SidebarGroup>
       <SidebarGroupLabel>Platform</SidebarGroupLabel>
@@ -47,7 +58,7 @@ export function NavMain({
               <CollapsibleTrigger asChild>
                 <SidebarMenuButton tooltip={item.title}>
                   {item.icon && <item.icon />}
-                  <span>{item.title}</span>
+                  <span>{t(item.title)}</span>
                   <ChevronRight className="ml-auto transition-transform duration-200 group-data-[state=open]/collapsible:rotate-90" />
                 </SidebarMenuButton>
               </CollapsibleTrigger>
@@ -56,8 +67,13 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a href={subItem.url}>
-                          <span>{subItem.title}</span>
+                        <a
+                          href={`/my-task/${id}${subItem.url}`}
+                          className={cn(
+                            module === subItem.key ? "bg-sidebar-accent" : ""
+                          )}
+                        >
+                          <span>{t(subItem.title)}</span>
                         </a>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>

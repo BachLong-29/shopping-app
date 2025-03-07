@@ -13,7 +13,15 @@
   "module": {
     "profile": "Hồ sơ",
     "my_task": "Công việc",
-    "setting": "Cài đặt"
+    "product": "Sản phẩm",
+    "wishlist": "Danh sách yêu thích",
+    "category": "Ngành hàng",
+    "sales_order": "Đơn bán hàng",
+    "purchase_order": "Đơn mua hàng",
+    "user": "Người dùng",
+    "sales": "Bán hàng",
+    "purchase": "Mua hàng",
+    "settings": "Cài đặt"
   },
   "action": {
     "log_out": "Đăng xuất",

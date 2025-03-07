@@ -16,14 +16,15 @@ import { AppSidebar } from "./AppSidebar";
 import { Module } from "@/core/utils/sidebarConfig";
 import { Separator } from "@radix-ui/react-separator";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
+import { useLanguage } from "@/core/context/LanguageContext";
 import { usePathname } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Sidebar = ({ children }: any) => {
   const pathName = usePathname();
-  const [, , userId, module] = pathName.split("/");
-  const breadcrumb = useBreadcrumb(module as Module, userId);
-
+  const [, , userId, module, id] = pathName.split("/");
+  const breadcrumb = useBreadcrumb(module as Module, userId, id);
+  const { t } = useLanguage();
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -36,38 +37,31 @@ const Sidebar = ({ children }: any) => {
               <BreadcrumbList>
                 {breadcrumb.map((crumb, index) => {
                   return (
-                    <>
+                    <div key={crumb.title}>
                       <BreadcrumbItem
                         key={crumb.title}
                         className="hidden md:block"
                       >
                         {crumb.href ? (
                           <BreadcrumbLink href={crumb.href}>
-                            {crumb.title}
+                            {t(`module.${crumb.title}`)}
                           </BreadcrumbLink>
                         ) : (
                           <BreadcrumbPage>{crumb.title}</BreadcrumbPage>
                         )}
                       </BreadcrumbItem>
-                      {breadcrumb.length - 2 > index && (
-                        <BreadcrumbSeparator className="hidden md:block" />
-                      )}
-                    </>
+                      {breadcrumb.length > 1 &&
+                        breadcrumb.length - 1 > index && (
+                          <BreadcrumbSeparator className="hidden md:block" />
+                        )}
+                    </div>
                   );
                 })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
-        <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
-          {children}
-          <div className="grid auto-rows-min gap-4 md:grid-cols-3">
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-            <div className="aspect-video rounded-xl bg-muted/50" />
-          </div>
-          <div className="min-h-[100vh] flex-1 rounded-xl bg-muted/50 md:min-h-min" />
-        </div>
+        <div className="flex flex-1 flex-col gap-4">{children}</div>
       </SidebarInset>
     </SidebarProvider>
   );

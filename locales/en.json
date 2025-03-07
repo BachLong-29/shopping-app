@@ -13,7 +13,16 @@
   "module": {
     "profile": "Profile",
     "my_task": "My task",
-    "setting": "Settings"
+    "setting": "Settings",
+    "product": "Product",
+    "wishlist": "Wishlist",
+    "category": "Category",
+    "sales_order": "Sales order",
+    "purchase_order": "Purchase order",
+    "user": "User",
+    "sales": "Sales",
+    "purchase": "Purchase",
+    "settings": "Settings"
   },
   "action": {
     "log_out": "Log out",

@@ -59,9 +59,9 @@ export default function UserDropdown({
               {t("module.my_task")}
             </li>
           </Link>
-          <Link href="/settings">
+          <Link href={`/my-task/${userInfo.id}/settings`}>
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
-              {t("module.setting")}
+              {t("module.settings")}
             </li>
           </Link>
           {/* Divider */}

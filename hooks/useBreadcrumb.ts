@@ -6,9 +6,13 @@ export const useBreadcrumb = (module: Module, userId: string, id?: string) => {
       title: module,
       href: `/my-task/${userId}/${module}`,
     },
-    {
-      title: id,
-      href: undefined,
-    },
+    ...(id
+      ? [
+          {
+            title: id,
+            href: undefined,
+          },
+        ]
+      : []),
   ];
 };

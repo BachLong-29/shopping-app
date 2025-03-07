@@ -14,8 +14,9 @@ export enum Module {
   Product = "product",
   Category = "category",
   Wishlist = "wishlist",
-  SalesOrder = "sales-order",
-  PurchaseOrder = "purchase-order",
+  SalesOrder = "sales_order",
+  PurchaseOrder = "purchase_order",
+  Settings = "settings",
 }
 
 export const sidebarConfig = {
@@ -43,60 +44,61 @@ export const sidebarConfig = {
   ],
   navMain: [
     {
-      title: "User",
+      title: "module.user",
       url: "#",
       icon: SquareUser,
       isActive: true,
       items: [
         {
-          title: "Profile",
-          url: "#",
+          title: "module.profile",
+          url: "/profile",
+          key: Module.Profile,
         },
         {
-          title: "Wishlist",
-          url: "#",
+          title: "module.wishlist",
+          url: "/wishlist",
+          key: Module.Wishlist,
+        },
+        {
+          title: "module.settings",
+          url: "/settings",
+          key: Module.Settings,
         },
       ],
     },
     {
-      title: "Sales",
+      title: "module.sales",
       url: "#",
       icon: BadgeDollarSign,
+      isActive: true,
       items: [
         {
-          title: "Products",
-          url: "#",
+          title: "module.product",
+          url: "/product",
+          key: Module.Product,
         },
         {
-          title: "Categories",
-          url: "#",
+          title: "module.category",
+          url: "/category",
+          key: Module.Category,
         },
         {
-          title: "Sales Order",
-          url: "#",
+          title: "module.sales_order",
+          url: "/sales-order",
+          key: "sales-order",
         },
       ],
     },
     {
-      title: "Purchase",
+      title: "module.purchase",
       url: "#",
       icon: ShoppingBag,
+      isActive: true,
       items: [
         {
-          title: "Purchase Order",
-          url: "#",
-        },
-        {
-          title: "Get Started",
-          url: "#",
-        },
-        {
-          title: "Tutorials",
-          url: "#",
-        },
-        {
-          title: "Changelog",
-          url: "#",
+          title: "module.purchase_order",
+          url: "/purchase-order",
+          key: "purchase-order",
         },
       ],
     },
