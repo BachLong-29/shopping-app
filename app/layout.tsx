@@ -1,5 +1,6 @@
 import "./globals.css";
 
+import { LanguageProvider } from "@/core/context/LanguageContext";
 import type { Metadata } from "next";
 import ReduxProvider from "@/redux/Provider";
 
@@ -25,7 +26,7 @@ export default async function RootLayout({
       <body>
         <ReduxProvider>
           {/* <Providers> */}
-          {children}
+          <LanguageProvider>{children}</LanguageProvider>
           {/* </Providers> */}
         </ReduxProvider>
       </body>

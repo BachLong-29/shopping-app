@@ -1,15 +1,9 @@
 "use client";
 
-import React from "react";
-import Sidebar from "@/components/layout/sidebar/Sidebar";
 import withMyTask from "@/components/forms/withMyTask";
 
 const ProductPage = () => {
-  return (
-    <div>
-      <Sidebar />
-    </div>
-  );
+  return <div>Product</div>;
 };
 
 export default withMyTask(ProductPage);

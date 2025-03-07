@@ -13,9 +13,17 @@ import {
 } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "./AppSidebar";
+import { Module } from "@/core/utils/sidebarConfig";
 import { Separator } from "@radix-ui/react-separator";
+import { useBreadcrumb } from "@/hooks/useBreadcrumb";
+import { usePathname } from "next/navigation";
 
-const Sidebar = () => {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+const Sidebar = ({ children }: any) => {
+  const pathName = usePathname();
+  const [, , userId, module] = pathName.split("/");
+  const breadcrumb = useBreadcrumb(module as Module, userId);
+
   return (
     <SidebarProvider>
       <AppSidebar />
@@ -26,20 +34,33 @@ const Sidebar = () => {
             <Separator orientation="vertical" className="mr-2 h-4" />
             <Breadcrumb>
               <BreadcrumbList>
-                <BreadcrumbItem className="hidden md:block">
-                  <BreadcrumbLink href="#">
-                    Building Your Application
-                  </BreadcrumbLink>
-                </BreadcrumbItem>
-                <BreadcrumbSeparator className="hidden md:block" />
-                <BreadcrumbItem>
-                  <BreadcrumbPage>Data Fetching</BreadcrumbPage>
-                </BreadcrumbItem>
+                {breadcrumb.map((crumb, index) => {
+                  return (
+                    <>
+                      <BreadcrumbItem
+                        key={crumb.title}
+                        className="hidden md:block"
+                      >
+                        {crumb.href ? (
+                          <BreadcrumbLink href={crumb.href}>
+                            {crumb.title}
+                          </BreadcrumbLink>
+                        ) : (
+                          <BreadcrumbPage>{crumb.title}</BreadcrumbPage>
+                        )}
+                      </BreadcrumbItem>
+                      {breadcrumb.length - 2 > index && (
+                        <BreadcrumbSeparator className="hidden md:block" />
+                      )}
+                    </>
+                  );
+                })}
               </BreadcrumbList>
             </Breadcrumb>
           </div>
         </header>
         <div className="flex flex-1 flex-col gap-4 p-4 pt-0">
+          {children}
           <div className="grid auto-rows-min gap-4 md:grid-cols-3">
             <div className="aspect-video rounded-xl bg-muted/50" />
             <div className="aspect-video rounded-xl bg-muted/50" />
