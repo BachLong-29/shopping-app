@@ -15,14 +15,13 @@ export async function GET(req: any) {
 
     const id = req.nextUrl.pathname.split("/").pop();
     const user = await User.findById(id).select("-password");
-
     if (!user)
       return NextResponse.json(
         { error: "Không tìm thấy người dùng" },
         { status: 404 }
       );
 
-    return NextResponse.json({ user });
+    return NextResponse.json(user);
   } catch (error) {
     console.error(error);
     return NextResponse.json({ error: "Lỗi server" }, { status: 500 });
@@ -40,15 +39,16 @@ export async function PUT(req: any) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const id = req.nextUrl.pathname.split("/").pop();
-    const { address, gender, birthdate } = await req.json();
+    const { address, gender, birthdate, phone } = await req.json();
 
     const updatedUser = await User.findByIdAndUpdate(
       id,
       {
         // avatar,
+        phone,
         address,
         gender,
-        birthdate: birthdate ? new Date(birthdate) : null,
+        birthdate,
       },
       { new: true }
     ).select("-password");

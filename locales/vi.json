@@ -4,7 +4,10 @@
     "product": "sản phẩm",
     "all_products": "Tất cả sản phẩm",
     "category": "Loại sản phẩm",
-    "see_more": "Xem thêm"
+    "see_more": "Xem thêm",
+    "male": "Nam",
+    "female": "Nữ",
+    "other": "Khác"
   },
   "pagination": {
     "prev": "Trước",
@@ -21,15 +24,41 @@
     "user": "Người dùng",
     "sales": "Bán hàng",
     "purchase": "Mua hàng",
-    "settings": "Cài đặt"
+    "settings": "Cài đặt",
+    "setting": "Setting"
   },
   "action": {
     "log_out": "Đăng xuất",
     "search": "Tìm kiếm sản phẩm...",
     "create_account": "Tạo tài khoản",
     "sign_up": "Đăng ký",
-    "sign_in": "Đăng nhập"
+    "sign_in": "Đăng nhập",
+    "edit": "Sửa",
+    "cancel": "Hủy",
+    "save": "Lưu"
   },
   "dont_have_account": "Chưa có tài khoản?",
-  "already_have_account": "Đã có tài khoản?"
+  "already_have_account": "Đã có tài khoản?",
+  "user": {
+    "info": {
+      "email": "Email",
+      "gender": "Giới tính",
+      "phone": "Số điện thoại",
+      "address": "Địa chỉ",
+      "birthday": "Ngày sinh",
+      "name": "Tên"
+    },
+    "edit": {
+      "edit_success": "Cập nhật thành công.",
+      "updated_info": "Thông tin của bạn đã được cập nhật."
+    },
+    "placeholder": {
+      "enter_name": "Nhập họ tên",
+      "enter_email": "Nhập email",
+      "enter_address": "Nhập địa chỉ",
+      "enter_phone": "Nhập số điện thoại",
+      "select_dob": "Chọn ngày sinh",
+      "select_gender": "Chọn giới tính"
+    }
+  }
 }

@@ -1,7 +1,8 @@
 import { usePathname } from "next/navigation";
 
-export const useGetUserId = () => {
-  const pathname = usePathname();
-  const match = pathname.match(/\/my-task\/([^/]+)\/[^/]+/);
-  return match ? match[1] : undefined;
+export const useGetInfoFromPath = () => {
+  const pathName = usePathname();
+  const [, , userId, module, param] = pathName.split("/");
+  // const match = pathName.match(/\/my-task\/([^/]+)\/[^/]+/);
+  return { userId, module, param };
 };

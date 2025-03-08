@@ -1,11 +1,12 @@
 import { useState } from "react";
 
-export function useFetch<T, K>(effect: (req: K) => Promise<T>, params: K) {
+export function useFetch<T, K>(effect: (req: K) => Promise<T>) {
   const [data, setData] = useState<T | null>(null);
   const [loading, setLoading] = useState<boolean>(false);
   const [error, setError] = useState<string>("");
 
-  const fetchData = async () => {
+  const fetchData = async (params: K) => {
+    console.log({ params });
     setLoading(true);
     setError("");
     try {

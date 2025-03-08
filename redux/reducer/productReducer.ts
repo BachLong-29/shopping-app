@@ -1,28 +1,25 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
+import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-import { cloneDeep } from "lodash";
+interface ProductState {
+  id: string;
+  name: string;
+  price: number;
+}
 
-const initialState: any[] = [];
-const reducer = (state: any = initialState, action: any) => {
-  switch (action.type) {
-    case "ADD_STUDENT":
-      return state.concat(action.payload);
-    case "REMOVE_STUDENT":
-      return state.filter((item: any) => item.id !== action.payload.id);
-    case "EDIT_STUDENT":
-      const cloneData = cloneDeep(state);
-      return cloneData.map((item: any) => {
-        if (item.id === action.payload.data.studentId) {
-          return {
-            id: item.id,
-            ...action.payload.data.data,
-          };
-        }
-        return item;
-      });
-    default:
-      return state;
-  }
-};
+const initialState: ProductState[] = [];
 
-export default reducer;
+const productSlice = createSlice({
+  name: "product",
+  initialState,
+  reducers: {
+    setProduct: (state, action: PayloadAction<ProductState[]>) => {
+      return action.payload;
+    },
+    updateProduct: (state, action: PayloadAction<Partial<ProductState>>) => {
+      return { ...state, ...action.payload };
+    },
+  },
+});
+
+export const { setProduct, updateProduct } = productSlice.actions;
+export default productSlice.reducer;

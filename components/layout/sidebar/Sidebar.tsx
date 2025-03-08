@@ -16,14 +16,13 @@ import { AppSidebar } from "./AppSidebar";
 import { Module } from "@/core/utils/sidebarConfig";
 import { Separator } from "@radix-ui/react-separator";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
+import { useGetInfoFromPath } from "@/hooks/useGetUserId";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { usePathname } from "next/navigation";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 const Sidebar = ({ children }: any) => {
-  const pathName = usePathname();
-  const [, , userId, module, id] = pathName.split("/");
-  const breadcrumb = useBreadcrumb(module as Module, userId, id);
+  const { userId, module, param } = useGetInfoFromPath();
+  const breadcrumb = useBreadcrumb(module as Module, userId, param);
   const { t } = useLanguage();
   return (
     <SidebarProvider>
@@ -37,10 +36,10 @@ const Sidebar = ({ children }: any) => {
               <BreadcrumbList>
                 {breadcrumb.map((crumb, index) => {
                   return (
-                    <div key={crumb.title}>
+                    <div className="flex items-center" key={crumb.title}>
                       <BreadcrumbItem
                         key={crumb.title}
-                        className="hidden md:block"
+                        className="hidden md:block mr-2"
                       >
                         {crumb.href ? (
                           <BreadcrumbLink href={crumb.href}>

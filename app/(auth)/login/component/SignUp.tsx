@@ -21,18 +21,18 @@ const SignUp = ({
   const [email, setEmail] = useState("");
   const [name, setName] = useState("");
   const [password, setPassword] = useState("");
-  const { error, fetchData, loading } = useFetch(
-    (req) => authService.register(req),
-    {
-      email,
-      password,
-      name,
-    }
+  // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  const { error, fetchData, loading } = useFetch((req: any) =>
+    authService.register(req)
   );
 
   const handleSignUp = async (e: React.FormEvent) => {
     e.preventDefault();
-    fetchData().then(() => alert("Đăng ký thành công."));
+    fetchData({
+      email,
+      password,
+      name,
+    }).then(() => alert("Đăng ký thành công."));
   };
   return (
     <CardContent

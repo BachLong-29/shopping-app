@@ -23,15 +23,16 @@ const SignIn = ({
     fetchData: login,
     error,
     loading,
-  } = useFetch((req) => authService.login(req), {
-    email,
-    password,
-  });
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
+  } = useFetch((req: any) => authService.login(req));
   const { t } = useLanguage();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    login().then(() => {
+    login({
+      email,
+      password,
+    }).then(() => {
       redirect("/");
     });
   };

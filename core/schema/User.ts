@@ -8,12 +8,13 @@ export interface IUser extends Document {
   avatar: string;
   address: string;
   gender: string;
-  phone: number;
-  birthdate: Date;
+  phone: string;
+  birthdate: Date | string;
 }
 
 const UserSchema = new Schema<IUser>(
   {
+    // _id: { type: String, required: true },
     name: { type: String, required: true },
     email: { type: String, required: true, unique: true },
     password: { type: String, required: true },
@@ -21,8 +22,8 @@ const UserSchema = new Schema<IUser>(
     avatar: { type: String, default: "" },
     address: { type: String, default: "" },
     gender: { type: String, default: "" },
-    phone: { type: Number },
-    birthdate: { type: Date },
+    phone: { type: String },
+    birthdate: { type: String },
   },
   { timestamps: true }
 );

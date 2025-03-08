@@ -4,7 +4,10 @@
     "product": "product",
     "all_products": "all products",
     "category": "category",
-    "see_more": "See more"
+    "see_more": "See more",
+    "male": "Male",
+    "female": "Female",
+    "other": "Other"
   },
   "pagination": {
     "prev": "Prev",
@@ -29,8 +32,33 @@
     "search": "Search for product...",
     "create_account": "Create an account",
     "sign_up": "Sign up",
-    "sign_in": "Sign in"
+    "sign_in": "Sign in",
+    "edit": "Edit",
+    "cancel": "Cancel",
+    "save": "Save"
   },
   "dont_have_account": "Don't have an account?",
-  "already_have_account": "Already have an account?"
+  "already_have_account": "Already have an account?",
+  "user": {
+    "info": {
+      "email": "Email",
+      "gender": "Gender",
+      "phone": "Phone",
+      "address": "Address",
+      "birthday": "Birthday",
+      "name": "Name"
+    },
+    "edit": {
+      "edit_success": "Successfully updated.",
+      "updated_info": "Your information has been updated."
+    },
+    "placeholder": {
+      "enter_name": "Enter your name",
+      "enter_email": "Enter your email",
+      "enter_address": "Enter your address",
+      "enter_phone": "Enter your phone number",
+      "select_dob": "Select your birthday",
+      "select_gender": "Select your gender"
+    }
+  }
 }

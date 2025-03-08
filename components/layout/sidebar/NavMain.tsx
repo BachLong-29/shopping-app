@@ -18,8 +18,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useGetUserId } from "@/hooks/useGetUserId";
-import { usePathname } from "next/navigation";
+import { useGetInfoFromPath } from "@/hooks/useGetUserId";
 import { cn } from "@/lib/utils";
 
 export function NavMain({
@@ -38,10 +37,7 @@ export function NavMain({
   }[];
 }) {
   const { t } = useLanguage();
-  const id = useGetUserId();
-  const pathName = usePathname();
-
-  const [, , , module] = pathName.split("/");
+  const { userId, module } = useGetInfoFromPath();
 
   return (
     <SidebarGroup>
@@ -68,7 +64,7 @@ export function NavMain({
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
                         <a
-                          href={`/my-task/${id}${subItem.url}`}
+                          href={`/my-task/${userId}${subItem.url}`}
                           className={cn(
                             module === subItem.key ? "bg-sidebar-accent" : ""
                           )}

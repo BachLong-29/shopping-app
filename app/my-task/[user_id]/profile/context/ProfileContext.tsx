@@ -3,23 +3,24 @@
 import { Gender, Role, UserInfo } from "@/core/model/User";
 import { createContext, useContext } from "react";
 
-const ProfileContext = createContext<{ user: UserInfo }>({
-  user: {
-    role: Role.User,
-    avatar: "",
-    birthdate: new Date(),
-    email: "",
-    gender: Gender.Other,
-    id: "",
-    name: "",
-  },
+const ProfileContext = createContext<UserInfo>({
+  role: Role.User,
+  avatar: "",
+  birthdate: "",
+  email: "",
+  gender: Gender.Other,
+  id: "",
+  name: "",
+  address: "",
+  phone: "",
+  _id: "",
 });
 
 export function ProfileProvider({
   value,
   children,
 }: {
-  value: { user: UserInfo };
+  value: UserInfo;
   children: React.ReactNode;
 }) {
   return (
