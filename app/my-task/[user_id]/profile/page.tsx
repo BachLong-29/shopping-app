@@ -17,8 +17,8 @@ const ProfilePage = () => {
           <Image
             src="/images/default-avatar.jpg"
             alt="User Avatar"
-            width={120}
-            height={120}
+            width={165}
+            height={165}
             className="rounded-full border"
           />
           <h2 className="text-xl font-semibold mt-2">{profile?.user?.name}</h2>

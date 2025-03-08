@@ -12,11 +12,11 @@ interface IProps {
   setProducts: (value: Product[]) => void;
 }
 const fetchProducts = async (page: number) => {
-  return new Array(32).fill(0).map((_, i) => ({
-    id: (page - 1) * 32 + i + 1,
-    name: `Product ${(page - 1) * 32 + i + 1}`,
-    price: `$${(Math.random() * 100).toFixed(2)}`,
-    image: `/images/banner1.jpg`,
+  return new Array(36).fill(0).map((_, i) => ({
+    id: (page - 1) * 36 + i + 1,
+    name: `Product ${(page - 1) * 36 + i + 1}`,
+    price: `${(Math.random() * 100).toFixed(2)}đ`,
+    image: `/images/product.jpg`,
   }));
 };
 const ProductionSection = ({ data, setProducts }: IProps) => {
@@ -30,7 +30,7 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
   return (
     <div>
       <Section title={t("general.all_products")}>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-8 gap-4">
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
           {data.map((product) => (
             <ProductCard product={product} key={product.id} />
           ))}

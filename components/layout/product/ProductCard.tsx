@@ -1,25 +1,33 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-import { Badge } from "@/components/ui/badge";
+import HeartButton from "../HeartButton";
 import Image from "next/image";
 import { Product } from "@/core/model/Product";
 import React from "react";
+import { useRouter } from "next/navigation";
 
 const ProductCard = ({ product }: { product: Product }) => {
+  const router = useRouter();
   return (
-    <Card className="p-2 shadow-md rounded-lg">
-      <CardContent className="flex flex-col items-center">
+    <Card
+      onClick={() => router.push(`/prod/${product.id}`)}
+      className="p-2 shadow-md rounded-lg border border-gray-200 transition-all duration-300 hover:border-pink-500 cursor-pointer hover:scale-105"
+    >
+      <CardContent className="flex flex-col items-start p-0">
         <Image
           src={product.image}
           alt={product.name}
-          width={150}
-          height={150}
-          className="object-cover rounded-lg"
+          width={165}
+          height={165}
+          className="rounded-lg w-full"
         />
         <span className="mt-2 text-sm font-medium text-center">
           {product.name}
         </span>
-        <Badge className="mt-1 text-xs">{product.price}</Badge>
+        <div className="flex w-full items-center justify-between">
+          <div>{product.price}</div>
+          <HeartButton />
+        </div>
       </CardContent>
     </Card>
   );

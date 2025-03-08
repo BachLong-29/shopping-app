@@ -11,25 +11,25 @@ const categories = [
   {
     id: "1",
     name: "Electronics",
-    image: "/images/banner1.jpg",
+    image: "/images/product.jpg",
   },
-  { id: "2", name: "Fashion", image: "/images/banner1.jpg" },
-  { id: "3", name: "Home & Living", image: "/images/banner1.jpg" },
-  { id: "4", name: "Beauty & Health", image: "/images/banner1.jpg" },
+  { id: "2", name: "Fashion", image: "/images/product.jpg" },
+  { id: "3", name: "Home & Living", image: "/images/product.jpg" },
+  { id: "4", name: "Beauty & Health", image: "/images/product.jpg" },
   {
     id: "5",
     name: "Sports & Outdoors",
-    image: "/images/banner1.jpg",
+    image: "/images/product.jpg",
   },
   {
     id: "6",
     name: "Toys & Games",
-    image: "/images/banner1.jpg",
+    image: "/images/product.jpg",
   },
   {
     id: "7",
     name: "Mini v3",
-    image: "/images/banner1.jpg",
+    image: "/images/product.jpg",
   },
 ];
 
