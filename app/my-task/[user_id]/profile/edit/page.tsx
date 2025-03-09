@@ -116,7 +116,11 @@ const ProfilePage = () => {
       <WrapperContent>
         <div className="flex flex-col items-center">
           <Image
-            src="/images/default-avatar.jpg"
+            src={
+              profileState.gender === Gender.Female
+                ? "/images/female-avatar.jpg"
+                : "/images/male-avatar.jpg"
+            }
             alt="User Avatar"
             width={165}
             height={165}

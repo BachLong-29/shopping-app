@@ -1,5 +1,6 @@
 "use client";
 
+import { Gender, UserInfo } from "@/core/model/User";
 import {
   Popover,
   PopoverContent,
@@ -8,7 +9,6 @@ import {
 
 import Image from "next/image";
 import Link from "next/link";
-import { UserInfo } from "@/core/model/User";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
@@ -17,7 +17,7 @@ import { useLanguage } from "@/core/context/LanguageContext";
 export default function UserDropdown({
   userInfo,
 }: {
-  userInfo: Pick<UserInfo, "id" | "name" | "email">;
+  userInfo: Pick<UserInfo, "id" | "name" | "email" | "gender">;
 }) {
   const { t } = useLanguage();
   const handleLogout = () => {
@@ -38,7 +38,11 @@ export default function UserDropdown({
             width={35}
             height={35}
             alt="avatar-user"
-            src="/images/default-avatar.jpg"
+            src={
+              userInfo.gender === Gender.Female
+                ? "/images/female-avatar.jpg"
+                : "/images/male-avatar.jpg"
+            }
             className="rounded-full border border-pink-500"
           />
           <span className="truncate">{userInfo.name}</span>

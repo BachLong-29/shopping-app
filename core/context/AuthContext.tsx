@@ -1,8 +1,8 @@
 "use client"; // 🚀 Bắt buộc để dùng hooks trong Next.js 15
 
+import { Gender, UserInfo } from "../model/User";
 import { ReactNode, createContext, useEffect, useState } from "react";
 
-import { UserInfo } from "../model/User";
 import { usePathname } from "next/navigation";
 
 interface User {
@@ -52,10 +52,13 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 //   return context;
 // };
 export function useAuth() {
-  const [user, setUser] = useState<Pick<UserInfo, "id" | "name" | "email">>({
+  const [user, setUser] = useState<
+    Pick<UserInfo, "id" | "name" | "email" | "gender">
+  >({
     id: "",
     email: "",
     name: "",
+    gender: Gender.Male,
   });
   const pathName = usePathname();
 
@@ -71,6 +74,7 @@ export function useAuth() {
             id: "",
             email: "",
             name: "",
+            gender: Gender.Male,
           })
         );
     }

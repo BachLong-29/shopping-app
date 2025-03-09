@@ -3,6 +3,7 @@
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
+import { Gender } from "@/core/model/User";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { RootState } from "@/redux/store/store";
@@ -37,7 +38,11 @@ const ProfilePage = () => {
       <WrapperContent>
         <div className="flex flex-col items-center">
           <Image
-            src="/images/default-avatar.jpg"
+            src={
+              profileState.gender === Gender.Female
+                ? "/images/female-avatar.jpg"
+                : "/images/male-avatar.jpg"
+            }
             alt="User Avatar"
             width={165}
             height={165}
