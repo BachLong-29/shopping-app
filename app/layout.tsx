@@ -3,8 +3,7 @@ import "./globals.css";
 import { LanguageProvider } from "@/core/context/LanguageContext";
 import type { Metadata } from "next";
 import ReduxProvider from "@/redux/Provider";
-
-// import { Providers } from "@/core/provider/Provider";
+import { ThemeProvider } from "@/core/context/ThemeContext";
 
 export const metadata: Metadata = {
   title: "Home Page",
@@ -16,7 +15,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function RootLayout({
+export default function RootLayout({
   children,
 }: Readonly<{
   children: React.ReactNode;
@@ -25,9 +24,9 @@ export default async function RootLayout({
     <html lang="en" className="dark">
       <body>
         <ReduxProvider>
-          {/* <Providers> */}
-          <LanguageProvider>{children}</LanguageProvider>
-          {/* </Providers> */}
+          <LanguageProvider>
+            <ThemeProvider>{children}</ThemeProvider>
+          </LanguageProvider>
         </ReduxProvider>
       </body>
     </html>

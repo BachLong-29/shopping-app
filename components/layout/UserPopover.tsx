@@ -13,6 +13,7 @@ import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { useLanguage } from "@/core/context/LanguageContext";
+import { useTheme } from "@/core/context/ThemeContext";
 
 export default function UserDropdown({
   userInfo,
@@ -25,13 +26,14 @@ export default function UserDropdown({
       redirect("/login");
     });
   };
-
+  const { theme } = useTheme();
+  console.log({ theme });
   return (
     <Popover>
       <PopoverTrigger asChild>
         <div
           className={cn(
-            "flex items-center gap-2 rounded-full bg-black p-2 pr-3 text-white cursor-pointer shrink-0"
+            "flex items-center border bg-black text-white gap-2 rounded-full p-2 pr-3 cursor-pointer shrink-0"
           )}
         >
           <Image
@@ -50,7 +52,7 @@ export default function UserDropdown({
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-40 bg-white border border-gray-200 shadow-lg rounded-lg p-2"
+        className="w-40 border border-gray-200 shadow-lg rounded-lg p-2"
       >
         <ul className="space-y-2">
           <Link href={`/my-task/${userInfo.id}/profile`}>

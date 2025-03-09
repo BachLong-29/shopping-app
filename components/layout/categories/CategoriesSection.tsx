@@ -17,7 +17,7 @@ const CategoriesSection = ({
           {data.map((category) => (
             <CategoriesCard category={category} key={category.id} />
           ))}
-          <div className="flex flex-col items-center justify-center p-4 bg-gray-100 rounded-lg shadow-md cursor-pointer">
+          <div className="flex flex-col items-center justify-center p-4 bg-gray-100 text-black rounded-lg shadow-md cursor-pointer">
             <Plus size={24} />
             <span className="mt-2 text-sm font-medium">
               {t("general.see_more")}

@@ -5,6 +5,7 @@ import Image from "next/image";
 import { Input } from "../ui/input";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Link from "next/link";
+import ThemeToggle from "./ThemeToggle";
 import UserDropdown from "./UserPopover";
 import { useAuth } from "@/core/context/AuthContext";
 import { useLanguage } from "@/core/context/LanguageContext";
@@ -13,11 +14,17 @@ const Navigation = () => {
   const { user } = useAuth();
   const { t } = useLanguage();
   return (
-    <nav className="w-full bg-white shadow-md p-4 fixed top-0 left-0 z-50 transition-all">
+    <nav className="w-full bg-white shadow-md p-4 sticky top-0 left-0 z-50 transition-all border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex justify-between items-center">
         {/* Logo */}
         <Link className="cursor-pointer" href="/">
-          <Image width={40} height={40} alt="logo" src="/images/logo.png" />
+          <Image
+            width={40}
+            height={40}
+            alt="logo"
+            src="/images/logo.png"
+            className="drop-shadow-[0_4px_6px_rgba(255,255,255,0.5)]"
+          />
         </Link>
 
         {/* Search Bar + Cart */}
@@ -47,6 +54,7 @@ const Navigation = () => {
           </div>
         </div>
 
+        <ThemeToggle />
         {/* User Dropdown */}
         <div className="flex gap-2.5">
           <LanguageSwitcher />
