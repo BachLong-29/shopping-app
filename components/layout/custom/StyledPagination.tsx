@@ -7,17 +7,22 @@ import {
   PaginationNext,
   PaginationPrevious,
 } from "@/components/ui/pagination";
-import React, { useState } from "react";
 
 type PaginationProps = {
   pageSize: number;
   total: number;
   styles: string;
+  onChange: (value: number) => void;
+  currentPage: number;
 };
 
-const StyledPagination = ({ pageSize, total, styles }: PaginationProps) => {
-  const [currentPage, setCurrentPage] = useState(1);
-
+const StyledPagination = ({
+  pageSize,
+  total,
+  styles,
+  onChange,
+  currentPage,
+}: PaginationProps) => {
   return (
     <Pagination className={styles}>
       <PaginationContent>
@@ -26,17 +31,24 @@ const StyledPagination = ({ pageSize, total, styles }: PaginationProps) => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              setCurrentPage(currentPage > 1 ? currentPage - 1 : 1);
+              onChange(currentPage > 1 ? currentPage - 1 : 1);
             }}
           />
         </PaginationItem>
         {[...Array(Math.ceil(total / pageSize))].map((_, index) => (
-          <PaginationItem key={index}>
+          <PaginationItem
+            key={index}
+            className={
+              index + 1 === currentPage
+                ? "rounded-md bg-[hsl(var(--muted-custom))]"
+                : ""
+            }
+          >
             <PaginationLink
               href="#"
               onClick={(e) => {
                 e.preventDefault();
-                setCurrentPage(index + 1);
+                onChange(index + 1);
               }}
             >
               {index + 1}
@@ -51,7 +63,7 @@ const StyledPagination = ({ pageSize, total, styles }: PaginationProps) => {
             href="#"
             onClick={(e) => {
               e.preventDefault();
-              setCurrentPage(
+              onChange(
                 currentPage < Math.ceil(total / pageSize)
                   ? currentPage + 1
                   : currentPage

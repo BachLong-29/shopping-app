@@ -5,11 +5,13 @@ class ProductService extends HttpService {
   getList({
     id,
     offset,
+    limit,
   }: {
     id: string;
     offset: number;
+    limit: number;
   }): Promise<{ products: Product[]; total: number }> {
-    return this.post(`/api/${id}/products`, { offset });
+    return this.post(`/api/${id}/products`, { offset, limit });
   }
 }
 

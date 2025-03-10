@@ -6,6 +6,7 @@ import {
   TableRow,
 } from "@/components/ui/table";
 
+import { ArrowDownUp } from "lucide-react";
 import { ReactNode } from "react";
 
 export type ColumnType<T> = {
@@ -31,9 +32,17 @@ export function StyledTable<T extends object>({
             return (
               <TableCell
                 key={col.key as string}
-                className="px-4 py-2 font-semibold border-gray-300"
+                className={`px-4 py-2 font-semibold border-gray-300 ${
+                  col.key !== "action" ? "cursor-pointer" : ""
+                }`}
+                onClick={() => console.log(col.key)}
               >
-                {col.title}
+                <div className="flex gap-2 items-center">
+                  {col.title}
+                  {col.key !== "action" && (
+                    <ArrowDownUp size={16} className="text-gray-500" />
+                  )}
+                </div>
               </TableCell>
             );
           })}

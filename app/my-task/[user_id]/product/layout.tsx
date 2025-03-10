@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ProductListProvider } from "./context/ProductListContext";
 import { getListProducts } from "@/app/action";
+import { use } from "react";
 
 export const metadata: Metadata = {
   title: "Profile Page",
@@ -12,15 +13,15 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ProductListLayout({
+export default function ProductListLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
   params: Promise<{ user_id: string }>;
 }>) {
-  const resolvedParams = await params;
-  const data = await getListProducts(resolvedParams?.["user_id"]);
+  const resolvedParams = use(params);
+  const data = use(getListProducts(resolvedParams?.["user_id"]));
   return (
     <ProductListProvider value={{ products: data.products, total: data.total }}>
       {children}

@@ -1,14 +1,23 @@
 import { ActionType } from "@/core/utils/actionType";
 import { ColumnType } from "@/components/layout/custom/StyledTable";
 import { Ellipsis } from "lucide-react";
+import Link from "next/link";
 import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
 import { StyledDropdown } from "@/components/layout/custom/StyledDropdown";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getStudentCols = (): ColumnType<any>[] => [
+export const getStudentCols = (userId: string): ColumnType<any>[] => [
   {
     title: "Product Name",
     key: "name",
+    render: (value, record) => {
+      console.log({ record });
+      return (
+        <Link href={`/my-task/${userId}/product/${record.product_id}`}>
+          {value}
+        </Link>
+      );
+    },
   },
   {
     title: "Product ID",

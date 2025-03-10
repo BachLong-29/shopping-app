@@ -11,9 +11,11 @@ const ProductStatusTag = ({ value }: { value: ProductStatus }) => {
   };
   const { t } = useLanguage();
   return (
-    <span className={`px-2 py-1 rounded-md text-white ${statusColor[value]}`}>
+    <div
+      className={`w-[95px] text-center px-2 py-1 rounded-full text-white ${statusColor[value]}`}
+    >
       {t(`product.status.${value}`)}
-    </span>
+    </div>
   );
 };
 

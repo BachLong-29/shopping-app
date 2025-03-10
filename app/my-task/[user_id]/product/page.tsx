@@ -13,7 +13,7 @@ import WrapperContent from "@/components/layout/WrapperContent";
 import { getStudentCols } from "./utils/getProductCols";
 import productService from "./services/productService";
 import { setProduct } from "@/redux/reducer/productReducer";
-import { useGetInfoFromPath } from "@/hooks/useGetUserId";
+import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useListProduct } from "./context/ProductListContext";
 import withMyTask from "@/components/forms/withMyTask";
@@ -25,6 +25,7 @@ const ProductPage = () => {
   const dispatch = useDispatch();
   const productState = useSelector((state: RootState) => state.product);
   const { userId } = useGetInfoFromPath();
+  const [currentPage, setCurrentPage] = useState(1);
 
   useEffect(() => {
     if (productState.length <= 0) {
@@ -38,12 +39,25 @@ const ProductPage = () => {
     { key: 30, label: "30" },
   ];
 
-  const columns = getStudentCols();
-  const handleChangeOffset = (offset: number) => {
-    setItemsPerPage(offset);
-    productService.getList({ id: userId, offset }).then((res) => {
+  const columns = getStudentCols(userId);
+  const handleChangeLimit = (limit: number) => {
+    setItemsPerPage(limit);
+    productService.getList({ id: userId, limit, offset: 0 }).then((res) => {
       dispatch(setProduct(res.products));
     });
+  };
+
+  const handleChangePage = (page: number) => {
+    setCurrentPage(page);
+    productService
+      .getList({
+        id: userId,
+        limit: itemsPerPage,
+        offset: itemsPerPage * (page - 1),
+      })
+      .then((res) => {
+        dispatch(setProduct(res.products));
+      });
   };
 
   return (
@@ -58,7 +72,7 @@ const ProductPage = () => {
                 menu={menuPagination}
                 isCheckbox
                 checkedValue={itemsPerPage}
-                onChange={handleChangeOffset}
+                onChange={handleChangeLimit}
               >
                 <Button className="bg-blue-400 hover:bg-blue-500">
                   {itemsPerPage}
@@ -82,6 +96,8 @@ const ProductPage = () => {
 
         <StyledPagination
           pageSize={itemsPerPage}
+          currentPage={currentPage}
+          onChange={handleChangePage}
           total={total}
           styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border-t border-gray-300"
         />

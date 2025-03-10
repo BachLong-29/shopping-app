@@ -1,6 +1,7 @@
 import type { Metadata } from "next";
 import { ProfileProvider } from "./context/ProfileContext";
 import { getProfile } from "@/app/action";
+import { use } from "react";
 
 export const metadata: Metadata = {
   title: "Profile Page",
@@ -12,16 +13,14 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ProfileLayout({
+export default function ProfileLayout({
   children,
   params,
 }: Readonly<{
   children: React.ReactNode;
   params: Promise<{ user_id: string }>;
 }>) {
-  const resolvedParams = await params;
-  console.log({ resolvedParams });
-
-  const data = await getProfile(resolvedParams?.["user_id"]);
+  const resolvedParams = use(params);
+  const data = use(getProfile(resolvedParams?.["user_id"]));
   return <ProfileProvider value={data}>{children}</ProfileProvider>;
 }

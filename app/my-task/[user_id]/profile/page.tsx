@@ -11,7 +11,7 @@ import WrapperContent from "@/components/layout/WrapperContent";
 import dayjs from "dayjs";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { useEffect } from "react";
-import { useGetInfoFromPath } from "@/hooks/useGetUserId";
+import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useProfile } from "./context/ProfileContext";
 import { useRouter } from "next/navigation";

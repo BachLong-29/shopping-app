@@ -18,7 +18,7 @@ import {
   CollapsibleTrigger,
 } from "@/components/ui/collapsible";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useGetInfoFromPath } from "@/hooks/useGetUserId";
+import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { cn } from "@/lib/utils";
 
 export function NavMain({
