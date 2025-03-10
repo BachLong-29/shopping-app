@@ -16,7 +16,7 @@ const LanguageSwitcher = () => {
       <PopoverTrigger asChild>
         <div
           className={cn(
-            "flex items-center border rounded-md cursor-pointer shrink-0 h-[51px] hover:bg-gray-100"
+            "flex items-center border rounded-md cursor-pointer shrink-0 h-[51px] hover:bg-[hsl(var(--muted))]"
           )}
         >
           {locale === "vi" ? (
@@ -44,11 +44,11 @@ const LanguageSwitcher = () => {
       </PopoverTrigger>
       <PopoverContent
         align="end"
-        className="w-40 bg-white border border-gray-200 shadow-lg rounded-lg p-2"
+        className="w-40 border border-gray-200 shadow-lg rounded-lg p-2"
       >
         <ul className="space-y-2">
           <li
-            className="flex items-center cursor-pointer gap-2 px-3 py-1 rounded-md hover:bg-gray-100"
+            className="flex items-center cursor-pointer gap-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]"
             onClick={() => switchLanguage("vi")}
           >
             <Image
@@ -60,7 +60,7 @@ const LanguageSwitcher = () => {
             Tiếng Việt
           </li>
           <li
-            className="flex items-center cursor-pointer gap-2 px-3 py-1 rounded-md hover:bg-gray-100"
+            className="flex items-center cursor-pointer gap-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]"
             onClick={() => switchLanguage("en")}
           >
             <Image

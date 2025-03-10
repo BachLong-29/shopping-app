@@ -56,24 +56,24 @@ export default function UserDropdown({
       >
         <ul className="space-y-2">
           <Link href={`/my-task/${userInfo.id}/profile`}>
-            <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.profile")}
             </li>
           </Link>
           <Link href={`/my-task/${userInfo.id}/product`}>
-            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.my_task")}
             </li>
           </Link>
           <Link href={`/my-task/${userInfo.id}/settings`}>
-            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.settings")}
             </li>
           </Link>
           {/* Divider */}
           <hr className="border-t border-gray-300 my-2" />
           <li
-            className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100"
+            className="cursor-pointer px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]"
             onClick={handleLogout}
           >
             {t("action.log_out")}

@@ -54,9 +54,9 @@ const Navigation = () => {
           </div>
         </div>
 
-        <ThemeToggle />
         {/* User Dropdown */}
         <div className="flex gap-2.5">
+          <ThemeToggle />
           <LanguageSwitcher />
           {user?.id ? <UserDropdown userInfo={user} /> : <div></div>}
         </div>
