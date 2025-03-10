@@ -1,5 +1,4 @@
 {
-  "product": "product",
   "general": {
     "product": "product",
     "all_products": "all products",
@@ -59,6 +58,14 @@
       "enter_phone": "Enter your phone number",
       "select_dob": "Select your birthday",
       "select_gender": "Select your gender"
+    }
+  },
+  "product": {
+    "status": {
+      "available": "Available",
+      "out_of_stock": "Out of stock",
+      "draft": "Draft",
+      "inactive": "Inactive"
     }
   }
 }

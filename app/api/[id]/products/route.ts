@@ -2,12 +2,20 @@ import { NextResponse } from "next/server";
 import Product from "@/core/schema/Product";
 import { connectDB } from "@/lib/mongodb";
 
-export async function GET() {
+// eslint-disable-next-line @typescript-eslint/no-explicit-any
+export async function POST(req: any) {
   await connectDB(); // Kết nối DB trước khi truy vấn
+  const { offset } = await req.json();
+  console.log({ offset });
+  const id = req.nextUrl.pathname.split("/")[2];
+  const total = await Product.countDocuments({ ownerId: id });
+  const products = await Product.find({ ownerId: id }).limit(offset);
 
-  const products = await Product.find().populate("category"); // Lấy dữ liệu kèm category
-
-  return NextResponse.json({ message: "✅ Kết nối thành công!", products });
+  return NextResponse.json({
+    message: "✅ Lấy thành công danh sách sản phẩm!",
+    products,
+    total,
+  });
 }
 
 // export async function POST(req: Request) {

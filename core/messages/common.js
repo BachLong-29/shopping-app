@@ -1,5 +1,4 @@
 const commonMessage = {
-  product: "product",
   general: {
     all_products: "all_products",
     product: "product",
@@ -61,6 +60,14 @@ const commonMessage = {
   },
   dont_have_account: "Don't have an account?",
   already_have_account: "Already have an account?",
+  product: {
+    status: {
+      available: "Available",
+      out_of_stock: "Out of stock",
+      draft: "Draft",
+      inactive: "Inactive",
+    },
+  },
 };
 
 export default commonMessage;

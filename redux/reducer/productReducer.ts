@@ -1,21 +1,17 @@
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-interface ProductState {
-  id: string;
-  name: string;
-  price: number;
-}
+import { Product } from "@/core/model/Product";
 
-const initialState: ProductState[] = [];
+const initialState: Product[] = [];
 
 const productSlice = createSlice({
   name: "product",
   initialState,
   reducers: {
-    setProduct: (state, action: PayloadAction<ProductState[]>) => {
+    setProduct: (state, action: PayloadAction<Product[]>) => {
       return action.payload;
     },
-    updateProduct: (state, action: PayloadAction<Partial<ProductState>>) => {
+    updateProduct: (state, action: PayloadAction<Partial<Product>>) => {
       return { ...state, ...action.payload };
     },
   },

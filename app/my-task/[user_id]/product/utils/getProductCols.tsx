@@ -1,6 +1,7 @@
 import { ActionType } from "@/core/utils/actionType";
 import { ColumnType } from "@/components/layout/custom/StyledTable";
 import { Ellipsis } from "lucide-react";
+import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
 import { StyledDropdown } from "@/components/layout/custom/StyledDropdown";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -11,29 +12,21 @@ export const getStudentCols = (): ColumnType<any>[] => [
   },
   {
     title: "Product ID",
-    key: "id",
+    key: "product_id",
   },
   {
     title: "Price",
     key: "price",
   },
   {
-    title: "Stock",
-    key: "stock",
+    title: "Quantity",
+    key: "quantity",
   },
   {
     title: "Status",
     key: "status",
     render: (value) => {
-      return (
-        <span
-          className={`px-2 py-1 rounded-full text-white ${
-            value === "Available" ? "bg-green-500" : "bg-red-500"
-          }`}
-        >
-          {value}
-        </span>
-      );
+      return <ProductStatusTag value={value} />;
     },
   },
   {
@@ -59,9 +52,8 @@ export const getStudentCols = (): ColumnType<any>[] => [
               label: "Delete",
             },
           ]}
-          //  onChange={handleTriggerAction}
         >
-          <Ellipsis />
+          <Ellipsis className="cursor-pointer" />
         </StyledDropdown>
       );
     },

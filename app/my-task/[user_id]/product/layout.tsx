@@ -1,6 +1,6 @@
 import type { Metadata } from "next";
-import { ProfileProvider } from "./context/ProfileContext";
-import { getProfile } from "@/app/action";
+import { ProductListProvider } from "./context/ProductListContext";
+import { getListProducts } from "@/app/action";
 
 export const metadata: Metadata = {
   title: "Profile Page",
@@ -12,7 +12,7 @@ export const metadata: Metadata = {
   },
 };
 
-export default async function ProfileLayout({
+export default async function ProductListLayout({
   children,
   params,
 }: Readonly<{
@@ -20,8 +20,10 @@ export default async function ProfileLayout({
   params: Promise<{ user_id: string }>;
 }>) {
   const resolvedParams = await params;
-  console.log({ resolvedParams });
-
-  const data = await getProfile(resolvedParams?.["user_id"]);
-  return <ProfileProvider value={data}>{children}</ProfileProvider>;
+  const data = await getListProducts(resolvedParams?.["user_id"]);
+  return (
+    <ProductListProvider value={{ products: data.products, total: data.total }}>
+      {children}
+    </ProductListProvider>
+  );
 }

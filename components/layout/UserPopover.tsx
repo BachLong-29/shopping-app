@@ -13,7 +13,6 @@ import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useTheme } from "@/core/context/ThemeContext";
 
 export default function UserDropdown({
   userInfo,
@@ -26,8 +25,7 @@ export default function UserDropdown({
       redirect("/login");
     });
   };
-  const { theme } = useTheme();
-  console.log({ theme });
+
   return (
     <Popover>
       <PopoverTrigger asChild>

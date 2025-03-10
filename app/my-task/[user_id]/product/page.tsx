@@ -1,40 +1,36 @@
 "use client";
 
 import { ChevronDown, Filter, Plus, Upload } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { RootState } from "@/redux/store/store";
 import { StyledDropdown } from "@/components/layout/custom/StyledDropdown";
 import StyledPagination from "@/components/layout/custom/StyledPagination";
 import { StyledTable } from "@/components/layout/custom/StyledTable";
 import WrapperContent from "@/components/layout/WrapperContent";
 import { getStudentCols } from "./utils/getProductCols";
+import productService from "./services/productService";
+import { setProduct } from "@/redux/reducer/productReducer";
+import { useGetInfoFromPath } from "@/hooks/useGetUserId";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useState } from "react";
+import { useListProduct } from "./context/ProductListContext";
 import withMyTask from "@/components/forms/withMyTask";
-
-const products = [
-  {
-    id: 1,
-    name: "Product 1",
-    price: 100,
-    stock: 20,
-    status: "Available",
-    type: "Electronics",
-  },
-  {
-    id: 2,
-    name: "Product 2",
-    price: 200,
-    stock: 50,
-    status: "Out of stock",
-    type: "Furniture",
-  },
-];
 
 const ProductPage = () => {
   const [itemsPerPage, setItemsPerPage] = useState(10);
-
+  const { products, total } = useListProduct();
   const { t } = useLanguage();
+  const dispatch = useDispatch();
+  const productState = useSelector((state: RootState) => state.product);
+  const { userId } = useGetInfoFromPath();
+
+  useEffect(() => {
+    if (productState.length <= 0) {
+      dispatch(setProduct(products));
+    }
+  }, [dispatch, productState.length, products]);
 
   const menuPagination = [
     { key: 10, label: "10" },
@@ -43,6 +39,12 @@ const ProductPage = () => {
   ];
 
   const columns = getStudentCols();
+  const handleChangeOffset = (offset: number) => {
+    setItemsPerPage(offset);
+    productService.getList({ id: userId, offset }).then((res) => {
+      dispatch(setProduct(res.products));
+    });
+  };
 
   return (
     <WrapperContent>
@@ -56,7 +58,7 @@ const ProductPage = () => {
                 menu={menuPagination}
                 isCheckbox
                 checkedValue={itemsPerPage}
-                onChange={setItemsPerPage}
+                onChange={handleChangeOffset}
               >
                 <Button className="bg-blue-400 hover:bg-blue-500">
                   {itemsPerPage}
@@ -76,12 +78,12 @@ const ProductPage = () => {
           </div>
         </div>
 
-        <StyledTable data={products} columns={columns} />
+        <StyledTable data={productState} columns={columns} />
 
         <StyledPagination
           pageSize={itemsPerPage}
-          total={2}
-          styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg rounded-br-lg border-t border-gray-300"
+          total={total}
+          styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border-t border-gray-300"
         />
       </div>
     </WrapperContent>

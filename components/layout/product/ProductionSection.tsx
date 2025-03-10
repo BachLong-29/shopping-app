@@ -25,7 +25,7 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
 
   const totalPages = 10;
   useEffect(() => {
-    fetchProducts(page).then((res) => setProducts(res));
+    fetchProducts(page).then((res) => setProducts(res as Product[]));
   }, [page, setProducts]);
   return (
     <div>
