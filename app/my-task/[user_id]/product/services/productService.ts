@@ -6,12 +6,25 @@ class ProductService extends HttpService {
     id,
     offset,
     limit,
+    search,
   }: {
     id: string;
     offset: number;
     limit: number;
-  }): Promise<{ products: Product[]; total: number }> {
-    return this.post(`/api/${id}/products`, { offset, limit });
+    search?: string;
+  }): Promise<{ data: Product[]; total: number }> {
+    return this.post(`/api/${id}/products`, { offset, limit, search });
+  }
+
+  exportProduct({
+    userId,
+  }: {
+    userId?: string;
+    offset?: number;
+    limit?: number;
+    search?: string;
+  }) {
+    return this.get(`/api/${userId}/products/export-product`, {});
   }
 }
 

@@ -23,7 +23,7 @@ export default function ProductListLayout({
   const resolvedParams = use(params);
   const data = use(getListProducts(resolvedParams?.["user_id"]));
   return (
-    <ProductListProvider value={{ products: data.products, total: data.total }}>
+    <ProductListProvider value={{ products: data.data, total: data.total }}>
       {children}
     </ProductListProvider>
   );

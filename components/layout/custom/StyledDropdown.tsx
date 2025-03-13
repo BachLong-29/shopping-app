@@ -55,6 +55,7 @@ export function StyledDropdown({
               <DropdownMenuCheckboxItem
                 onCheckedChange={() => onChange(item.key)}
                 checked={checkedValue === item.key}
+                className="cursor-pointer"
               >
                 {item.label}
                 {item?.shortcut ? (
@@ -64,7 +65,10 @@ export function StyledDropdown({
                 )}
               </DropdownMenuCheckboxItem>
             ) : (
-              <DropdownMenuItem onClick={() => onChange(item.key)}>
+              <DropdownMenuItem
+                onClick={() => onChange(item.key)}
+                className="cursor-pointer"
+              >
                 {item.label}
                 {item?.shortcut ? (
                   <DropdownMenuShortcut>{item?.shortcut}</DropdownMenuShortcut>

@@ -9,6 +9,10 @@ export async function getProfile(id: string) {
 }
 
 export async function getListProducts(id: string) {
-  const productList = await productService.getList({ id, offset: 10 });
+  const productList = await productService.getList({
+    id,
+    offset: 10,
+    limit: 10,
+  });
   return productList;
 }

@@ -12,7 +12,7 @@ const ProductStatusTag = ({ value }: { value: ProductStatus }) => {
   const { t } = useLanguage();
   return (
     <div
-      className={`w-[95px] text-center px-2 py-1 rounded-full text-white ${statusColor[value]}`}
+      className={`w-[fit-content] text-center px-2 py-1 rounded-full text-white ${statusColor[value]}`}
     >
       {t(`product.status.${value}`)}
     </div>
