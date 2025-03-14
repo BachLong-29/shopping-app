@@ -13,7 +13,6 @@ import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useTheme } from "@/core/context/ThemeContext";
 
 export default function UserDropdown({
   userInfo,
@@ -26,8 +25,7 @@ export default function UserDropdown({
       redirect("/login");
     });
   };
-  const { theme } = useTheme();
-  console.log({ theme });
+
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -56,24 +54,24 @@ export default function UserDropdown({
       >
         <ul className="space-y-2">
           <Link href={`/my-task/${userInfo.id}/profile`}>
-            <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.profile")}
             </li>
           </Link>
           <Link href={`/my-task/${userInfo.id}/product`}>
-            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.my_task")}
             </li>
           </Link>
           <Link href={`/my-task/${userInfo.id}/settings`}>
-            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-gray-100">
+            <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.settings")}
             </li>
           </Link>
           {/* Divider */}
           <hr className="border-t border-gray-300 my-2" />
           <li
-            className="cursor-pointer px-3 py-1 rounded-md hover:bg-gray-100"
+            className="cursor-pointer px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]"
             onClick={handleLogout}
           >
             {t("action.log_out")}

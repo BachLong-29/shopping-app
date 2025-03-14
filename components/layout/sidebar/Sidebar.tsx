@@ -16,7 +16,7 @@ import { AppSidebar } from "./AppSidebar";
 import { Module } from "@/core/utils/sidebarConfig";
 import { Separator } from "@radix-ui/react-separator";
 import { useBreadcrumb } from "@/hooks/useBreadcrumb";
-import { useGetInfoFromPath } from "@/hooks/useGetUserId";
+import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
@@ -25,7 +25,7 @@ const Sidebar = ({ children }: any) => {
   const breadcrumb = useBreadcrumb(module as Module, userId, param);
   const { t } = useLanguage();
   return (
-    <SidebarProvider>
+    <SidebarProvider className="min-h-[500px]">
       <AppSidebar />
       <SidebarInset>
         <header className="flex h-16 shrink-0 items-center gap-2 transition-[width,height] ease-linear group-has-[[data-collapsible=icon]]/sidebar-wrapper:h-12">

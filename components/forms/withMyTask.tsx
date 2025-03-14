@@ -23,7 +23,7 @@ const withMyTask = <P extends object>(
           <Navigation />
 
           {/* Main Content */}
-          <main className="flex-1 pt-24 container mx-auto p-4">
+          <main className="flex-1 pt-4 container mx-auto p-4">
             {isMyTask ? (
               <Sidebar>
                 <WrappedComponent {...props} />

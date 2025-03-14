@@ -2,14 +2,25 @@ import { ChevronLeft, ChevronRight } from "lucide-react";
 import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
-import { Product } from "@/core/model/Product";
 import ProductCard from "./ProductCard";
 import Section from "../Section";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 interface IProps {
-  data: Product[];
-  setProducts: (value: Product[]) => void;
+  data: {
+    id: string | number;
+    name: string;
+    price: string;
+    image: string;
+  }[];
+  setProducts: (
+    value: {
+      id: string | number;
+      name: string;
+      price: string;
+      image: string;
+    }[]
+  ) => void;
 }
 const fetchProducts = async (page: number) => {
   return new Array(36).fill(0).map((_, i) => ({

@@ -1,5 +1,4 @@
 {
-  "product": "product",
   "general": {
     "product": "product",
     "all_products": "all products",
@@ -60,5 +59,25 @@
       "select_dob": "Select your birthday",
       "select_gender": "Select your gender"
     }
+  },
+  "product": {
+    "status": {
+      "available": "Available",
+      "out_of_stock": "Out of stock",
+      "draft": "Draft",
+      "inactive": "Inactive"
+    },
+    "placeholder": {
+      "name": "Enter product name.",
+      "price": "Enter price.",
+      "description": "Enter description.",
+      "quantity": "Enter quantity.",
+      "category": "Enter category."
+    },
+    "name": "Product name",
+    "price": "Price",
+    "description": "Description",
+    "quantity": "Quantity",
+    "category": "Category"
   }
 }

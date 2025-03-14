@@ -1,5 +1,4 @@
 {
-  "product": "sản phẩm",
   "general": {
     "product": "sản phẩm",
     "all_products": "Tất cả sản phẩm",
@@ -60,5 +59,25 @@
       "select_dob": "Chọn ngày sinh",
       "select_gender": "Chọn giới tính"
     }
+  },
+  "product": {
+    "status": {
+      "available": "Còn hàng",
+      "out_of_stock": "Hết hàng",
+      "draft": "Bản nháp",
+      "inactive": "Không hoạt động"
+    },
+    "placeholder": {
+      "name": "Nhập tên sản phẩm.",
+      "price": "Nhập giá sản phẩm.",
+      "description": "Nhập mô tả sản phẩm.",
+      "quantity": "Nhập số lượng sản phẩm.",
+      "category": "Chọn ngành hàng."
+    },
+    "name": "Tên sản phẩm",
+    "price": "Giá sản phẩm",
+    "description": "Mô tả",
+    "quantity": "Số lượng",
+    "category": "Ngành hàng"
   }
 }

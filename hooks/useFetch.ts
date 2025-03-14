@@ -6,12 +6,12 @@ export function useFetch<T, K>(effect: (req: K) => Promise<T>) {
   const [error, setError] = useState<string>("");
 
   const fetchData = async (params: K) => {
-    console.log({ params });
     setLoading(true);
     setError("");
     try {
       const res = await effect(params);
       setData(res);
+      return res;
     } catch (err) {
       setError((err as Error).message);
     } finally {
