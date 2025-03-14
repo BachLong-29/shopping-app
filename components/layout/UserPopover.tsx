@@ -17,7 +17,7 @@ import { useLanguage } from "@/core/context/LanguageContext";
 export default function UserDropdown({
   userInfo,
 }: {
-  userInfo: Pick<UserInfo, "id" | "name" | "email" | "gender">;
+  userInfo: Pick<UserInfo, "_id" | "name" | "email" | "gender">;
 }) {
   const { t } = useLanguage();
   const handleLogout = () => {
@@ -53,17 +53,17 @@ export default function UserDropdown({
         className="w-40 border border-gray-200 shadow-lg rounded-lg p-2"
       >
         <ul className="space-y-2">
-          <Link href={`/my-task/${userInfo.id}/profile`}>
+          <Link href={`/my-task/${userInfo._id}/profile`}>
             <li className="cursor-pointer  px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.profile")}
             </li>
           </Link>
-          <Link href={`/my-task/${userInfo.id}/product`}>
+          <Link href={`/my-task/${userInfo._id}/product`}>
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.my_task")}
             </li>
           </Link>
-          <Link href={`/my-task/${userInfo.id}/settings`}>
+          <Link href={`/my-task/${userInfo._id}/settings`}>
             <li className="cursor-pointer mt-2 px-3 py-1 rounded-md hover:bg-[hsl(var(--muted))]">
               {t("module.settings")}
             </li>

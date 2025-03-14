@@ -12,7 +12,7 @@ const withMyTask = <P extends object>(
   WrappedComponent: React.ComponentType<P>
 ) => {
   const MyTaskComponent = (
-    props: P & { user: Pick<UserInfo, "id" | "name" | "email"> }
+    props: P & { user: Pick<UserInfo, "_id" | "name" | "email"> }
   ) => {
     const pathName = usePathname();
     const isMyTask = pathName.includes("/my-task");

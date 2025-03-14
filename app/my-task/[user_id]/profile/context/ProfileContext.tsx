@@ -6,10 +6,9 @@ import { createContext, useContext } from "react";
 const ProfileContext = createContext<UserInfo>({
   role: Role.User,
   avatar: "",
-  birthdate: "",
+  birthdate: new Date(),
   email: "",
   gender: Gender.Other,
-  id: "",
   name: "",
   address: "",
   phone: "",

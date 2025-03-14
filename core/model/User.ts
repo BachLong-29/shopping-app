@@ -1,11 +1,10 @@
 export interface UserInfo {
-  id: string;
   _id: string;
   name: string;
   email: string;
   gender: Gender;
   avatar?: string;
-  birthdate: Date | string;
+  birthdate: Date;
   role: Role;
   address: string;
   phone: string;

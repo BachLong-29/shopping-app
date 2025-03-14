@@ -1,19 +1,18 @@
 import { Gender, Role, UserInfo } from "@/core/model/User";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
-type UserState = UserInfo;
+type UserState = Omit<UserInfo, "birthdate"> & { birthdate: Date | string };
 
 const initialState: UserState = {
   _id: "",
-  id: "",
   name: "",
   email: "",
   gender: Gender.Male,
   avatar: "",
-  birthdate: "",
   role: Role.User,
   address: "",
   phone: "",
+  birthdate: "",
 };
 
 const userSlice = createSlice({

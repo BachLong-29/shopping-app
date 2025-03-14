@@ -28,26 +28,30 @@ const ProfilePage = () => {
   const dispatch = useDispatch();
 
   useEffect(() => {
-    if (!profileState.id) {
+    if (!profileState._id) {
       dispatch(setUser(profile));
     }
-  }, [profile, dispatch]);
+  }, [profile, dispatch, profileState._id]);
 
   return (
     <>
       <WrapperContent>
         <div className="flex flex-col items-center">
-          <Image
-            src={
-              profileState.gender === Gender.Female
-                ? "/images/female-avatar.jpg"
-                : "/images/male-avatar.jpg"
-            }
-            alt="User Avatar"
-            width={165}
-            height={165}
-            className="rounded-full border"
-          />
+          <div className=" relative w-40 h-40 rounded-full overflow-hidden border-2 border-solid border-gray-400">
+            <Image
+              src={
+                profileState?.avatar
+                  ? profileState.avatar
+                  : profileState.gender === Gender.Female
+                  ? "/images/female-avatar.jpg"
+                  : "/images/male-avatar.jpg"
+              }
+              alt="User Avatar"
+              width={160}
+              height={160}
+              className="absolute inset-0 w-full h-full object-cover"
+            />
+          </div>
           <h2 className="text-xl font-semibold mt-2">{profile.name}</h2>
 
           <div className="space-y-4 w-[50%] flex flex-col mt-4 items-center">
@@ -57,7 +61,7 @@ const ProfilePage = () => {
             </div>
             <div>
               <Label>{`${t("user.info.birthday")}: `}</Label>
-              {dayjs(profileState.birthdate as string).format("DD/MM/YYYY")}
+              {dayjs(profileState.birthdate).format("DD/MM/YYYY")}
               {}
             </div>
             <div>

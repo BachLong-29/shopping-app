@@ -53,9 +53,9 @@ export const AuthProvider = ({ children }: { children: ReactNode }) => {
 // };
 export function useAuth() {
   const [user, setUser] = useState<
-    Pick<UserInfo, "id" | "name" | "email" | "gender">
+    Pick<UserInfo, "_id" | "name" | "email" | "gender">
   >({
-    id: "",
+    _id: "",
     email: "",
     name: "",
     gender: Gender.Male,
@@ -71,7 +71,7 @@ export function useAuth() {
         })
         .catch(() =>
           setUser({
-            id: "",
+            _id: "",
             email: "",
             name: "",
             gender: Gender.Male,

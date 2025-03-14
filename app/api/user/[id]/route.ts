@@ -39,12 +39,14 @@ export async function PUT(req: any) {
       return NextResponse.json({ error: "Unauthorized" }, { status: 401 });
 
     const id = req.nextUrl.pathname.split("/").pop();
-    const { address, gender, birthdate, phone } = await req.json();
-
+    const { name, address, gender, birthdate, phone, avatar } =
+      await req.json();
+    console.log("req", name, address, gender, birthdate, phone, avatar);
     const updatedUser = await User.findByIdAndUpdate(
       id,
       {
-        // avatar,
+        avatar,
+        name,
         phone,
         address,
         gender,

@@ -10,26 +10,11 @@ class ProfileService extends HttpService {
   }
   editUserProfile({
     id,
-    name,
-    birthdate,
-    address,
-    gender,
-    phone,
-  }: {
+    ...data
+  }: Omit<UserInfo, "_id" | "role"> & {
     id: string;
-    name: string;
-    birthdate: string;
-    address: string;
-    gender: string;
-    phone: string;
   }) {
-    return this.put(`api/user/${id}`, {
-      name,
-      birthdate,
-      address,
-      gender,
-      phone,
-    });
+    return this.put(`api/user/${id}`, { ...data });
   }
 }
 

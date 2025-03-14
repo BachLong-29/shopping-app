@@ -1,13 +1,12 @@
 "use client";
 
+import { Gender, UserInfo } from "@/core/model/User";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setUser, updateUser } from "@/redux/reducer/profileReducer";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import EditUserForm from "@/components/forms/EditUserForm";
-import { Gender } from "@/core/model/User";
-import Image from "next/image";
 import { RootState } from "@/redux/store/store";
 import { Toaster } from "@/components/ui/sonner";
 import WrapperContent from "@/components/layout/WrapperContent";
@@ -25,23 +24,22 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const userSchema = z.object({
   name: z.string().min(1, { message: "Tên là bắt buộc" }),
   email: z.string().email({ message: "Email không hợp lệ" }),
-  dob: z.string().min(1, { message: "Ngày sinh là bắt buộc" }),
-  gender: z.string().min(1, { message: "Giới tính là bắt buộc" }),
+  birthdate: z.preprocess(
+    (value) => (value ? new Date(value as string) : undefined),
+    z.date({ message: "Ngày sinh không hợp lệ" })
+  ),
+  gender: z.nativeEnum(Gender, {
+    errorMap: () => ({ message: "Giới tính là bắt buộc" }),
+  }),
   address: z.string().min(1, { message: "Địa chỉ là bắt buộc" }),
   phone: z
     .string()
     .min(1, { message: "Số điện thoại là bắt buộc" })
     .regex(/^[0-9]{10}$/, { message: "Số điện thoại phải có 10 chữ số" }),
+  avatar: z.optional(z.string()),
 });
 
-export type UserFormData = {
-  name: string;
-  email: string;
-  dob: string;
-  gender: string;
-  address: string;
-  phone: string;
-};
+export type UserFormData = Omit<UserInfo, "_id" | "role">;
 
 const ProfilePage = () => {
   const profile = useProfile();
@@ -51,9 +49,10 @@ const ProfilePage = () => {
     email: profileState.email || profile.email,
     name: profileState.name || profile.name,
     address: profileState.address || profile.address,
-    dob: (profileState.birthdate as string) || (profile.birthdate as string),
+    birthdate: new Date(profileState.birthdate) || profile.birthdate,
     gender: profileState.gender || profile.gender,
     phone: profileState.phone || profile.phone,
+    avatar: profileState.avatar || profile.avatar,
   };
   const form = useForm<UserFormData>({
     resolver: zodResolver(userSchema),
@@ -63,30 +62,24 @@ const ProfilePage = () => {
   const { t } = useLanguage();
   const router = useRouter();
   const { loading, fetchData: editProfile } = useFetch(
-    (req: {
-      id: string;
-      name: string;
-      birthdate: string;
-      address: string;
-      gender: string;
-      phone: string;
-    }) => profileService.editUserProfile(req)
+    (
+      req: UserFormData & {
+        id: string;
+      }
+    ) => profileService.editUserProfile(req)
   );
 
   const onSubmit: SubmitHandler<UserFormData> = (data) => {
     console.log(data);
     editProfile({
       ...data,
-      birthdate: data.dob,
       id: userId,
     })
       .then(() => {
         dispatch(
           updateUser({
             ...data,
-            gender: data.gender as Gender,
-            birthdate: data.dob,
-            id: userId,
+            birthdate: new Date(data.birthdate).toISOString(),
             _id: userId,
           })
         );
@@ -106,26 +99,15 @@ const ProfilePage = () => {
   };
 
   useEffect(() => {
-    if (!profileState.id) {
+    if (!profileState._id) {
       dispatch(setUser(profile));
     }
-  }, [profile, dispatch, profileState.id]);
+  }, [profile, dispatch, profileState._id]);
 
   return (
     <>
       <WrapperContent>
         <div className="flex flex-col items-center">
-          <Image
-            src={
-              profileState.gender === Gender.Female
-                ? "/images/female-avatar.jpg"
-                : "/images/male-avatar.jpg"
-            }
-            alt="User Avatar"
-            width={165}
-            height={165}
-            className="rounded-full border"
-          />
           <EditUserForm form={form} />
         </div>
       </WrapperContent>

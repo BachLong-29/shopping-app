@@ -5,7 +5,7 @@ import { useAuth } from "@/core/context/AuthContext";
 
 const withAuth = <P extends object>(
   WrappedComponent: React.ComponentType<
-    P & { user: Pick<UserInfo, "id" | "name" | "email"> }
+    P & { user: Pick<UserInfo, "_id" | "name" | "email"> }
   >
 ) => {
   const AuthComponent = (props: P) => {
