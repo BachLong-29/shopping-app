@@ -28,6 +28,7 @@ export async function POST(req: Request) {
     });
 
     // Chuyển đổi dữ liệu về đúng kiểu
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
     const products = data.map((item: any) => ({
       name: item.name,
       price: parseFloat(item.price),

@@ -16,3 +16,8 @@ export async function getListProducts(id: string) {
   });
   return productList;
 }
+
+export async function getDetailProduct(userId: string, productId: string) {
+  const product = await productService.getProductDetail({ userId, productId });
+  return product;
+}

@@ -25,7 +25,7 @@ export function StyledTable<T extends object>({
   columns,
 }: TableProps<T>) {
   return (
-    <div className="max-h-[65vh] overflow-y-auto rounded-tl-lg rounded-tr-lg">
+    <div className="max-h-[65vh] overflow-y-auto rounded-tl-lg rounded-tr-lg border-x border-t">
       <Table className="w-full bg-[hsl(var(--reverse-background))]">
         <TableHeader className="bg-[hsl(var(--reverse-background))] sticky top-0 z-10 shadow-md">
           <TableRow className="border-b border-gray-300">

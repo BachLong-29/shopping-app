@@ -130,7 +130,7 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
             currentPage={currentPage}
             onChange={handleChangePage}
             total={productState.total}
-            styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border-t border-gray-300"
+            styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border border-gray-300"
           />
         </WrapperTable>
       </div>

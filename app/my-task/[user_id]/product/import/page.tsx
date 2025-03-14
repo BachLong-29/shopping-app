@@ -35,6 +35,20 @@ const ImportProductPage = ({
     setMessage(result.message);
   };
 
+  const handleDownloadSample = () => {
+    const csvContent =
+      "data:text/csv;charset=utf-8," +
+      encodeURIComponent(
+        "name, price, status, description, quantity, onwerId, category\nBox1,10000,available, aaaaa, 10, 123, Dolls"
+      );
+    const link = document.createElement("a");
+    link.href = csvContent;
+    link.download = "sample.csv";
+    document.body.appendChild(link);
+    link.click();
+    document.body.removeChild(link);
+  };
+
   return (
     <>
       <WrapperContent>
@@ -42,7 +56,11 @@ const ImportProductPage = ({
           <h1 className="text-lg font-medium">Upload a CSV file</h1>
           <div className="text-sm flex gap-1">
             Make sure that the file has the same format as the sample file.
-            <a href="#" className="text-sm text-blue-500 underline">
+            <a
+              href="#"
+              onClick={handleDownloadSample}
+              className="text-sm text-blue-500 underline"
+            >
               Click here to download a sample CSV file.
             </a>
           </div>

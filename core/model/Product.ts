@@ -1,11 +1,14 @@
 export interface Product {
-  id: number;
+  _id: string;
+  productId: string;
   name: string;
-  price: string;
-  image: string;
+  price: number;
   status: ProductStatus;
-  description: string;
+  description?: string;
   quantity: number;
+  category?: string;
+  ownerId: string;
+  // image: string;
 }
 
 export enum ProductStatus {

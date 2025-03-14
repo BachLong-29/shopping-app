@@ -1,3 +1,5 @@
+/* eslint-disable @typescript-eslint/no-explicit-any */
+
 import {
   DropdownMenu,
   DropdownMenuCheckboxItem,
@@ -15,17 +17,16 @@ type IProps = {
   children: ReactNode | JSX.Element;
   title?: string;
   isCheckbox?: boolean;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   checkedValue?: any;
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  onChange: (value: any) => void;
+  onChange?: (value: any) => void;
 };
 
 export type ItemMenuType = {
   key: string | number;
   label: string;
   shortcut?: string;
-  // children?: ItemMenuType[];
+  icon?: ReactNode;
+  action?: () => void;
 };
 
 export function StyledDropdown({
@@ -53,7 +54,7 @@ export function StyledDropdown({
           <div key={item.key}>
             {isCheckbox ? (
               <DropdownMenuCheckboxItem
-                onCheckedChange={() => onChange(item.key)}
+                onCheckedChange={() => onChange && onChange(item.key)}
                 checked={checkedValue === item.key}
                 className="cursor-pointer"
               >
@@ -66,9 +67,12 @@ export function StyledDropdown({
               </DropdownMenuCheckboxItem>
             ) : (
               <DropdownMenuItem
-                onClick={() => onChange(item.key)}
-                className="cursor-pointer"
+                onClick={() =>
+                  onChange ? onChange(item.key) : item.action && item?.action()
+                }
+                className="cursor-pointer gap-4"
               >
+                {item.icon}
                 {item.label}
                 {item?.shortcut ? (
                   <DropdownMenuShortcut>{item?.shortcut}</DropdownMenuShortcut>

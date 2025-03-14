@@ -5,14 +5,15 @@ import { Toaster, toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
-import ProductForm from "../component/ProductForm";
+import ProductForm from "../../component/ProductForm";
 import WrapperContent from "@/components/layout/WrapperContent";
 import { createProduct } from "@/redux/reducer/productReducer";
-import productService from "../services/productService";
+import productService from "../../services/productService";
 import { use } from "react";
 import { useDispatch } from "react-redux";
 import { useFetch } from "@/hooks/useFetch";
 import { useLanguage } from "@/core/context/LanguageContext";
+import { useProductDetail } from "../../context/ProductDetailContext";
 import { useRouter } from "next/navigation";
 import withMyTask from "@/components/forms/withMyTask";
 import { z } from "zod";
@@ -20,7 +21,10 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const productSchema = z.object({
   name: z.string().min(1, { message: "Tên là bắt buộc" }),
-  price: z.number().min(1, { message: "Giá là bắt buộc" }),
+  price: z.preprocess(
+    (value) => (value === "" ? undefined : Number(value)),
+    z.number().min(1, { message: "Giá là bắt buộc" })
+  ),
   description: z.optional(z.string()),
   quantity: z.number(),
   category: z.optional(z.string()),
@@ -31,36 +35,39 @@ export type ProductFormData = Omit<
   "_id" | "productId" | "ownerId" | "status"
 >;
 
-const CreateProductPage = ({
+const EditProductPage = ({
   params,
 }: {
-  params: Promise<{ user_id: string }>;
+  params: Promise<{ user_id: string; id: string }>;
 }) => {
-  const { user_id: userId } = use(params);
+  const { product } = useProductDetail();
+  const { user_id: userId, id: productId } = use(params);
   const { t } = useLanguage();
   const router = useRouter();
   const dispatch = useDispatch();
   const initialValues = {
-    name: "",
-    description: "",
-    quantity: 0,
-    price: 0,
+    name: product.name,
+    description: product.description,
+    quantity: product.quantity,
+    price: product.price,
+    category: product.category,
   };
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
     defaultValues: initialValues,
   });
 
-  const { loading, fetchData: execCreate } = useFetch(
-    (req: ProductFormData & { userId: string }) =>
-      productService.createProduct(req)
+  const { loading, fetchData: execEdit } = useFetch(
+    (req: ProductFormData & { userId: string; productId: string }) =>
+      productService.editProduct(req)
   );
 
   const onSubmit: SubmitHandler<ProductFormData> = (data) => {
     console.log(data);
-    execCreate({
+    execEdit({
       ...data,
       userId,
+      productId,
     })
       .then((res) => {
         if (res?.product) {
@@ -111,4 +118,4 @@ const CreateProductPage = ({
   );
 };
 
-export default withMyTask(CreateProductPage);
+export default withMyTask(EditProductPage);

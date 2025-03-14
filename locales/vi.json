@@ -66,6 +66,18 @@
       "out_of_stock": "Hết hàng",
       "draft": "Bản nháp",
       "inactive": "Không hoạt động"
-    }
+    },
+    "placeholder": {
+      "name": "Nhập tên sản phẩm.",
+      "price": "Nhập giá sản phẩm.",
+      "description": "Nhập mô tả sản phẩm.",
+      "quantity": "Nhập số lượng sản phẩm.",
+      "category": "Chọn ngành hàng."
+    },
+    "name": "Tên sản phẩm",
+    "price": "Giá sản phẩm",
+    "description": "Mô tả",
+    "quantity": "Số lượng",
+    "category": "Ngành hàng"
   }
 }

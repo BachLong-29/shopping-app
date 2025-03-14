@@ -2,11 +2,18 @@ import { Card, CardContent } from "@/components/ui/card";
 
 import HeartButton from "../HeartButton";
 import Image from "next/image";
-import { Product } from "@/core/model/Product";
-import React from "react";
 import { useRouter } from "next/navigation";
 
-const ProductCard = ({ product }: { product: Product }) => {
+const ProductCard = ({
+  product,
+}: {
+  product: {
+    id: string | number;
+    name: string;
+    price: string;
+    image: string;
+  };
+}) => {
   const router = useRouter();
   return (
     <Card

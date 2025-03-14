@@ -66,6 +66,18 @@
       "out_of_stock": "Out of stock",
       "draft": "Draft",
       "inactive": "Inactive"
-    }
+    },
+    "placeholder": {
+      "name": "Enter product name.",
+      "price": "Enter price.",
+      "description": "Enter description.",
+      "quantity": "Enter quantity.",
+      "category": "Enter category."
+    },
+    "name": "Product name",
+    "price": "Price",
+    "description": "Description",
+    "quantity": "Quantity",
+    "category": "Category"
   }
 }

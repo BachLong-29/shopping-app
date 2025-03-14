@@ -3,7 +3,6 @@
 import { ChevronDown, Filter, Plus, Search } from "lucide-react";
 
 import { Button } from "../ui/button";
-import ExportButton from "./export/ExportButton";
 import { Input } from "../ui/input";
 import { ReactNode } from "react";
 import { StyledDropdown } from "./custom/StyledDropdown";
@@ -30,7 +29,7 @@ export interface WrapperTableType {
 }
 
 const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
-  const { search, showing, children, create, exportCSV, tools } = props;
+  const { search, showing, children, create, tools } = props;
   return (
     <>
       <div className="flex justify-between items-center mb-4 space-x-6">
@@ -77,7 +76,6 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
               <ChevronDown />
             </Button>
           </StyledDropdown>
-          {/* {exportCSV && <ExportButton exportExec={exportCSV.onExport} />} */}
           <Button
             className="bg-blue-400 hover:bg-blue-500"
             onClick={create.onClick}
