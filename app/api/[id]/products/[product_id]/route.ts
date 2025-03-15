@@ -8,7 +8,6 @@ export async function DELETE(req: any) {
     await connectDB();
 
     const id = req.nextUrl.pathname.split("/")[4];
-    console.log("req.nextUrl.pathname", id);
 
     if (!id) {
       return NextResponse.json(

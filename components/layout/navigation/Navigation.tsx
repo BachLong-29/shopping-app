@@ -1,18 +1,29 @@
-import { Search, ShoppingCart } from "lucide-react";
+/* eslint-disable @typescript-eslint/no-explicit-any */
+"use client";
 
-import { Badge } from "../ui/badge";
+import { Search, ShoppingCart } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
+
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
-import { Input } from "../ui/input";
+import { Input } from "@/components/ui/input";
 import LanguageSwitcher from "./LanguageSwitcher";
 import Link from "next/link";
+import { RootState } from "@/redux/store/store";
 import ThemeToggle from "./ThemeToggle";
 import UserDropdown from "./UserPopover";
-import { useAuth } from "@/core/context/AuthContext";
+import { setUser } from "@/redux/reducer/profileReducer";
+import { useEffect } from "react";
 import { useLanguage } from "@/core/context/LanguageContext";
 
-const Navigation = () => {
-  const { user } = useAuth();
+const Navigation = (props: any) => {
+  const { user } = props;
+  const userProfile = useSelector((state: RootState) => state.profile);
+  const dispatch = useDispatch();
   const { t } = useLanguage();
+  useEffect(() => {
+    dispatch(setUser(user));
+  }, []);
   return (
     <nav className="w-full bg-white shadow-md p-4 sticky top-0 left-0 z-50 transition-all border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
       <div className="container mx-auto flex justify-between items-center">
@@ -58,7 +69,11 @@ const Navigation = () => {
         <div className="flex gap-2.5">
           <ThemeToggle />
           <LanguageSwitcher />
-          {user?._id ? <UserDropdown userInfo={user} /> : <div></div>}
+          {userProfile._id ? (
+            <UserDropdown userInfo={userProfile as any} />
+          ) : (
+            <></>
+          )}
         </div>
       </div>
     </nav>

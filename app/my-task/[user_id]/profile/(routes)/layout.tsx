@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ProfileProvider } from "./context/ProfileContext";
+import { ProfileProvider } from "../context/ProfileContext";
 import { getProfile } from "@/app/action";
 import { use } from "react";
 

@@ -1,6 +1,6 @@
 import CategoriesCard from "./CategoriesCard";
 import { Plus } from "lucide-react";
-import Section from "../Section";
+import Section from "../section/Section";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 const CategoriesSection = ({

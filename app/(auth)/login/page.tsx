@@ -7,7 +7,6 @@ import SignIn from "./component/SignIn";
 import SignUp from "./component/SignUp";
 import { cn } from "@/lib/utils";
 import { useState } from "react";
-import withMyTask from "@/components/forms/withMyTask";
 
 const LoginPage = () => {
   const [currentForm, setCurrentForm] = useState<AuthType>(AuthType.SignIn);
@@ -45,6 +44,6 @@ const LoginPage = () => {
   );
 };
 
-export default withMyTask(LoginPage);
+export default LoginPage;
 
 // thêm các icon đăng nhập bằng google, facebook, ...

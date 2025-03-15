@@ -2,7 +2,7 @@
 
 import WrapperTable, {
   WrapperTableType,
-} from "@/components/layout/WrapperTable";
+} from "@/components/layout/section/WrapperTable";
 import { use, useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
@@ -11,13 +11,13 @@ import ImportButton from "@/components/layout/import/ImportButton";
 import { RootState } from "@/redux/store/store";
 import StyledPagination from "@/components/layout/custom/StyledPagination";
 import { StyledTable } from "@/components/layout/custom/StyledTable";
-import WrapperContent from "@/components/layout/WrapperContent";
-import { getStudentCols } from "./utils/getProductCols";
+import WrapperContent from "@/components/layout/section/WrapperContent";
+import { getStudentCols } from "../utils/getProductCols";
 import { menuPagination } from "@/core/utils/pagination";
-import productService from "./services/productService";
+import productService from "../services/productService";
 import { setProduct } from "@/redux/reducer/productReducer";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useListProduct } from "./context/ProductListContext";
+import { useListProduct } from "../context/ProductListContext";
 import { useRouter } from "next/navigation";
 import withMyTask from "@/components/forms/withMyTask";
 

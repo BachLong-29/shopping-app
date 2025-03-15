@@ -5,7 +5,6 @@ import Banner from "@/components/layout/Banner";
 import CategoriesSection from "@/components/layout/categories/CategoriesSection";
 import ProductionSection from "@/components/layout/product/ProductionSection";
 import { useState } from "react";
-import withMyTask from "@/components/forms/withMyTask";
 
 const categories = [
   {
@@ -44,4 +43,4 @@ const Home = () => {
   );
 };
 
-export default withMyTask(Home);
+export default Home;

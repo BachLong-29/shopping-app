@@ -4,8 +4,8 @@ import { use, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
-import DragZone from "@/components/layout/DragZone";
-import WrapperContent from "@/components/layout/WrapperContent";
+import DragZone from "@/components/layout/import/DragZone";
+import WrapperContent from "@/components/layout/section/WrapperContent";
 import withMyTask from "@/components/forms/withMyTask";
 
 const ImportProductPage = ({

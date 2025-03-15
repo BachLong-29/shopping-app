@@ -1,10 +1,11 @@
 import HttpService from "./httpService";
+import { UserInfo } from "../model/User";
 
 class AuthService extends HttpService {
   constructor() {
     super();
   }
-  login(req: { email: string; password: string }) {
+  login(req: { email: string; password: string }): Promise<{ user: UserInfo }> {
     const { email, password } = req;
     return this.post("/api/auth/login", { email, password });
   }
@@ -14,6 +15,9 @@ class AuthService extends HttpService {
   }
   logout() {
     return this.post("/api/auth/logout", {});
+  }
+  me() {
+    return this.get("/api/auth/me", {});
   }
 }
 

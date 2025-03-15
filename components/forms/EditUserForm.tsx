@@ -18,7 +18,7 @@ import { Gender } from "@/core/model/User";
 import { Input } from "../ui/input";
 import Uploader from "../layout/upload/Uploader";
 import { UseFormReturn } from "react-hook-form";
-import { UserFormData } from "@/app/my-task/[user_id]/profile/edit/page";
+import { UserFormData } from "@/app/my-task/[user_id]/profile/(routes)/edit/page";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 interface Props {

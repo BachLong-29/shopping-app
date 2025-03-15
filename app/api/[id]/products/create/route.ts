@@ -9,7 +9,6 @@ export async function POST(req: any) {
   try {
     const body = await req.json();
     const id = req.nextUrl.pathname.split("/")[2];
-    console.log("req.nextUrl", id);
     const { name, price, category, description, quantity } = body;
     const newProduct = new Product({
       name,

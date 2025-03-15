@@ -1,6 +1,6 @@
 import HttpService from "@/core/services/httpService";
 import { Product } from "@/core/model/Product";
-import { ProductFormData } from "../create/page";
+import { ProductFormData } from "../(routes)/create/page";
 
 class ProductService extends HttpService {
   getList({

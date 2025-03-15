@@ -9,13 +9,13 @@ import { Button } from "@/components/ui/button";
 import EditUserForm from "@/components/forms/EditUserForm";
 import { RootState } from "@/redux/store/store";
 import { Toaster } from "@/components/ui/sonner";
-import WrapperContent from "@/components/layout/WrapperContent";
-import profileService from "../services/profileService";
+import WrapperContent from "@/components/layout/section/WrapperContent";
+import profileService from "../../services/profileService";
 import { toast } from "sonner";
 import { useEffect } from "react";
 import { useFetch } from "@/hooks/useFetch";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useProfile } from "../context/ProfileContext";
+import { useProfile } from "../../context/ProfileContext";
 import { useRouter } from "next/navigation";
 import withMyTask from "@/components/forms/withMyTask";
 import { z } from "zod";
@@ -70,7 +70,6 @@ const ProfilePage = () => {
   );
 
   const onSubmit: SubmitHandler<UserFormData> = (data) => {
-    console.log(data);
     editProfile({
       ...data,
       id: userId,

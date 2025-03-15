@@ -2,10 +2,10 @@
 
 import { ChevronDown, Filter, Plus, Search } from "lucide-react";
 
-import { Button } from "../ui/button";
-import { Input } from "../ui/input";
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import { ReactNode } from "react";
-import { StyledDropdown } from "./custom/StyledDropdown";
+import { StyledDropdown } from "../custom/StyledDropdown";
 
 export interface WrapperTableType {
   search: {

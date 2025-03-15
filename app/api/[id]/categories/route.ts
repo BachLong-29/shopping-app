@@ -7,13 +7,10 @@ export async function POST(req: NextRequest) {
   await connectDB();
   try {
     const body = await req.json();
-    console.log("📌 Dữ liệu nhận từ request:", body); // Debug
 
     const { name, slug, description } = body;
     const newCategory = new Category({ name, slug, description });
     await newCategory.save();
-
-    console.log("✅ Lưu thành công:", newCategory); // Debug
 
     return NextResponse.json({
       message: "Danh mục đã được tạo",

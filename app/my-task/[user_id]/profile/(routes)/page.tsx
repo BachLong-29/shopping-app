@@ -7,13 +7,13 @@ import { Gender } from "@/core/model/User";
 import Image from "next/image";
 import { Label } from "@/components/ui/label";
 import { RootState } from "@/redux/store/store";
-import WrapperContent from "@/components/layout/WrapperContent";
+import WrapperContent from "@/components/layout/section/WrapperContent";
 import dayjs from "dayjs";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { useEffect } from "react";
 import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { useLanguage } from "@/core/context/LanguageContext";
-import { useProfile } from "./context/ProfileContext";
+import { useProfile } from "../context/ProfileContext";
 import { useRouter } from "next/navigation";
 import withMyTask from "@/components/forms/withMyTask";
 
@@ -22,7 +22,6 @@ const ProfilePage = () => {
   const { t } = useLanguage();
   const router = useRouter();
   const { userId } = useGetInfoFromPath();
-  console.log({ profile });
   const profileState = useSelector((state: RootState) => state.profile);
 
   const dispatch = useDispatch();

@@ -41,7 +41,6 @@ export async function PUT(req: any) {
     const id = req.nextUrl.pathname.split("/").pop();
     const { name, address, gender, birthdate, phone, avatar } =
       await req.json();
-    console.log("req", name, address, gender, birthdate, phone, avatar);
     const updatedUser = await User.findByIdAndUpdate(
       id,
       {

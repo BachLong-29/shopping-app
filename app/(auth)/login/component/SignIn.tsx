@@ -7,6 +7,8 @@ import { Input } from "@/components/ui/input";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { setUser } from "@/redux/reducer/profileReducer";
+import { useDispatch } from "react-redux";
 import { useFetch } from "@/hooks/useFetch";
 import { useLanguage } from "@/core/context/LanguageContext";
 
@@ -26,13 +28,17 @@ const SignIn = ({
     // eslint-disable-next-line @typescript-eslint/no-explicit-any
   } = useFetch((req: any) => authService.login(req));
   const { t } = useLanguage();
+  const dispatch = useDispatch();
 
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     login({
       email,
       password,
-    }).then(() => {
+    }).then((res) => {
+      if (res?.user) {
+        dispatch(setUser(res.user));
+      }
       redirect("/");
     });
   };

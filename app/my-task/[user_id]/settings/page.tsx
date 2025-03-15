@@ -1,7 +1,7 @@
 "use client";
 
 import React from "react";
-import WrapperContent from "@/components/layout/WrapperContent";
+import WrapperContent from "@/components/layout/section/WrapperContent";
 import withMyTask from "@/components/forms/withMyTask";
 
 const SettingsPage = () => {

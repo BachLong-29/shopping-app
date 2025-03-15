@@ -5,10 +5,10 @@ import { Toaster, toast } from "sonner";
 
 import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
-import ProductForm from "../component/ProductForm";
-import WrapperContent from "@/components/layout/WrapperContent";
+import ProductForm from "../../component/ProductForm";
+import WrapperContent from "@/components/layout/section/WrapperContent";
 import { createProduct } from "@/redux/reducer/productReducer";
-import productService from "../services/productService";
+import productService from "../../services/productService";
 import { use } from "react";
 import { useDispatch } from "react-redux";
 import { useFetch } from "@/hooks/useFetch";
@@ -57,7 +57,6 @@ const CreateProductPage = ({
   );
 
   const onSubmit: SubmitHandler<ProductFormData> = (data) => {
-    console.log(data);
     execCreate({
       ...data,
       userId,

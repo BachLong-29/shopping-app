@@ -8,7 +8,7 @@ import {
 } from "@/components/ui/form";
 
 import { Input } from "@/components/ui/input";
-import { ProductFormData } from "../create/page";
+import { ProductFormData } from "../(routes)/create/page";
 import { UseFormReturn } from "react-hook-form";
 import { useLanguage } from "@/core/context/LanguageContext";
 

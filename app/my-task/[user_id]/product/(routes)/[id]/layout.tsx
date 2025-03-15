@@ -1,5 +1,5 @@
 import type { Metadata } from "next";
-import { ProductDetailProvider } from "../context/ProductDetailContext";
+import { ProductDetailProvider } from "../../context/ProductDetailContext";
 import { getDetailProduct } from "@/app/action";
 import { use } from "react";
 

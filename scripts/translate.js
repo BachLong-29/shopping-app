@@ -47,8 +47,6 @@ const addTranslations = () => {
   const enTranslations = readJsonFile(enFilePath);
   const viTranslations = readJsonFile(viFilePath);
 
-  console.log("Cập nhật en.json và vi.json...");
-
   // Merge dữ liệu với các file JSON hiện có
   deepMerge(enTranslations, commonMessage);
   deepMerge(viTranslations, commonMessage);

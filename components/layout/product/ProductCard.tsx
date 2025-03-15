@@ -1,6 +1,6 @@
 import { Card, CardContent } from "@/components/ui/card";
 
-import HeartButton from "../HeartButton";
+import HeartButton from "./HeartButton";
 import Image from "next/image";
 import { useRouter } from "next/navigation";
 

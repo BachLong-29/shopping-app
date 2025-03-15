@@ -1,6 +1,6 @@
 "use client";
 
-import { Gender, UserInfo } from "@/core/model/User";
+import { Gender, Role, UserInfo } from "@/core/model/User";
 import {
   Popover,
   PopoverContent,
@@ -12,20 +12,36 @@ import Link from "next/link";
 import authService from "@/core/services/authService";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
+import { setUser } from "@/redux/reducer/profileReducer";
+import { useDispatch } from "react-redux";
 import { useLanguage } from "@/core/context/LanguageContext";
 
-export default function UserDropdown({
-  userInfo,
-}: {
-  userInfo: Pick<UserInfo, "_id" | "name" | "email" | "gender">;
-}) {
+export default function UserDropdown({ userInfo }: { userInfo: UserInfo }) {
   const { t } = useLanguage();
+  const dispatch = useDispatch();
   const handleLogout = () => {
     authService.logout().then(() => {
+      dispatch(
+        setUser({
+          _id: "",
+          name: "",
+          email: "",
+          gender: Gender.Male,
+          avatar: "",
+          role: Role.User,
+          address: "",
+          phone: "",
+          birthdate: "",
+        })
+      );
       redirect("/login");
     });
   };
-
+  const userAvatar = userInfo.avatar
+    ? userInfo.avatar
+    : userInfo?.gender === Gender.Female
+    ? "/images/female-avatar.jpg"
+    : "/images/male-avatar.jpg";
   return (
     <Popover>
       <PopoverTrigger asChild>
@@ -38,12 +54,8 @@ export default function UserDropdown({
             width={35}
             height={35}
             alt="avatar-user"
-            src={
-              userInfo.gender === Gender.Female
-                ? "/images/female-avatar.jpg"
-                : "/images/male-avatar.jpg"
-            }
-            className="rounded-full border border-pink-500"
+            src={userAvatar}
+            className="w-[35px] h-[35px] rounded-full border border-pink-500"
           />
           <span className="truncate">{userInfo.name}</span>
         </div>

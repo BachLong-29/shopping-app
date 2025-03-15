@@ -2,8 +2,8 @@
 
 import Image from "next/image";
 import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
-import WrapperContent from "@/components/layout/WrapperContent";
-import { useProductDetail } from "../context/ProductDetailContext";
+import WrapperContent from "@/components/layout/section/WrapperContent";
+import { useProductDetail } from "../../context/ProductDetailContext";
 import { useState } from "react";
 import withMyTask from "@/components/forms/withMyTask";
 

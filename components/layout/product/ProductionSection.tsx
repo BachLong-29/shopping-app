@@ -3,7 +3,7 @@ import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import ProductCard from "./ProductCard";
-import Section from "../Section";
+import Section from "../section/Section";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 interface IProps {
