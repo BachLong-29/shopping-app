@@ -2,6 +2,7 @@
 
 import { createContext, useContext, useEffect, useState } from "react";
 
+import LoadingPage from "@/components/layout/LoadingPage";
 import { createTranslator } from "next-intl";
 import { getMessages } from "@/locales/i18n";
 
@@ -51,11 +52,7 @@ export const LanguageProvider = ({
   };
 
   if (isLoading) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p>Loading translations...</p>
-      </div>
-    );
+    return <LoadingPage />;
   }
 
   return (
