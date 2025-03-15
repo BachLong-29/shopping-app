@@ -20,6 +20,7 @@ import {
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { cn } from "@/lib/utils";
+import Link from "next/link";
 
 export function NavMain({
   items,
@@ -63,14 +64,14 @@ export function NavMain({
                   {item.items?.map((subItem) => (
                     <SidebarMenuSubItem key={subItem.title}>
                       <SidebarMenuSubButton asChild>
-                        <a
+                        <Link
                           href={`/my-task/${userId}${subItem.url}`}
                           className={cn(
                             module === subItem.key ? "bg-sidebar-accent" : ""
                           )}
                         >
                           <span>{t(subItem.title)}</span>
-                        </a>
+                        </Link>
                       </SidebarMenuSubButton>
                     </SidebarMenuSubItem>
                   ))}
