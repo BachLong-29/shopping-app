@@ -7,16 +7,21 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import Image from "next/image";
 import Link from "next/link";
+import UserCard from "./UserCard";
 import authService from "@/core/services/authService";
-import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { useDispatch } from "react-redux";
 import { useLanguage } from "@/core/context/LanguageContext";
 
-export default function UserDropdown({ userInfo }: { userInfo: UserInfo }) {
+export default function UserDropdown({
+  userInfo,
+  isShorten,
+}: {
+  userInfo: UserInfo;
+  isShorten?: boolean;
+}) {
   const { t } = useLanguage();
   const dispatch = useDispatch();
   const handleLogout = () => {
@@ -37,27 +42,12 @@ export default function UserDropdown({ userInfo }: { userInfo: UserInfo }) {
       redirect("/login");
     });
   };
-  const userAvatar = userInfo.avatar
-    ? userInfo.avatar
-    : userInfo?.gender === Gender.Female
-    ? "/images/female-avatar.jpg"
-    : "/images/male-avatar.jpg";
+
   return (
     <Popover>
       <PopoverTrigger asChild>
-        <div
-          className={cn(
-            "flex items-center border bg-black text-white gap-2 rounded-full p-2 pr-3 cursor-pointer shrink-0"
-          )}
-        >
-          <Image
-            width={35}
-            height={35}
-            alt="avatar-user"
-            src={userAvatar}
-            className="w-[35px] h-[35px] rounded-full border border-pink-500"
-          />
-          <span className="truncate">{userInfo.name}</span>
+        <div>
+          <UserCard userInfo={userInfo} isShorten={isShorten} />
         </div>
       </PopoverTrigger>
       <PopoverContent

@@ -32,7 +32,7 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
   const { search, showing, children, create, tools } = props;
   return (
     <>
-      <div className="flex justify-between items-center mb-4 space-x-6">
+      <div className="flex md:flex-row flex-col justify-between items-center mb-4 space-x-0 md:space-x-6">
         <div className="relative flex items-center w-full">
           <Input
             type="text"
@@ -52,12 +52,11 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
             onClick={search.onSearch}
           />
         </div>
-        <div className="flex items-center space-x-6">
+        <div className="flex mt-2 md:mt-0 w-full md:w-[auto] justify-between items-center space-x-2 md:space-x-6">
           <Button variant="outline">
             <Filter /> Filter
           </Button>
           <div className="flex items-center gap-4">
-            {/* <div>Showing</div> */}
             <StyledDropdown
               menu={showing.menu}
               isCheckbox
@@ -80,7 +79,7 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
             className="bg-blue-400 hover:bg-blue-500"
             onClick={create.onClick}
           >
-            <Plus /> {create.title}
+            <Plus />
           </Button>
         </div>
       </div>

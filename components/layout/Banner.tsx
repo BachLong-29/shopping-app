@@ -11,10 +11,10 @@ import React from "react";
 
 const Banner = () => {
   return (
-    <Carousel className="relative w-full max-w-[1472px] max-h-[450px] mx-auto">
+    <Carousel className="relative w-full max-w-[1472px] xl:max-h-[450px] max-h-[250px] mx-auto">
       <CarouselContent>
         {[1, 2, 3, 4].map((i) => (
-          <CarouselItem key={i} className="h-[450px]">
+          <CarouselItem key={i} className="xl:h-[450px] h-[250px]">
             <Image
               src={`/banner/banner${i}.jpg`}
               alt="Banner"
