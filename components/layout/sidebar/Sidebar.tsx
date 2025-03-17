@@ -37,10 +37,7 @@ const Sidebar = ({ children }: any) => {
                 {breadcrumb.map((crumb, index) => {
                   return (
                     <div className="flex items-center" key={crumb.title}>
-                      <BreadcrumbItem
-                        key={crumb.title}
-                        className="hidden md:block mr-2"
-                      >
+                      <BreadcrumbItem key={crumb.title} className="block mr-2">
                         {crumb.href ? (
                           <BreadcrumbLink href={crumb.href}>
                             {t(`module.${crumb.title}`)}
@@ -51,7 +48,7 @@ const Sidebar = ({ children }: any) => {
                       </BreadcrumbItem>
                       {breadcrumb.length > 1 &&
                         breadcrumb.length - 1 > index && (
-                          <BreadcrumbSeparator className="hidden md:block" />
+                          <BreadcrumbSeparator className="block" />
                         )}
                     </div>
                   );
