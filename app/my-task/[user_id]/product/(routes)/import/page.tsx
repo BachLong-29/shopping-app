@@ -1,11 +1,13 @@
 "use client";
 
-import { use, useState } from "react";
+import { use, useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Download } from "lucide-react";
 import DragZone from "@/components/layout/import/DragZone";
 import WrapperContent from "@/components/layout/section/WrapperContent";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
+import { useLanguage } from "@/core/context/LanguageContext";
 import withMyTask from "@/components/forms/withMyTask";
 
 const ImportProductPage = ({
@@ -16,6 +18,8 @@ const ImportProductPage = ({
   const { user_id: userId } = use(params);
   const [file, setFile] = useState<File | null>(null);
   const [message, setMessage] = useState("");
+  const { setBreadcrumb } = useBreadcrumb();
+  const { t } = useLanguage();
 
   const handleUpload = async () => {
     if (!file) {
@@ -49,19 +53,33 @@ const ImportProductPage = ({
     document.body.removeChild(link);
   };
 
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.product"),
+        href: `/my-task/${userId}/product`,
+      },
+      {
+        label: t("breadcrumb.import_product"),
+      },
+    ]);
+  }, []);
+
   return (
     <>
       <WrapperContent>
         <div className="w-full">
-          <h1 className="text-lg font-medium">Upload a CSV file</h1>
+          <h1 className="text-lg font-medium">
+            {t("product.import.upload_file")}
+          </h1>
           <div className="text-sm flex gap-1">
-            Make sure that the file has the same format as the sample file.
+            {t("product.import.right_format_csv")}
             <a
               href="#"
               onClick={handleDownloadSample}
               className="text-sm text-blue-500 underline"
             >
-              Click here to download a sample CSV file.
+              {t("product.import.down_format")}
             </a>
           </div>
           <div className="my-4">
@@ -73,7 +91,7 @@ const ImportProductPage = ({
       <WrapperContent>
         <div className="flex w-full justify-end">
           <Button onClick={handleUpload}>
-            <Download size={15} /> Import
+            <Download size={15} /> {t("product.import.import")}
           </Button>
         </div>
       </WrapperContent>

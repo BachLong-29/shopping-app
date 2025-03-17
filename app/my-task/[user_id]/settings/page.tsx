@@ -1,10 +1,22 @@
 "use client";
 
-import React from "react";
+import React, { useEffect } from "react";
+
 import WrapperContent from "@/components/layout/section/WrapperContent";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
+import { useLanguage } from "@/core/context/LanguageContext";
 import withMyTask from "@/components/forms/withMyTask";
 
 const SettingsPage = () => {
+  const { setBreadcrumb } = useBreadcrumb();
+  const { t } = useLanguage();
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.settings"),
+      },
+    ]);
+  }, []);
   return <WrapperContent>SettingsPage</WrapperContent>;
 };
 

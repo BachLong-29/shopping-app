@@ -10,6 +10,7 @@ import { RootState } from "@/redux/store/store";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import dayjs from "dayjs";
 import { setUser } from "@/redux/reducer/profileReducer";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useEffect } from "react";
 import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import { useLanguage } from "@/core/context/LanguageContext";
@@ -23,6 +24,7 @@ const ProfilePage = () => {
   const router = useRouter();
   const { userId } = useGetInfoFromPath();
   const profileState = useSelector((state: RootState) => state.profile);
+  const { setBreadcrumb } = useBreadcrumb();
 
   const dispatch = useDispatch();
 
@@ -31,6 +33,14 @@ const ProfilePage = () => {
       dispatch(setUser(profile));
     }
   }, [profile, dispatch, profileState._id]);
+
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.profile"),
+      },
+    ]);
+  }, []);
 
   return (
     <>

@@ -2,6 +2,7 @@
 
 import { SubmitHandler, useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
+import { use, useEffect } from "react";
 
 import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
@@ -9,7 +10,7 @@ import ProductForm from "../../component/ProductForm";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import { createProduct } from "@/redux/reducer/productReducer";
 import productService from "../../services/productService";
-import { use } from "react";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useDispatch } from "react-redux";
 import { useFetch } from "@/hooks/useFetch";
 import { useLanguage } from "@/core/context/LanguageContext";
@@ -40,6 +41,8 @@ const CreateProductPage = ({
   const { t } = useLanguage();
   const router = useRouter();
   const dispatch = useDispatch();
+  const { setBreadcrumb } = useBreadcrumb();
+
   const initialValues = {
     name: "",
     description: "",
@@ -79,6 +82,18 @@ const CreateProductPage = ({
       })
       .catch((error) => console.error(error));
   };
+
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.product"),
+        href: `/my-task/${userId}/product`,
+      },
+      {
+        label: t("breadcrumb.create_product"),
+      },
+    ]);
+  }, []);
 
   return (
     <>

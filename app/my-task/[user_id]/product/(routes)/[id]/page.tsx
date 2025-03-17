@@ -1,10 +1,13 @@
 "use client";
 
+import { use, useEffect, useState } from "react";
+
 import Image from "next/image";
 import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
 import WrapperContent from "@/components/layout/section/WrapperContent";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
+import { useLanguage } from "@/core/context/LanguageContext";
 import { useProductDetail } from "../../context/ProductDetailContext";
-import { useState } from "react";
 import withMyTask from "@/components/forms/withMyTask";
 
 const images = [
@@ -13,9 +16,28 @@ const images = [
   "/images/product2.jpg",
 ];
 
-const ProductDetailPage = () => {
+const ProductDetailPage = ({
+  params,
+}: {
+  params: Promise<{ user_id: string; id: string }>;
+}) => {
+  const { user_id: userId, id: productId } = use(params);
+
   const { product } = useProductDetail();
   const [selectedImage, setSelectedImage] = useState(images[0]);
+  const { setBreadcrumb } = useBreadcrumb();
+  const { t } = useLanguage();
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.product"),
+        href: `/my-task/${userId}/product`,
+      },
+      {
+        label: productId,
+      },
+    ]);
+  }, []);
   return (
     <WrapperContent>
       <div className="flex gap-8 p-8 max-w-6xl mx-auto">

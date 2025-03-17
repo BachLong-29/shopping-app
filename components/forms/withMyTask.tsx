@@ -1,3 +1,6 @@
+"use client";
+
+import { BreadcrumbProvider } from "@/core/context/BreadcrumbContext";
 import React from "react";
 import Sidebar from "../layout/sidebar/Sidebar";
 import withAuth from "./withAuth";
@@ -7,9 +10,11 @@ const withMyTask = <P extends object>(
 ) => {
   const MyTaskComponent = (props: P) => {
     return (
-      <Sidebar>
-        <WrappedComponent {...props} />
-      </Sidebar>
+      <BreadcrumbProvider>
+        <Sidebar>
+          <WrappedComponent {...props} />
+        </Sidebar>
+      </BreadcrumbProvider>
     );
   };
 

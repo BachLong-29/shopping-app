@@ -7,6 +7,10 @@ const commonMessage = {
     male: "Nam",
     female: "Nữ",
     other: "Khác",
+    import: {
+      drag_file: "Drag and drop file into here or upload from your devices",
+      file_choosen: "File:",
+    },
   },
   pagination: {
     prev: "prev",
@@ -35,9 +39,8 @@ const commonMessage = {
     },
   },
   module: {
-    profile: "Rofile",
+    profile: "Profile",
     my_task: "My_task",
-    setting: "Setting",
     product: "Product",
     wishlist: "Wishlist",
     category: "Category",
@@ -74,11 +77,24 @@ const commonMessage = {
       draft: "Draft",
       inactive: "Inactive",
     },
+    import: {
+      import: "Import",
+      upload_file: "Upload a CSV file",
+      down_format: "Click here to download a sample CSV file.",
+      right_format_csv:
+        "Make sure that the file has the same format as the sample file.",
+    },
     name: "Product name",
     price: "Price",
     description: "Description",
     quantity: "Quantity",
     category: "Category",
+  },
+  breadcrumb: {
+    edit_profile: "Edit profile",
+    create_product: "Create product",
+    edit_product: "Edit product",
+    import_product: "Import products",
   },
 };
 

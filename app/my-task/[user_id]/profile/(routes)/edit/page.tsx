@@ -3,6 +3,7 @@
 import { Gender, UserInfo } from "@/core/model/User";
 import { SubmitHandler, useForm } from "react-hook-form";
 import { setUser, updateUser } from "@/redux/reducer/profileReducer";
+import { use, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
@@ -12,7 +13,7 @@ import { Toaster } from "@/components/ui/sonner";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import profileService from "../../services/profileService";
 import { toast } from "sonner";
-import { useEffect } from "react";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useFetch } from "@/hooks/useFetch";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useProfile } from "../../context/ProfileContext";
@@ -41,15 +42,20 @@ const userSchema = z.object({
 
 export type UserFormData = Omit<UserInfo, "_id" | "role">;
 
-const ProfilePage = () => {
+const ProfilePage = ({ params }: { params: Promise<{ user_id: string }> }) => {
+  const { user_id: userId } = use(params);
+
   const profile = useProfile();
   const profileState = useSelector((state: RootState) => state.profile);
-  const userId = profileState._id;
+  const userBirthday = profileState.birthdate
+    ? new Date(profileState.birthdate)
+    : new Date();
+
   const initialValues = {
     email: profileState.email || profile.email,
     name: profileState.name || profile.name,
     address: profileState.address || profile.address,
-    birthdate: new Date(profileState.birthdate) || profile.birthdate,
+    birthdate: userBirthday || profile.birthdate,
     gender: profileState.gender || profile.gender,
     phone: profileState.phone || profile.phone,
     avatar: profileState.avatar || profile.avatar,
@@ -102,6 +108,21 @@ const ProfilePage = () => {
       dispatch(setUser(profile));
     }
   }, [profile, dispatch, profileState._id]);
+
+  // breadcrumb
+  const { setBreadcrumb } = useBreadcrumb();
+  useEffect(() => {
+    console.log("setBreadcrumb");
+    setBreadcrumb([
+      {
+        label: t("module.profile"),
+        href: `/my-task/${userId}/profile`,
+      },
+      {
+        label: t("breadcrumb.edit_profile"),
+      },
+    ]);
+  }, []);
 
   return (
     <>

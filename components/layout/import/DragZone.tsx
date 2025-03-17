@@ -1,3 +1,4 @@
+import { useLanguage } from "@/core/context/LanguageContext";
 import { useState } from "react";
 
 export default function DragZone(props: {
@@ -6,6 +7,7 @@ export default function DragZone(props: {
 }) {
   const { file, setFile } = props;
   const [isDragging, setIsDragging] = useState(false);
+  const { t } = useLanguage();
 
   const handleDragOver = (e: React.DragEvent) => {
     e.preventDefault();
@@ -50,12 +52,10 @@ export default function DragZone(props: {
         multiple
         onChange={handleFileChange}
       />
-      <p className="text-gray-500">
-        Kéo và thả file vào đây hoặc nhấp để tải lên
-      </p>
+      <p className="text-gray-500">{t("general.import.drag_file")}</p>
       {file && (
         <div className="mt-4 text-sm text-gray-700">
-          <p>File đã chọn:</p>
+          <p>{t("general.import.file_choosen")}</p>
           {file.name}
         </div>
       )}

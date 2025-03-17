@@ -13,17 +13,13 @@ import {
 } from "@/components/ui/sidebar";
 
 import { AppSidebar } from "./AppSidebar";
-import { Module } from "@/core/utils/sidebarConfig";
+import { ReactNode } from "react";
 import { Separator } from "@radix-ui/react-separator";
-import { useBreadcrumb } from "@/hooks/useBreadcrumb";
-import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
-import { useLanguage } from "@/core/context/LanguageContext";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 
-// eslint-disable-next-line @typescript-eslint/no-explicit-any
-const Sidebar = ({ children }: any) => {
-  const { userId, module, param } = useGetInfoFromPath();
-  const breadcrumb = useBreadcrumb(module as Module, userId, param);
-  const { t } = useLanguage();
+const Sidebar = ({ children }: { children: ReactNode }) => {
+  const { breadcrumb } = useBreadcrumb();
+  console.log({ breadcrumb });
   return (
     <SidebarProvider className="min-h-[500px]">
       <AppSidebar />
@@ -36,14 +32,14 @@ const Sidebar = ({ children }: any) => {
               <BreadcrumbList>
                 {breadcrumb.map((crumb, index) => {
                   return (
-                    <div className="flex items-center" key={crumb.title}>
-                      <BreadcrumbItem key={crumb.title} className="block mr-2">
+                    <div className="flex items-center" key={crumb.label}>
+                      <BreadcrumbItem key={crumb.label} className="block mr-2">
                         {crumb.href ? (
                           <BreadcrumbLink href={crumb.href}>
-                            {t(`module.${crumb.title}`)}
+                            {crumb.label}
                           </BreadcrumbLink>
                         ) : (
-                          <BreadcrumbPage>{crumb.title}</BreadcrumbPage>
+                          <BreadcrumbPage>{crumb.label}</BreadcrumbPage>
                         )}
                       </BreadcrumbItem>
                       {breadcrumb.length > 1 &&

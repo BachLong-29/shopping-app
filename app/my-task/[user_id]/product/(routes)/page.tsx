@@ -16,6 +16,7 @@ import { getStudentCols } from "../utils/getProductCols";
 import { menuPagination } from "@/core/utils/pagination";
 import productService from "../services/productService";
 import { setProduct } from "@/redux/reducer/productReducer";
+import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useListProduct } from "../context/ProductListContext";
 import { useRouter } from "next/navigation";
@@ -29,6 +30,7 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
   const dispatch = useDispatch();
   const productState = useSelector((state: RootState) => state.product);
   const columns = getStudentCols(userId);
+  const { setBreadcrumb } = useBreadcrumb();
 
   const [itemsPerPage, setItemsPerPage] = useState(10);
   const [currentPage, setCurrentPage] = useState(1);
@@ -75,6 +77,13 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
       });
   };
 
+  useEffect(() => {
+    setBreadcrumb([
+      {
+        label: t("module.product"),
+      },
+    ]);
+  }, []);
   useEffect(() => {
     if (productState.total <= 0) {
       dispatch(setProduct({ data: products, total }));

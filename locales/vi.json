@@ -6,7 +6,11 @@
     "see_more": "Xem thêm",
     "male": "Nam",
     "female": "Nữ",
-    "other": "Khác"
+    "other": "Khác",
+    "import": {
+      "drag_file": "Kéo và thả file vào đây hoặc nhấp để tải lên",
+      "file_choosen": "File đã chọn:"
+    }
   },
   "pagination": {
     "prev": "Trước",
@@ -23,8 +27,7 @@
     "user": "Người dùng",
     "sales": "Bán hàng",
     "purchase": "Mua hàng",
-    "settings": "Cài đặt",
-    "setting": "Setting"
+    "settings": "Cài đặt"
   },
   "action": {
     "log_out": "Đăng xuất",
@@ -78,6 +81,18 @@
     "price": "Giá sản phẩm",
     "description": "Mô tả",
     "quantity": "Số lượng",
-    "category": "Ngành hàng"
+    "category": "Ngành hàng",
+    "import": {
+      "import": "Tải dữ liệu",
+      "upload_file": "Tải file định dạng CSV",
+      "down_format": "Nhấn vào đây để tải xuống tệp CSV mẫu.",
+      "right_format_csv": "Hãy đảm bảo rằng tệp có cùng định dạng với tệp mẫu."
+    }
+  },
+  "breadcrumb": {
+    "edit_profile": "Chỉnh sửa hồ sơ",
+    "create_product": "Tạo sản phẩm",
+    "edit_product": "Chỉnh sửa sản phẩm",
+    "import_product": "Tải dữ liệu sản phẩm"
   }
 }
