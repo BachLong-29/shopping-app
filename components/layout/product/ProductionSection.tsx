@@ -1,55 +1,61 @@
 import { ChevronLeft, ChevronRight } from "lucide-react";
-import { useEffect, useState } from "react";
 
 import { Button } from "@/components/ui/button";
+import { Product } from "@/core/model/Product";
 import ProductCard from "./ProductCard";
 import Section from "../section/Section";
+import productService from "@/app/my-task/[user_id]/product/services/productService";
 import { useLanguage } from "@/core/context/LanguageContext";
+import { useState } from "react";
 
 interface IProps {
   data: {
-    id: string | number;
-    name: string;
-    price: string;
-    image: string;
-  }[];
-  setProducts: (
-    value: {
-      id: string | number;
-      name: string;
-      price: string;
-      image: string;
-    }[]
-  ) => void;
+    data: Product[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalProducts: number;
+    };
+  };
 }
-const fetchProducts = async (page: number) => {
-  return new Array(36).fill(0).map((_, i) => ({
-    id: (page - 1) * 36 + i + 1,
-    name: `Product ${(page - 1) * 36 + i + 1}`,
-    price: `${(Math.random() * 100).toFixed(2)}đ`,
-    image: `/images/product.jpg`,
-  }));
-};
-const ProductionSection = ({ data, setProducts }: IProps) => {
+
+const ProductionSection = ({ data }: IProps) => {
+  const [products, setProducts] = useState(data.data);
   const [page, setPage] = useState(1);
+  const [totalPages, setTotalPages] = useState(data.pagination.totalPages);
   const { t } = useLanguage();
 
-  const totalPages = 10;
-  useEffect(() => {
-    fetchProducts(page).then((res) => setProducts(res));
-  }, [page, setProducts]);
+  const handleNextPage = async () => {
+    setPage((p) => Math.min(p + 1, totalPages));
+    const res = await productService.getProductsMKP({
+      limit: 18,
+      page: page + 1,
+    });
+    setProducts(res.data);
+    setTotalPages(res.pagination.totalPages);
+  };
+  const handlePrevPage = async () => {
+    setPage((p) => Math.max(p - 1, 1));
+    const res = await productService.getProductsMKP({
+      limit: 18,
+      page: page - 1,
+    });
+    setProducts(res.data);
+    setTotalPages(res.pagination.totalPages);
+  };
+
   return (
     <div>
       <Section title={t("general.all_products")}>
         <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
-          {data.map((product) => (
-            <ProductCard product={product} key={product.id} />
+          {products.map((product) => (
+            <ProductCard product={product} key={product._id} />
           ))}
         </div>
         <div className="flex justify-center mt-6">
           <Button
             variant="outline"
-            onClick={() => setPage((p) => Math.max(p - 1, 1))}
+            onClick={handlePrevPage}
             disabled={page === 1}
           >
             <ChevronLeft size={16} />
@@ -60,7 +66,7 @@ const ProductionSection = ({ data, setProducts }: IProps) => {
           </span>
           <Button
             variant="outline"
-            onClick={() => setPage((p) => Math.min(p + 1, totalPages))}
+            onClick={handleNextPage}
             disabled={page === totalPages}
           >
             {t("pagination.next")}

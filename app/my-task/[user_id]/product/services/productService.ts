@@ -60,6 +60,48 @@ class ProductService extends HttpService {
     const res = await this.get(`/api/${userId}/products/${productId}`, {});
     return res.product;
   }
+
+  async getProductDetailFromMKP({
+    productId,
+  }: {
+    productId: string;
+  }): Promise<Product> {
+    const res = await this.get(`/api/product/${productId}`, {});
+    return res.product;
+  }
+
+  getProductsMKP({
+    category,
+    minPrice,
+    maxPrice,
+    sortBy,
+    order,
+    page,
+    limit,
+  }: {
+    category?: string;
+    minPrice?: number;
+    maxPrice?: number;
+    sortBy?: string;
+    order?: "asc" | "desc";
+    page: number;
+    limit: number;
+  }) {
+    const params = new URLSearchParams({
+      category: category || "",
+      minPrice: minPrice?.toString() || "",
+      maxPrice: maxPrice?.toString() || "",
+      sortBy: sortBy || "createdAt",
+      order: order || "desc",
+      page: page?.toString() || "1",
+      limit: limit?.toString() || "10",
+    });
+    // Xóa param trống để tránh lỗi API
+    params.forEach((value, key) => {
+      if (!value) params.delete(key);
+    });
+    return this.get(`/api/product?${params.toString()}`, {});
+  }
 }
 
 const productService = new ProductService();

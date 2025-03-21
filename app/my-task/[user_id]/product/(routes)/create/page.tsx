@@ -25,6 +25,7 @@ const productSchema = z.object({
   description: z.optional(z.string()),
   quantity: z.number(),
   category: z.optional(z.string()),
+  images: z.optional(z.array(z.string())),
 });
 
 export type ProductFormData = Omit<
@@ -48,6 +49,7 @@ const CreateProductPage = ({
     description: "",
     quantity: 0,
     price: 0,
+    images: [],
   };
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),

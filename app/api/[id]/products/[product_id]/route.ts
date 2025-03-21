@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import Product from "@/core/schema/Product";
 import { connectDB } from "@/lib/mongodb";
+import { isEmpty } from "lodash";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export async function DELETE(req: any) {
@@ -70,7 +71,7 @@ export async function PUT(req: any) {
 
     const product = await Product.findById(productId);
     const body = await req.json();
-    const { name, price, category, description, quantity } = body;
+    const { name, price, category, description, quantity, images } = body;
 
     const updatedProduct = await Product.findByIdAndUpdate(
       productId,
@@ -80,6 +81,7 @@ export async function PUT(req: any) {
         category: category ? category : product.category,
         description: description ? description : product.description,
         quantity: quantity ? quantity : product.quantity,
+        images: !isEmpty(images) ? images : product.images,
       },
       { new: true }
     );

@@ -10,11 +10,7 @@ import { useLanguage } from "@/core/context/LanguageContext";
 import { useProductDetail } from "../../context/ProductDetailContext";
 import withMyTask from "@/components/forms/withMyTask";
 
-const images = [
-  "/images/product.jpg",
-  "/images/product1.jpg",
-  "/images/product2.jpg",
-];
+const images = ["/images/product.jpg"];
 
 const ProductDetailPage = ({
   params,
@@ -24,7 +20,9 @@ const ProductDetailPage = ({
   const { user_id: userId, id: productId } = use(params);
 
   const { product } = useProductDetail();
-  const [selectedImage, setSelectedImage] = useState(images[0]);
+  const [selectedImage, setSelectedImage] = useState(
+    product.images?.[0] ?? images[0]
+  );
   const { setBreadcrumb } = useBreadcrumb();
   const { t } = useLanguage();
   useEffect(() => {
@@ -38,6 +36,7 @@ const ProductDetailPage = ({
       },
     ]);
   }, []);
+
   return (
     <WrapperContent>
       <div className="flex gap-8 p-8 max-w-6xl mx-auto">
@@ -54,7 +53,7 @@ const ProductDetailPage = ({
           <p className="text-gray-500 mt-2">{product.description}</p>
 
           <div className="flex gap-4 mt-4">
-            {images.map((img, index) => (
+            {product.images?.map((img, index) => (
               <Image
                 key={index}
                 src={img}

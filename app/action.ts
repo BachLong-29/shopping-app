@@ -21,3 +21,21 @@ export async function getDetailProduct(userId: string, productId: string) {
   const product = await productService.getProductDetail({ userId, productId });
   return product;
 }
+
+export async function getDetailProductFromMKP(productId: string) {
+  const product = await productService.getProductDetailFromMKP({ productId });
+  return product;
+}
+
+export async function getProductMKP() {
+  const products = await productService.getProductsMKP({
+    category: "",
+    maxPrice: 200,
+    minPrice: 2,
+    order: "asc",
+    sortBy: "price",
+    limit: 18,
+    page: 1,
+  });
+  return products;
+}

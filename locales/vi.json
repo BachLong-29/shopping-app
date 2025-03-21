@@ -87,7 +87,8 @@
       "upload_file": "Tải file định dạng CSV",
       "down_format": "Nhấn vào đây để tải xuống tệp CSV mẫu.",
       "right_format_csv": "Hãy đảm bảo rằng tệp có cùng định dạng với tệp mẫu."
-    }
+    },
+    "images": "Hình ảnh sản phẩm"
   },
   "breadcrumb": {
     "edit_profile": "Chỉnh sửa hồ sơ",

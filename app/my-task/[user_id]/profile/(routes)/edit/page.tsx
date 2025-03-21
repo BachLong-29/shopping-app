@@ -112,7 +112,6 @@ const ProfilePage = ({ params }: { params: Promise<{ user_id: string }> }) => {
   // breadcrumb
   const { setBreadcrumb } = useBreadcrumb();
   useEffect(() => {
-    console.log("setBreadcrumb");
     setBreadcrumb([
       {
         label: t("module.profile"),

@@ -1,5 +1,6 @@
 "use client";
 
+import Image from "next/image";
 import { useState } from "react";
 
 export default function UploadImage() {
@@ -46,11 +47,13 @@ export default function UploadImage() {
 
       <div className="mt-4 grid grid-cols-3 gap-4">
         {imageUrls.map((url, index) => (
-          <img
+          <Image
             key={index}
             src={url}
+            width={160}
+            height={160}
             alt={`Uploaded ${index}`}
-            className="w-40 h-40 object-cover"
+            className="object-cover"
           />
         ))}
       </div>

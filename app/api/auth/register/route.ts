@@ -1,3 +1,4 @@
+import Cart from "@/core/schema/Cart";
 import { NextResponse } from "next/server";
 import User from "@/core/schema/User";
 import bcrypt from "bcryptjs";
@@ -25,6 +26,10 @@ export async function POST(req: any) {
     // Tạo user mới
     const newUser = new User({ email, password: hashedPassword, name });
     await newUser.save();
+
+    // **Tạo giỏ hàng cho user mới**
+    const newCart = new Cart({ userId: newUser._id, items: [] });
+    await newCart.save();
 
     return NextResponse.json({ message: "Đăng ký thành công" });
   } catch (error) {

@@ -22,7 +22,7 @@ export default function LoadingPage() {
   };
 
   return (
-    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-blue-400 to-purple-600">
+    <div className="flex items-center justify-center min-h-screen bg-gradient-to-r from-[#9FA5D5] to-[#E8F5C8]">
       <motion.div
         className="flex space-x-4"
         variants={containerVariants}

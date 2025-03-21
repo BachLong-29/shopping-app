@@ -6,7 +6,6 @@ import { Search, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
-import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -59,12 +58,14 @@ const Navigation = (props: any) => {
             />
           </div>
           <div className="relative flex items-center justify-center w-10 h-9 rounded-lg border border-gray-300 bg-gray-100 hover:bg-gray-200 cursor-pointer">
-            <ShoppingCart className="text-gray-600" size={20} />
-            {22 > 0 && (
+            <Link href="/cart">
+              <ShoppingCart className="text-gray-600" size={20} />
+            </Link>
+            {/* {22 > 0 && (
               <Badge className="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
                 {22}
               </Badge>
-            )}
+            )} */}
           </div>
         </div>
 

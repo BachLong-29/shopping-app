@@ -1,10 +1,9 @@
-/* eslint-disable @typescript-eslint/no-explicit-any */
 "use client";
 
 import Banner from "@/components/layout/Banner";
 import CategoriesSection from "@/components/layout/categories/CategoriesSection";
 import ProductionSection from "@/components/layout/product/ProductionSection";
-import { useState } from "react";
+import { useHomePage } from "@/core/context/HomeContext";
 
 const categories = [
   {
@@ -33,12 +32,13 @@ const categories = [
 ];
 
 const Home = () => {
-  const [products, setProducts] = useState<any>([]);
+  const { products } = useHomePage();
+
   return (
     <div className="space-y-10 p-4 container mx-auto">
       <Banner />
       <CategoriesSection data={categories} />
-      <ProductionSection data={products} setProducts={setProducts} />
+      <ProductionSection data={products} />
     </div>
   );
 };

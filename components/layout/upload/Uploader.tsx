@@ -116,7 +116,10 @@ export default function Uploader({
         onChange={handleUpload}
         id="add-more"
       />
-      <label htmlFor="add-more" className="cursor-pointer">
+      <label
+        htmlFor="add-more"
+        className="w-full h-full flex items-center justify-center cursor-pointer"
+      >
         <Plus className="text-gray-500" size={32} />
       </label>
     </div>

@@ -19,7 +19,7 @@ import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 
 const Sidebar = ({ children }: { children: ReactNode }) => {
   const { breadcrumb } = useBreadcrumb();
-  console.log({ breadcrumb });
+
   return (
     <SidebarProvider className="min-h-[500px]">
       <AppSidebar />

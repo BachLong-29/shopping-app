@@ -8,7 +8,7 @@ export interface Product {
   quantity: number;
   category?: string;
   ownerId: string;
-  // image: string;
+  images?: string[];
 }
 
 export enum ProductStatus {

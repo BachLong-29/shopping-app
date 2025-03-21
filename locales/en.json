@@ -87,7 +87,8 @@
       "upload_file": "Upload a CSV file",
       "down_format": "Click here to download a sample CSV file.",
       "right_format_csv": "Make sure that the file has the same format as the sample file."
-    }
+    },
+    "images": "Images"
   },
   "breadcrumb": {
     "edit_profile": "Edit profile",

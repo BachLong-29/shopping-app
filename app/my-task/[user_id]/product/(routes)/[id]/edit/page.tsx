@@ -8,7 +8,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
 import ProductForm from "../../../component/ProductForm";
 import WrapperContent from "@/components/layout/section/WrapperContent";
-import { createProduct } from "@/redux/reducer/productReducer";
+import { editProduct } from "@/redux/reducer/productReducer";
 import productService from "../../../services/productService";
 import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useDispatch } from "react-redux";
@@ -29,6 +29,7 @@ const productSchema = z.object({
   description: z.optional(z.string()),
   quantity: z.number(),
   category: z.optional(z.string()),
+  images: z.optional(z.array(z.string())),
 });
 
 export type ProductFormData = Omit<
@@ -54,6 +55,7 @@ const EditProductPage = ({
     quantity: product.quantity,
     price: product.price,
     category: product.category,
+    images: product.images ?? [],
   };
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
@@ -73,7 +75,7 @@ const EditProductPage = ({
     })
       .then((res) => {
         if (res?.product) {
-          dispatch(createProduct(res.product));
+          dispatch(editProduct(res.product));
           toast.success(t("user.edit.edit_success"), {
             description: (
               <span className="text-gray-500 dark:text-white">

@@ -5,47 +5,40 @@ import { Heart, Star } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
+import { RootState } from "@/redux/store/store";
+import cartService from "@/app/cart/services/cartServices";
 import { motion } from "framer-motion";
+import { useProductDetailMKP } from "./context/ProductDetailMKP";
+import { useSelector } from "react-redux";
 import { useState } from "react";
-import withMyTask from "@/components/forms/withMyTask";
 
 const ProductDetail = () => {
   const [liked, setLiked] = useState(false);
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
-
-  const product = {
-    name: "Apple iPhone 15 Pro Max",
-    price: "29,990,000 VND",
-    images: [
-      "/images/product.jpg",
-      "/images/product1.jpg",
-      "/images/product2.jpg",
-    ],
-    rating: 4.8,
-    reviews: 1520,
-    description:
-      "Apple iPhone 15 Pro Max sử dụng chip A17 Pro mạnh mẽ, màn hình ProMotion 120Hz, thiết kế Titanium siêu nhẹ, và hệ thống camera cải tiến.",
-    specifications: {
-      display: "6.7-inch Super Retina XDR",
-      chip: "A17 Pro",
-      camera: "48MP + 12MP + 12MP",
-      battery: "4,422 mAh",
-      os: "iOS 17",
-    },
-  };
+  const { product } = useProductDetailMKP();
+  const userId = useSelector((state: RootState) => state.profile._id);
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeImage = (direction: any) => {
     if (direction === "next") {
       setSelectedImageIndex(
-        (prevIndex) => (prevIndex + 1) % product.images.length
+        (prevIndex) => (prevIndex + 1) % (product.images ?? []).length
       );
     } else if (direction === "prev") {
       setSelectedImageIndex(
         (prevIndex) =>
-          (prevIndex - 1 + product.images.length) % product.images.length
+          (prevIndex - 1 + (product.images ?? []).length) %
+          (product.images ?? []).length
       );
     }
+  };
+
+  const handleAddToCart = async () => {
+    await cartService.addToCart({
+      productId: product._id,
+      userId,
+      quantity: 1,
+    });
   };
 
   return (
@@ -55,11 +48,12 @@ const ProductDetail = () => {
           {/* Ảnh sản phẩm */}
           <div className="flex flex-col items-center relative">
             <Image
-              src={product.images[selectedImageIndex]}
+              src={(product.images ?? [])[selectedImageIndex]}
               alt={product.name}
               width={400}
               height={400}
               className="rounded-lg w-full "
+              priority
             />
             {/* Nút chuyển ảnh */}
             <button
@@ -76,7 +70,7 @@ const ProductDetail = () => {
             </button>
             {/* Thumbnail ảnh */}
             <div className="flex space-x-2 mt-2">
-              {product.images.map((img, index) => (
+              {(product.images ?? []).map((img, index) => (
                 <Image
                   key={index}
                   src={img}
@@ -89,6 +83,7 @@ const ProductDetail = () => {
                       : "border-gray-200"
                   }`}
                   onClick={() => setSelectedImageIndex(index)}
+                  priority
                 />
               ))}
             </div>
@@ -104,7 +99,7 @@ const ProductDetail = () => {
               <div className="flex items-center gap-2">
                 <Star className="w-5 h-5 text-yellow-400" />
                 <span className="text-gray-600">
-                  {product.rating} ({product.reviews} đánh giá)
+                  {/* {detail.rating} ({product.reviews} đánh giá) */}
                 </span>
               </div>
             </div>
@@ -112,22 +107,12 @@ const ProductDetail = () => {
             {/* Mô tả sản phẩm */}
             <p className="text-gray-600 mt-4">{product.description}</p>
 
-            {/* Thông số kỹ thuật */}
-            <div className="mt-4">
-              <h2 className="text-lg font-semibold">Thông số kỹ thuật</h2>
-              <ul className="mt-2 space-y-1 text-gray-700">
-                {Object.entries(product.specifications).map(([key, value]) => (
-                  <li key={key} className="flex justify-between">
-                    <span className="font-medium capitalize">{key}:</span>
-                    <span>{value}</span>
-                  </li>
-                ))}
-              </ul>
-            </div>
-
             {/* Nút mua hàng */}
             <div className="mt-6 flex items-center space-x-4">
-              <Button className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2">
+              <Button
+                className="bg-blue-500 hover:bg-blue-600 text-white px-6 py-2"
+                onClick={handleAddToCart}
+              >
                 Thêm vào giỏ hàng
               </Button>
               <motion.button
@@ -184,4 +169,4 @@ const ProductDetail = () => {
   );
 };
 
-export default withMyTask(ProductDetail);
+export default ProductDetail;

@@ -89,6 +89,7 @@ const commonMessage = {
     description: "Description",
     quantity: "Quantity",
     category: "Category",
+    images: "Images",
   },
   breadcrumb: {
     edit_profile: "Edit profile",
