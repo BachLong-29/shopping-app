@@ -11,7 +11,6 @@ const ProductCard = ({ product }: { product: Product }) => {
     <Card className="p-2 shadow-md rounded-lg border border-gray-200 transition-all duration-300 hover:border-pink-500 hover:scale-105">
       <CardContent className="flex flex-col items-start p-0">
         <Image
-          // src="/images/product.jpg"
           src={product.images?.[0] ?? "/images/product.jpg"}
           alt={product.name}
           width={165}
@@ -23,7 +22,7 @@ const ProductCard = ({ product }: { product: Product }) => {
           {product.name}
         </span>
         <div className="flex w-full items-center justify-between">
-          <div>{product.price}</div>
+          <div>₫{product.price.toLocaleString("vi-VN")}</div>
           <HeartButton />
         </div>
       </CardContent>

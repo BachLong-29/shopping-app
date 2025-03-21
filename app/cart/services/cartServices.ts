@@ -24,6 +24,25 @@ class CartService extends HttpService {
       quantity: quantity ?? 1,
     });
   }
+
+  removeFromCart({ userId, productId }: { userId: string; productId: string }) {
+    return this.delete(`/api/${userId}/cart`, { productId });
+  }
+
+  updateCart({
+    userId,
+    productId,
+    quantity,
+  }: {
+    userId: string;
+    productId: string;
+    quantity: number;
+  }) {
+    return this.put(`/api/${userId}/cart`, {
+      productId,
+      quantity: quantity,
+    });
+  }
 }
 
 const cartService = new CartService();

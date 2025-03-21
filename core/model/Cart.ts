@@ -5,3 +5,10 @@ export interface CartItem {
   product: Product;
   quantity: number; // purchaseQuantity
 }
+
+export interface CartByOwner {
+  shopId: string;
+  products: (Product & {
+    purchaseQuantity: number;
+  })[];
+}

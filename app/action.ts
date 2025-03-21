@@ -30,8 +30,8 @@ export async function getDetailProductFromMKP(productId: string) {
 export async function getProductMKP() {
   const products = await productService.getProductsMKP({
     category: "",
-    maxPrice: 200,
-    minPrice: 2,
+    maxPrice: 1000000,
+    minPrice: 100000,
     order: "asc",
     sortBy: "price",
     limit: 18,

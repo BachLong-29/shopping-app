@@ -7,26 +7,40 @@ import { Minus, Plus, Trash2 } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import Image from "next/image";
-import { Product } from "@/core/model/Product";
-import { useState } from "react";
+import { RootState } from "@/redux/store/store";
+import cartService from "../services/cartServices";
+import { debounce } from "lodash";
+import { useCallback } from "react";
+import { useCartContext } from "../context/CartContext";
+import { useSelector } from "react-redux";
 
-interface IProps {
-  data: {
-    shopId: string;
-    products: (Product & {
-      purchaseQuantity: number;
-    })[];
-  }[];
-}
-const CarList = (props: IProps) => {
-  const { data } = props;
-  const [cart, setCart] = useState(data);
-  const [selectedShop, setSelectedShop] = useState(data[0]?.shopId);
-
+const CarList = () => {
+  const { cart, setCart, selectedShop, setSelectedShop } = useCartContext();
   const handleSelectShop = (shop: any) => {
     setSelectedShop(shop);
   };
+  const userId = useSelector((state: RootState) => state.profile._id);
+
+  const updateCart = useCallback(
+    debounce((productId, purchaseQuantity) => {
+      cartService
+        .updateCart({ userId, productId, quantity: purchaseQuantity })
+        .then((res) => {
+          console.log({ res });
+        });
+    }, 500),
+    [userId]
+  );
+
+  const handleRemoveFromCart = (productId: string) => {
+    console.log({ productId });
+    cartService.removeFromCart({ userId, productId }).then((res) => {
+      console.log({ res });
+    });
+  };
+
   const updateQuantity = (shopName: any, productId: any, delta: any) => {
+    let tempQuantity = 0;
     setCart((prevCart) =>
       prevCart
         .map((shop) => {
@@ -34,19 +48,29 @@ const CarList = (props: IProps) => {
           return {
             ...shop,
             products: shop.products
-              .map((product) =>
-                product._id === productId
-                  ? {
-                      ...product,
-                      quantity: Math.max(0, product.quantity + delta),
-                    }
-                  : product
-              )
-              .filter((product) => product.quantity > 0),
+              .map((product) => {
+                if (product._id === productId) {
+                  const newQuantity = Math.max(
+                    0,
+                    product.purchaseQuantity + delta
+                  );
+                  tempQuantity = newQuantity;
+                  return {
+                    ...product,
+                    purchaseQuantity: newQuantity,
+                  };
+                } else {
+                  return product;
+                }
+              })
+              .filter((product) => product.purchaseQuantity > 0),
           };
         })
         .filter((shop) => shop.products.length > 0)
     );
+    if (tempQuantity !== 0) {
+      updateCart(productId, tempQuantity);
+    }
   };
   return (
     <div className="lg:col-span-2 space-y-6">
@@ -84,8 +108,10 @@ const CarList = (props: IProps) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateQuantity(shop.shopId, product._id, -1)}
-                    disabled={product.quantity <= 1}
+                    onClick={() => {
+                      updateQuantity(shop.shopId, product._id, -1);
+                    }}
+                    disabled={product.purchaseQuantity <= 1}
                   >
                     <Minus size={16} />
                   </Button>
@@ -95,7 +121,9 @@ const CarList = (props: IProps) => {
                   <Button
                     variant="outline"
                     size="icon"
-                    onClick={() => updateQuantity(shop.shopId, product._id, 1)}
+                    onClick={() => {
+                      updateQuantity(shop.shopId, product._id, 1);
+                    }}
                   >
                     <Plus size={16} />
                   </Button>
@@ -103,9 +131,14 @@ const CarList = (props: IProps) => {
                 <Button
                   variant="ghost"
                   size="icon"
-                  onClick={() =>
-                    updateQuantity(shop.shopId, product._id, -product.quantity)
-                  }
+                  onClick={() => {
+                    updateQuantity(
+                      shop.shopId,
+                      product._id,
+                      -product.purchaseQuantity
+                    );
+                    handleRemoveFromCart(product._id);
+                  }}
                 >
                   <Trash2 size={16} className="text-red-500" />
                 </Button>

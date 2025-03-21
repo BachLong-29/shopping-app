@@ -48,9 +48,9 @@ class HttpService {
     }
   }
 
-  async delete(url: string) {
+  async delete(url: string, data: unknown) {
     try {
-      const response = await this.axiosIntance.delete(url);
+      const response = await this.axiosIntance.delete(url, { data });
       return response.data;
     } catch (error) {
       if (axios.isAxiosError(error)) {

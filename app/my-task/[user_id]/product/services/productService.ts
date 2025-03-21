@@ -47,7 +47,7 @@ class ProductService extends HttpService {
   }
 
   deleteProduct({ userId, productId }: { userId: string; productId: string }) {
-    return this.delete(`/api/${userId}/products/${productId}`);
+    return this.delete(`/api/${userId}/products/${productId}`, {});
   }
 
   async getProductDetail({

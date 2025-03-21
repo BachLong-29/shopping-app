@@ -1,4 +1,5 @@
 import CarList from "./component/CarList";
+import { CartProvider } from "./context/CartContext";
 import Checkout from "./component/Checkout";
 import { Product } from "@/core/model/Product";
 import cartService from "./services/cartServices";
@@ -8,7 +9,7 @@ import { verifyToken } from "@/lib/auth";
 export default async function CartPage() {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
-  const user = verifyToken(token); // Giải mã token để lấy user
+  const user = verifyToken(token);
   const data = await cartService.getCart(user._id);
   const mapData = Object.values(
     data.items.reduce<
@@ -36,8 +37,10 @@ export default async function CartPage() {
   );
   return (
     <div className="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <CarList data={mapData} />
-      <Checkout />
+      <CartProvider cartData={mapData}>
+        <CarList />
+        <Checkout />
+      </CartProvider>
     </div>
   );
 }
