@@ -10,6 +10,14 @@ class CartService extends HttpService {
     return res.cart;
   }
 
+  async getTotal(userId: { userId: string }): Promise<{
+    total: number;
+    productIds: string[];
+  }> {
+    const res = await this.get(`/api/${userId}/cart/total`, {});
+    return res;
+  }
+
   addToCart({
     userId,
     productId,

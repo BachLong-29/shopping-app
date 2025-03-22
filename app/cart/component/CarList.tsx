@@ -3,6 +3,7 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
@@ -10,15 +11,16 @@ import Image from "next/image";
 import { RootState } from "@/redux/store/store";
 import cartService from "../services/cartServices";
 import { debounce } from "lodash";
+import { removeFromCart } from "@/redux/reducer/cartReducer";
 import { useCallback } from "react";
 import { useCartContext } from "../context/CartContext";
-import { useSelector } from "react-redux";
 
 const CarList = () => {
   const { cart, setCart, selectedShop, setSelectedShop } = useCartContext();
   const handleSelectShop = (shop: any) => {
     setSelectedShop(shop);
   };
+  const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.profile._id);
 
   const updateCart = useCallback(
@@ -33,9 +35,8 @@ const CarList = () => {
   );
 
   const handleRemoveFromCart = (productId: string) => {
-    console.log({ productId });
-    cartService.removeFromCart({ userId, productId }).then((res) => {
-      console.log({ res });
+    cartService.removeFromCart({ userId, productId }).then(() => {
+      dispatch(removeFromCart(productId));
     });
   };
 

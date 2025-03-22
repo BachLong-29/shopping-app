@@ -11,6 +11,7 @@ import Link from "next/link";
 import UserCard from "./UserCard";
 import authService from "@/core/services/authService";
 import { redirect } from "next/navigation";
+import { setTotal } from "@/redux/reducer/cartReducer";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { useDispatch } from "react-redux";
 import { useLanguage } from "@/core/context/LanguageContext";
@@ -26,6 +27,12 @@ export default function UserDropdown({
   const dispatch = useDispatch();
   const handleLogout = () => {
     authService.logout().then(() => {
+      dispatch(
+        setTotal({
+          productIds: [],
+          total: 0,
+        })
+      );
       dispatch(
         setUser({
           _id: "",

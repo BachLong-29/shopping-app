@@ -2,14 +2,15 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Star } from "lucide-react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import Image from "next/image";
 import { RootState } from "@/redux/store/store";
+import { addToCart } from "@/redux/reducer/cartReducer";
 import cartService from "@/app/cart/services/cartServices";
 import { motion } from "framer-motion";
 import { useProductDetailMKP } from "./context/ProductDetailMKP";
-import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const ProductDetail = () => {
@@ -17,6 +18,7 @@ const ProductDetail = () => {
   const [selectedImageIndex, setSelectedImageIndex] = useState(0);
   const { product } = useProductDetailMKP();
   const userId = useSelector((state: RootState) => state.profile._id);
+  const dispatch = useDispatch();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeImage = (direction: any) => {
@@ -39,6 +41,7 @@ const ProductDetail = () => {
       userId,
       quantity: 1,
     });
+    dispatch(addToCart(product._id));
   };
 
   return (

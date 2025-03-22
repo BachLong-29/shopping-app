@@ -1,3 +1,4 @@
+import cartReducer from "../reducer/cartReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "@redux-saga/core";
 import productReducer from "../reducer/productReducer";
@@ -11,6 +12,7 @@ export const store = configureStore({
   reducer: {
     profile: profileReducer,
     product: productReducer,
+    cart: cartReducer,
   },
   middleware: (getDefaultMiddleware) =>
     getDefaultMiddleware().concat(sagaMiddleware),

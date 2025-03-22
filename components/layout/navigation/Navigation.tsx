@@ -6,6 +6,7 @@ import { Search, ShoppingCart } from "lucide-react";
 import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
 
+import { Badge } from "@/components/ui/badge";
 import Image from "next/image";
 import { Input } from "@/components/ui/input";
 import LanguageSwitcher from "./LanguageSwitcher";
@@ -14,18 +15,29 @@ import { RootState } from "@/redux/store/store";
 import ThemeToggle from "./ThemeToggle";
 import UserCard from "./UserCard";
 import UserDropdown from "./UserPopover";
+import cartService from "@/app/cart/services/cartServices";
+import { setTotal } from "@/redux/reducer/cartReducer";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 const Navigation = (props: any) => {
   const { user } = props;
   const userProfile = useSelector((state: RootState) => state.profile);
+  const total = useSelector((state: RootState) => state.cart.total);
   const dispatch = useDispatch();
   const { t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
     dispatch(setUser(user));
+  }, []);
+
+  useEffect(() => {
+    const getTotalProds = async () => {
+      const result = await cartService.getTotal(user._id);
+      dispatch(setTotal(result));
+    };
+    getTotalProds();
   }, []);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
@@ -61,11 +73,11 @@ const Navigation = (props: any) => {
             <Link href="/cart">
               <ShoppingCart className="text-gray-600" size={20} />
             </Link>
-            {/* {22 > 0 && (
+            {!!total && (
               <Badge className="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                {22}
+                {total}
               </Badge>
-            )} */}
+            )}
           </div>
         </div>
 
