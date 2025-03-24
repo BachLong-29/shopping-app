@@ -27,7 +27,7 @@ export default function UserDropdown({
     dispatch(signOut());
     setTimeout(() => {
       redirect("/login");
-    }, 500);
+    }, 1000);
   };
 
   return (

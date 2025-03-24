@@ -29,7 +29,7 @@ const SignIn = ({
     dispatch(signInRequest({ email, password }));
     setTimeout(() => {
       redirect("/");
-    }, 500);
+    }, 1000);
   };
 
   return (
