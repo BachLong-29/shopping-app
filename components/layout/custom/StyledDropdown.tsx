@@ -23,7 +23,7 @@ type IProps = {
 
 export type ItemMenuType = {
   key: string | number;
-  label: string;
+  label: string | ReactNode;
   shortcut?: string;
   icon?: ReactNode;
   action?: () => void;

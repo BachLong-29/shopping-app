@@ -37,7 +37,9 @@
     "sign_in": "Đăng nhập",
     "edit": "Sửa",
     "cancel": "Hủy",
-    "save": "Lưu"
+    "save": "Lưu",
+    "view": "Xem",
+    "delete": "Xóa"
   },
   "dont_have_account": "Chưa có tài khoản?",
   "already_have_account": "Đã có tài khoản?",
@@ -88,12 +90,25 @@
       "down_format": "Nhấn vào đây để tải xuống tệp CSV mẫu.",
       "right_format_csv": "Hãy đảm bảo rằng tệp có cùng định dạng với tệp mẫu."
     },
-    "images": "Hình ảnh sản phẩm"
+    "images": "Hình ảnh sản phẩm",
+    "message": {
+      "confirm_delete": "Bạn có chắc muốn xóa sản phẩm này?",
+      "add_to_cart": "Đã thêm thành công sản phẩm vào giỏ hàng.",
+      "updare_cart": "Cập nhật giỏ hàng.",
+      "update_wishlist": "Cập nhật danh sách thích.",
+      "add_to_wishlist": "Đã thêm thành công sản phẩm vào danh sách thích.",
+      "remove_from_wishlist": "Đã xóa thành công sản phẩm khỏi danh sách thích."
+    }
   },
   "breadcrumb": {
     "edit_profile": "Chỉnh sửa hồ sơ",
     "create_product": "Tạo sản phẩm",
     "edit_product": "Chỉnh sửa sản phẩm",
     "import_product": "Tải dữ liệu sản phẩm"
+  },
+  "modal": {
+    "cancel": "Hủy",
+    "continue": "Tiếp tục",
+    "confirm": "Xác nhận"
   }
 }

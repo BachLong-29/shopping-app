@@ -2,6 +2,7 @@
 
 import { Card, CardContent } from "@/components/ui/card";
 import { Heart, Star } from "lucide-react";
+import { Toaster, toast } from "sonner";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
@@ -10,6 +11,7 @@ import { RootState } from "@/redux/store/store";
 import { addToCart } from "@/redux/reducer/cartReducer";
 import cartService from "@/app/cart/services/cartServices";
 import { motion } from "framer-motion";
+import { useLanguage } from "@/core/context/LanguageContext";
 import { useProductDetailMKP } from "./context/ProductDetailMKP";
 import { useState } from "react";
 
@@ -19,6 +21,7 @@ const ProductDetail = () => {
   const { product } = useProductDetailMKP();
   const userId = useSelector((state: RootState) => state.profile._id);
   const dispatch = useDispatch();
+  const { t } = useLanguage();
 
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const changeImage = (direction: any) => {
@@ -36,6 +39,14 @@ const ProductDetail = () => {
   };
 
   const handleAddToCart = async () => {
+    toast.success(t("product.message.updare_cart"), {
+      description: (
+        <span className="text-gray-500 dark:text-white">
+          {t("product.message.add_to_cart")}
+        </span>
+      ),
+      duration: 3000,
+    });
     await cartService.addToCart({
       productId: product._id,
       userId,
@@ -168,6 +179,7 @@ const ProductDetail = () => {
           ))}
         </div>
       </div>
+      <Toaster position="top-right" />
     </div>
   );
 };

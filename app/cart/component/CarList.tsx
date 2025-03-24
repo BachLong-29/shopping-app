@@ -7,6 +7,7 @@ import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
+import { Confirmation } from "@/components/layout/custom/Confirmation";
 import Image from "next/image";
 import { RootState } from "@/redux/store/store";
 import cartService from "../services/cartServices";
@@ -14,9 +15,11 @@ import { debounce } from "lodash";
 import { removeFromCart } from "@/redux/reducer/cartReducer";
 import { useCallback } from "react";
 import { useCartContext } from "../context/CartContext";
+import { useLanguage } from "@/core/context/LanguageContext";
 
 const CarList = () => {
   const { cart, setCart, selectedShop, setSelectedShop } = useCartContext();
+  const { t } = useLanguage();
   const handleSelectShop = (shop: any) => {
     setSelectedShop(shop);
   };
@@ -129,10 +132,14 @@ const CarList = () => {
                     <Plus size={16} />
                   </Button>
                 </div>
-                <Button
-                  variant="ghost"
-                  size="icon"
-                  onClick={() => {
+                <Confirmation
+                  trigger={
+                    <Button variant="ghost" size="icon">
+                      <Trash2 size={16} className="text-red-500" />
+                    </Button>
+                  }
+                  content={t("product.message.confirm_delete")}
+                  onConfirm={() => {
                     updateQuantity(
                       shop.shopId,
                       product._id,
@@ -140,9 +147,7 @@ const CarList = () => {
                     );
                     handleRemoveFromCart(product._id);
                   }}
-                >
-                  <Trash2 size={16} className="text-red-500" />
-                </Button>
+                />
               </div>
             ))}
           </CardContent>

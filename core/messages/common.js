@@ -60,6 +60,8 @@ const commonMessage = {
     edit: "Edit",
     cancel: "Cancel",
     save: "Save",
+    view: "View",
+    delete: "Delete",
   },
   dont_have_account: "Don't have an account?",
   already_have_account: "Already have an account?",
@@ -84,6 +86,15 @@ const commonMessage = {
       right_format_csv:
         "Make sure that the file has the same format as the sample file.",
     },
+    message: {
+      confirm_delete: "Are you sure to remove this product?",
+      add_to_cart: "Successfully added the product to the cart.",
+      updare_cart: "Update cart.",
+      update_wishlist: "Update wishlist.",
+      add_to_wishlist: "Successfully added the product to the wishlist.",
+      remove_from_wishlist:
+        "Successfully removed the product from the wishlist.",
+    },
     name: "Product name",
     price: "Price",
     description: "Description",
@@ -96,6 +107,11 @@ const commonMessage = {
     create_product: "Create product",
     edit_product: "Edit product",
     import_product: "Import products",
+  },
+  modal: {
+    cancel: "Cancel",
+    continue: "Continue",
+    confirm: "Confirmation",
   },
 };
 

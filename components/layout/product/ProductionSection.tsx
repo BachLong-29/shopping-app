@@ -4,6 +4,7 @@ import { Button } from "@/components/ui/button";
 import { Product } from "@/core/model/Product";
 import ProductCard from "./ProductCard";
 import Section from "../section/Section";
+import { Toaster } from "sonner";
 import productService from "@/app/my-task/[user_id]/product/services/productService";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useState } from "react";
@@ -74,6 +75,7 @@ const ProductionSection = ({ data }: IProps) => {
           </Button>
         </div>
       </Section>
+      <Toaster position="top-right" />
     </div>
   );
 };

@@ -37,7 +37,9 @@
     "sign_in": "Sign in",
     "edit": "Edit",
     "cancel": "Cancel",
-    "save": "Save"
+    "save": "Save",
+    "view": "View",
+    "delete": "Delete"
   },
   "dont_have_account": "Don't have an account?",
   "already_have_account": "Already have an account?",
@@ -88,12 +90,25 @@
       "down_format": "Click here to download a sample CSV file.",
       "right_format_csv": "Make sure that the file has the same format as the sample file."
     },
-    "images": "Images"
+    "images": "Images",
+    "message": {
+      "confirm_delete": "Are you sure to remove this product?",
+      "add_to_cart": "Successfully added the product to the cart.",
+      "updare_cart": "Update cart.",
+      "update_wishlist": "Update wishlist.",
+      "add_to_wishlist": "Successfully added the product to the wishlist.",
+      "remove_from_wishlist": "Successfully removed the product from the wishlist."
+    }
   },
   "breadcrumb": {
     "edit_profile": "Edit profile",
     "create_product": "Create product",
     "edit_product": "Edit product",
     "import_product": "Import products"
+  },
+  "modal": {
+    "cancel": "Cancel",
+    "continue": "Continue",
+    "confirm": "Confirmation"
   }
 }
