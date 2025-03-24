@@ -11,16 +11,26 @@ export async function GET(req: any) {
     await connectDB();
     const userId = req.nextUrl.pathname.split("/")[2];
     const cart = await Cart.findOne({ userId: userId })
-      .populate("items.productId")
+      .populate({
+        path: "items.productId",
+        populate: {
+          path: "ownerId",
+        },
+      })
       .lean();
-
     const modifiedCart = {
       ...cart,
-      items: (cart as any)?.items.map((item: any) => ({
-        productId: item.productId._id,
-        product: item.productId,
-        quantity: item.quantity,
-      })),
+      items: (cart as any)?.items.map((item: any) => {
+        return {
+          productId: item.productId._id,
+          product: {
+            ...item.productId,
+            ownerId: item.productId.ownerId._id,
+            owner: item.productId.ownerId,
+          },
+          quantity: item.quantity,
+        };
+      }),
     };
 
     return NextResponse.json(

@@ -14,7 +14,7 @@ const Checkout = () => {
   const [shippingFee] = useState(30000);
   const { cart, selectedShop } = useCartContext();
 
-  const selectedShopData = cart.find((shop) => shop.shopId === selectedShop);
+  const selectedShopData = cart.find((item) => item.shop.id === selectedShop);
   const subtotal =
     selectedShopData?.products.reduce(
       (acc, p) => acc + p.price * p.purchaseQuantity,

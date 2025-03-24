@@ -4,6 +4,7 @@ import Checkout from "./component/Checkout";
 import { Product } from "@/core/model/Product";
 import cartService from "./services/cartServices";
 import { cookies } from "next/headers";
+import { defaultAvatar } from "@/core/utils/common";
 import { verifyToken } from "@/lib/auth";
 
 export default async function CartPage() {
@@ -15,19 +16,26 @@ export default async function CartPage() {
     data.items.reduce<
       Record<
         string,
-        { shopId: string; products: (Product & { purchaseQuantity: number })[] }
+        {
+          shop: { id: string; name: string; avatar: string };
+          products: (Product & { purchaseQuantity: number })[];
+        }
       >
     >((acc, curr) => {
-      const shopId = curr.product.ownerId;
+      const { ownerId, owner } = curr.product;
 
-      if (!acc[shopId]) {
-        acc[shopId] = {
-          shopId,
+      if (!acc[ownerId]) {
+        acc[ownerId] = {
+          shop: {
+            id: ownerId,
+            name: owner.name,
+            avatar: owner.avatar ?? defaultAvatar,
+          },
           products: [],
         };
       }
 
-      acc[shopId].products.push({
+      acc[ownerId].products.push({
         ...curr.product,
         purchaseQuantity: curr.quantity,
       });
@@ -35,6 +43,7 @@ export default async function CartPage() {
       return acc;
     }, {})
   );
+
   return (
     <div className="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
       <CartProvider cartData={mapData}>

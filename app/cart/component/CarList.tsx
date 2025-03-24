@@ -3,15 +3,17 @@
 
 import { Card, CardContent, CardHeader, CardTitle } from "@/components/ui/card";
 import { Minus, Plus, Trash2 } from "lucide-react";
+import { debounce, isEmpty } from "lodash";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { Confirmation } from "@/components/layout/custom/Confirmation";
 import Image from "next/image";
+import Link from "next/link";
 import { RootState } from "@/redux/store/store";
 import cartService from "../services/cartServices";
-import { debounce } from "lodash";
+import { defaultAvatar } from "@/core/utils/common";
 import { removeFromCart } from "@/redux/reducer/cartReducer";
 import { useCallback } from "react";
 import { useCartContext } from "../context/CartContext";
@@ -43,11 +45,11 @@ const CarList = () => {
     let tempQuantity = 0;
     setCart((prevCart) =>
       prevCart
-        .map((shop) => {
-          if (shop.shopId !== shopName) return shop;
+        .map((item) => {
+          if (item.shop.id !== shopName) return item;
           return {
-            ...shop,
-            products: shop.products
+            ...item,
+            products: item.products
               .map((product) => {
                 if (product._id === productId) {
                   const newQuantity = Math.max(
@@ -74,19 +76,35 @@ const CarList = () => {
   };
   return (
     <div className="lg:col-span-2 space-y-6">
-      {cart.map((shop) => (
-        <Card key={shop.shopId} className="p-4">
+      {cart.map((item) => (
+        <Card key={item.shop.id} className="p-4">
           <CardHeader>
             <CardTitle className="flex items-center justify-between">
-              {shop.shopId}
+              <Link
+                href={`/user/${item.shop.id}`}
+                className="flex items-center gap-2"
+              >
+                <Image
+                  width={45}
+                  height={45}
+                  alt="avatar-user"
+                  src={
+                    !isEmpty(item?.shop?.avatar)
+                      ? item?.shop?.avatar
+                      : defaultAvatar
+                  }
+                  className="w-[35px] h-[35px] rounded-full border border-pink-500 cursor-pointer"
+                />
+                {item.shop.name}
+              </Link>
               <Checkbox
-                checked={selectedShop === shop.shopId}
-                onCheckedChange={() => handleSelectShop(shop.shopId)}
+                checked={selectedShop === item.shop.id}
+                onCheckedChange={() => handleSelectShop(item.shop.id)}
               />
             </CardTitle>
           </CardHeader>
           <CardContent>
-            {shop.products.map((product) => (
+            {item.products.map((product) => (
               <div
                 key={product._id}
                 className="flex items-center gap-4 p-2 border-b"
@@ -109,7 +127,7 @@ const CarList = () => {
                     variant="outline"
                     size="icon"
                     onClick={() => {
-                      updateQuantity(shop.shopId, product._id, -1);
+                      updateQuantity(item.shop.id, product._id, -1);
                     }}
                     disabled={product.purchaseQuantity <= 1}
                   >
@@ -122,7 +140,7 @@ const CarList = () => {
                     variant="outline"
                     size="icon"
                     onClick={() => {
-                      updateQuantity(shop.shopId, product._id, 1);
+                      updateQuantity(item.shop.id, product._id, 1);
                     }}
                   >
                     <Plus size={16} />
@@ -137,7 +155,7 @@ const CarList = () => {
                   content={t("product.message.confirm_delete")}
                   onConfirm={() => {
                     updateQuantity(
-                      shop.shopId,
+                      item.shop.id,
                       product._id,
                       -product.purchaseQuantity
                     );

@@ -34,7 +34,7 @@ export const CartProvider = ({
   cartData: CartByOwner[];
 }) => {
   const [cart, setCart] = useState(cartData);
-  const [selectedShop, setSelectedShop] = useState(cartData[0]?.shopId);
+  const [selectedShop, setSelectedShop] = useState(cartData[0]?.shop.id);
 
   return (
     <CartContext.Provider
