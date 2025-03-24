@@ -14,6 +14,10 @@ const cartSlice = createSlice({
   name: "cart",
   initialState,
   reducers: {
+    // eslint-disable-next-line @typescript-eslint/no-unused-vars
+    fetchCartTotal: (state, action) => {
+      return { ...state };
+    },
     setTotal: (state, action: PayloadAction<CartState>) => {
       return action.payload;
     },
@@ -38,5 +42,6 @@ const cartSlice = createSlice({
   },
 });
 
-export const { setTotal, addToCart, removeFromCart } = cartSlice.actions;
+export const { fetchCartTotal, setTotal, addToCart, removeFromCart } =
+  cartSlice.actions;
 export default cartSlice.reducer;

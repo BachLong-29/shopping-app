@@ -1,16 +1,11 @@
 import "./globals.css";
 
-import { getProductMKP, getProfile } from "./action";
-
 import Footer from "@/components/layout/Footer";
-import { HomeProvider } from "@/core/context/HomeContext";
 import { LanguageProvider } from "@/core/context/LanguageContext";
 import type { Metadata } from "next";
 import Navigation from "@/components/layout/navigation/Navigation";
 import ReduxProvider from "@/redux/Provider";
 import { ThemeProvider } from "@/core/context/ThemeContext";
-import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
 
 export const metadata: Metadata = {
   title: "Home Page",
@@ -27,29 +22,17 @@ export default async function RootLayout({
 }: Readonly<{
   children: React.ReactNode;
 }>) {
-  const cookieStore = await cookies();
-  const token = cookieStore.get("token")?.value;
-  const renderPage = (
-    value = {},
-    products = {
-      data: [],
-      pagination: {
-        currentPage: 0,
-        totalPages: 0,
-        totalProducts: 0,
-      },
-    }
-  ) => (
+  return (
     <html lang="en" className="dark">
       <body>
         <ReduxProvider>
           <LanguageProvider>
             <ThemeProvider>
               <div className="flex flex-col min-h-screen">
-                {<Navigation user={value} />}
+                {<Navigation />}
                 {/* Main Content */}
                 <main className="flex-1 pt-4 container mx-auto p-4">
-                  <HomeProvider value={{ products }}>{children}</HomeProvider>
+                  {children}
                 </main>
                 <Footer />
               </div>
@@ -59,12 +42,4 @@ export default async function RootLayout({
       </body>
     </html>
   );
-
-  if (!token) {
-    return renderPage();
-  }
-  const user = verifyToken(token);
-  const userInfo = user ? await getProfile(user?._id) : {};
-  const products = await getProductMKP();
-  return renderPage(userInfo, products);
 }

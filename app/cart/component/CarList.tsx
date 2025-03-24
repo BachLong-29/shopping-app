@@ -28,11 +28,7 @@ const CarList = () => {
 
   const updateCart = useCallback(
     debounce((productId, purchaseQuantity) => {
-      cartService
-        .updateCart({ userId, productId, quantity: purchaseQuantity })
-        .then((res) => {
-          console.log({ res });
-        });
+      cartService.updateCart({ userId, productId, quantity: purchaseQuantity });
     }, 500),
     [userId]
   );

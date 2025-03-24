@@ -1,15 +1,14 @@
 import React, { useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
 import { AuthType } from "@/core/types/AuthType";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import authService from "@/core/services/authService";
+import { RootState } from "@/redux/store/store";
 import { cn } from "@/lib/utils";
 import { redirect } from "next/navigation";
-import { setUser } from "@/redux/reducer/profileReducer";
-import { useDispatch } from "react-redux";
-import { useFetch } from "@/hooks/useFetch";
+import { signInRequest } from "@/redux/reducer/authReducer";
 import { useLanguage } from "@/core/context/LanguageContext";
 
 const SignIn = ({
@@ -21,26 +20,16 @@ const SignIn = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
-  const {
-    fetchData: login,
-    error,
-    loading,
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  } = useFetch((req: any) => authService.login(req));
   const { t } = useLanguage();
   const dispatch = useDispatch();
+  const { error, loading } = useSelector((state: RootState) => state.auth);
 
-  const handleLogin = async (e: React.FormEvent) => {
+  const handleLogin = (e: React.FormEvent) => {
     e.preventDefault();
-    login({
-      email,
-      password,
-    }).then((res) => {
-      if (res?.user) {
-        dispatch(setUser(res.user));
-      }
+    dispatch(signInRequest({ email, password }));
+    setTimeout(() => {
       redirect("/");
-    });
+    }, 500);
   };
 
   return (

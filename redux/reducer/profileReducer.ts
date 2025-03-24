@@ -1,9 +1,12 @@
 import { Gender, Role, UserInfo } from "@/core/model/User";
 import { PayloadAction, createSlice } from "@reduxjs/toolkit";
 
+import { persistReducer } from "redux-persist";
+import storage from "redux-persist/lib/storage";
+
 type UserState = Omit<UserInfo, "birthdate"> & { birthdate: Date | string };
 
-const initialState: UserState = {
+export const initialProfileState: UserState = {
   _id: "",
   name: "",
   email: "",
@@ -17,7 +20,7 @@ const initialState: UserState = {
 
 const userSlice = createSlice({
   name: "user",
-  initialState,
+  initialState: initialProfileState,
   reducers: {
     setUser: (state, action: PayloadAction<UserState>) => {
       return action.payload;
@@ -28,5 +31,10 @@ const userSlice = createSlice({
   },
 });
 
+const persistConfig = {
+  key: "user",
+  storage,
+};
+
 export const { setUser, updateUser } = userSlice.actions;
-export default userSlice.reducer;
+export const profileReducer = persistReducer(persistConfig, userSlice.reducer);

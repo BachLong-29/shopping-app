@@ -17,11 +17,9 @@ import UserCard from "./UserCard";
 import UserDropdown from "./UserPopover";
 import cartService from "@/app/cart/services/cartServices";
 import { setTotal } from "@/redux/reducer/cartReducer";
-import { setUser } from "@/redux/reducer/profileReducer";
 import { useLanguage } from "@/core/context/LanguageContext";
 
-const Navigation = (props: any) => {
-  const { user } = props;
+const Navigation = () => {
   const userProfile = useSelector((state: RootState) => state.profile);
   const total = useSelector((state: RootState) => state.cart.total);
   const dispatch = useDispatch();
@@ -29,16 +27,14 @@ const Navigation = (props: any) => {
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
   useEffect(() => {
-    dispatch(setUser(user));
-  }, []);
-
-  useEffect(() => {
     const getTotalProds = async () => {
-      const result = await cartService.getTotal(user._id);
+      const result = await cartService.getTotal(userProfile._id);
       dispatch(setTotal(result));
     };
-    getTotalProds();
-  }, []);
+    if (userProfile._id) {
+      getTotalProds();
+    }
+  }, [dispatch, userProfile]);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
 
@@ -69,16 +65,16 @@ const Navigation = (props: any) => {
               size={20}
             />
           </div>
-          <div className="relative flex items-center justify-center w-10 h-9 rounded-lg border border-gray-300 bg-gray-100 hover:bg-gray-200 cursor-pointer">
-            <Link href="/cart">
+          <Link href="/cart">
+            <div className="relative flex items-center justify-center w-10 h-9 rounded-lg border border-gray-300 bg-gray-100 hover:bg-gray-200 cursor-pointer">
               <ShoppingCart className="text-gray-600" size={20} />
-            </Link>
-            {!!total && (
-              <Badge className="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
-                {total}
-              </Badge>
-            )}
-          </div>
+              {!!total && (
+                <Badge className="absolute -top-2 -right-3 bg-red-500 text-white text-xs w-5 h-5 flex items-center justify-center rounded-full">
+                  {total}
+                </Badge>
+              )}
+            </div>
+          </Link>
         </div>
 
         {/* Mobile Menu Button */}

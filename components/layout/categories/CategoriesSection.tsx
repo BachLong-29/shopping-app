@@ -1,3 +1,5 @@
+"use client";
+
 import CategoriesCard from "./CategoriesCard";
 import { Plus } from "lucide-react";
 import Section from "../section/Section";

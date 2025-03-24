@@ -1,9 +1,7 @@
-"use client";
-
 import Banner from "@/components/layout/Banner";
 import CategoriesSection from "@/components/layout/categories/CategoriesSection";
 import ProductionSection from "@/components/layout/product/ProductionSection";
-import { useHomePage } from "@/core/context/HomeContext";
+import { getProductMKP } from "./action";
 
 const categories = [
   {
@@ -31,9 +29,8 @@ const categories = [
   },
 ];
 
-const Home = () => {
-  const { products } = useHomePage();
-
+const Home = async () => {
+  const products = await getProductMKP();
   return (
     <div className="space-y-10 p-4 container mx-auto">
       <Banner />

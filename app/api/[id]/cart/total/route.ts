@@ -10,7 +10,7 @@ export async function GET(req: any) {
     const userId = req.nextUrl.pathname.split("/")[2];
     const cart = await Cart.findOne({ userId: userId });
     const totalItems = cart.items.length;
-    const productIds = cart.items.map((item: any) => item._id);
+    const productIds = cart.items.map((item: any) => item.productId);
     return NextResponse.json(
       {
         message: "✅ Số lượng sản phẩm trong giỏ hàng",

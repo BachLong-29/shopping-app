@@ -1,6 +1,5 @@
 "use client";
 
-import { Gender, Role, UserInfo } from "@/core/model/User";
 import {
   Popover,
   PopoverContent,
@@ -9,10 +8,9 @@ import {
 
 import Link from "next/link";
 import UserCard from "./UserCard";
-import authService from "@/core/services/authService";
+import { UserInfo } from "@/core/model/User";
 import { redirect } from "next/navigation";
-import { setTotal } from "@/redux/reducer/cartReducer";
-import { setUser } from "@/redux/reducer/profileReducer";
+import { signOut } from "@/redux/reducer/authReducer";
 import { useDispatch } from "react-redux";
 import { useLanguage } from "@/core/context/LanguageContext";
 
@@ -26,28 +24,10 @@ export default function UserDropdown({
   const { t } = useLanguage();
   const dispatch = useDispatch();
   const handleLogout = () => {
-    authService.logout().then(() => {
-      dispatch(
-        setTotal({
-          productIds: [],
-          total: 0,
-        })
-      );
-      dispatch(
-        setUser({
-          _id: "",
-          name: "",
-          email: "",
-          gender: Gender.Male,
-          avatar: "",
-          role: Role.User,
-          address: "",
-          phone: "",
-          birthdate: "",
-        })
-      );
+    dispatch(signOut());
+    setTimeout(() => {
       redirect("/login");
-    });
+    }, 500);
   };
 
   return (

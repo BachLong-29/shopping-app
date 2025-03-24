@@ -86,7 +86,14 @@ class ProductService extends HttpService {
     order?: "asc" | "desc";
     page: number;
     limit: number;
-  }) {
+  }): Promise<{
+    data: Product[];
+    pagination: {
+      currentPage: number;
+      totalPages: number;
+      totalProducts: number;
+    };
+  }> {
     const params = new URLSearchParams({
       category: category || "",
       minPrice: minPrice?.toString() || "",

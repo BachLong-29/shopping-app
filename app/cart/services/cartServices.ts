@@ -10,7 +10,7 @@ class CartService extends HttpService {
     return res.cart;
   }
 
-  async getTotal(userId: { userId: string }): Promise<{
+  async getTotal(userId: string): Promise<{
     total: number;
     productIds: string[];
   }> {
