@@ -13,7 +13,7 @@ export default function ReduxProvider({
   return (
     <Provider store={store}>
       <PersistGate loading={null} persistor={persistor}>
-        {children}{" "}
+        {children}
       </PersistGate>
     </Provider>
   );

@@ -7,7 +7,7 @@ export interface IOrder extends Document {
   status: "pending" | "completed" | "cancelled";
 }
 
-const SaleOrderSchema = new Schema<IOrder>(
+const SalesOrderSchema = new Schema<IOrder>(
   {
     user: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Ai mua hàng
     products: [
@@ -23,12 +23,12 @@ const SaleOrderSchema = new Schema<IOrder>(
     totalAmount: { type: Number, required: true },
     status: {
       type: String,
-      enum: ["pending", "completed", "cancelled"],
+      enum: ["draft", "pending", "completed", "cancelled"],
       default: "pending",
     },
   },
   { timestamps: true }
 );
 
-export default mongoose.models.SaleOrder ||
-  mongoose.model<IOrder>("Order", SaleOrderSchema);
+export default mongoose.models.Sales_Order ||
+  mongoose.model<IOrder>("Sales_Order", SalesOrderSchema);

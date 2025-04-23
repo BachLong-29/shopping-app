@@ -8,7 +8,10 @@ export async function GET(req: any) {
   try {
     await connectDB();
     const userId = req.nextUrl.pathname.split("/")[2];
+    console.log("req.nextUrl.pathname", req.nextUrl.pathname);
     const cart = await Cart.findOne({ userId: userId });
+    console.log({ userId });
+    console.log({ cart });
     const totalItems = cart.items.length;
     const productIds = cart.items.map((item: any) => item.productId);
     return NextResponse.json(

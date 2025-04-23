@@ -45,6 +45,7 @@ const authSlice = createSlice({
     signInFailure: (state, action: PayloadAction<string>) => {
       return {
         ...state,
+        loading: false,
         error: action.payload,
       };
     },

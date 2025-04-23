@@ -5,14 +5,18 @@ import { ShoppingCart, Tag, Truck } from "lucide-react";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
+import { RootState } from "@/redux/store/store";
 import { Separator } from "@/components/ui/separator";
+import paymentService from "@/core/services/paymentService";
 import { useCartContext } from "../context/CartContext";
+import { useSelector } from "react-redux";
 import { useState } from "react";
 
 const Checkout = () => {
   const [coupon, setCoupon] = useState("");
   const [shippingFee] = useState(30000);
   const { cart, selectedShop } = useCartContext();
+  const userId = useSelector((state: RootState) => state.profile._id);
 
   const selectedShopData = cart.find((item) => item.shop.id === selectedShop);
   const subtotal =
@@ -21,6 +25,19 @@ const Checkout = () => {
       0
     ) || 0;
   const total = subtotal + shippingFee;
+
+  const handlePayment = async () => {
+    const res = await paymentService.checkout({
+      userId,
+      amount: total,
+      products:
+        selectedShopData?.products.map((item) => ({
+          product: item._id,
+          quantity: item.purchaseQuantity,
+        })) ?? [],
+    });
+    console.log({ res });
+  };
   return (
     <Card className="p-4">
       <CardHeader>
@@ -55,7 +72,11 @@ const Checkout = () => {
           <span>{total.toLocaleString()} VND</span>
         </div>
 
-        <Button className="w-full" disabled={!selectedShop}>
+        <Button
+          className="w-full"
+          disabled={!selectedShop}
+          onClick={handlePayment}
+        >
           <ShoppingCart size={20} className="mr-2" />
           Thanh toán
           {/* {selectedShop} */}

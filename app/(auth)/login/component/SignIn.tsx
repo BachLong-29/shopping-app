@@ -57,11 +57,11 @@ const SignIn = ({
         <Button
           className="mt-4 w-32 bg-blue-500 hover:bg-blue-600"
           onClick={handleLogin}
-          disabled={loading}
+          // disabled={loading}
         >
           {t("action.sign_in")}
         </Button>
-        {error && <p className="font-semibold text-red-500 mb-2">{error}</p>}
+        {error && <p className="font-semibold text-red-500 mt-3">{error}</p>}
         <p className="mt-4 text-sm">
           {t("dont_have_account")}
           <button
