@@ -1,27 +1,24 @@
-"use client";
+import SalesOrderList from "../component/SalesOrderList";
+import salesOrderService from "../services/salesOrdertService";
 
-import React from "react";
-import WrapperContent from "@/components/layout/section/WrapperContent";
-import withMyTask from "@/components/forms/withMyTask";
+const Page = async ({
+  params,
+}: Readonly<{
+  children: React.ReactNode;
+  params: Promise<{ user_id: string }>;
+}>) => {
+  const resolvedParams = await params;
+  const userId = resolvedParams.user_id;
 
-const SalesOrderPage = () => {
+  const salesOrders = await salesOrderService.getList({
+    id: userId,
+    limit: 10,
+    offset: 0,
+    search: "",
+  });
   return (
-    <WrapperContent>
-      <div className="space-y-4 p-6">
-        SalesOrderPage
-        {/* <WrapperTable {...header}>
-      <StyledTable data={productState.data} columns={columns} />
-      <StyledPagination
-        pageSize={itemsPerPage}
-        currentPage={currentPage}
-        onChange={handleChangePage}
-        total={productState.total}
-        styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border border-gray-300"
-      />
-    </WrapperTable> */}
-      </div>
-    </WrapperContent>
+    <SalesOrderList salesOrders={salesOrders.data} total={salesOrders.total} />
   );
 };
 
-export default withMyTask(SalesOrderPage);
+export default Page;
