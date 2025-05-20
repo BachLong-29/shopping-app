@@ -16,6 +16,7 @@ const SettingsPage = () => {
         label: t("module.settings"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <WrapperContent>SettingsPage</WrapperContent>;
 };

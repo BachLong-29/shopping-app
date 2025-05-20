@@ -1,12 +1,7 @@
 import SalesOrderList from "../component/SalesOrderList";
 import salesOrderService from "../services/salesOrdertService";
 
-const Page = async ({
-  params,
-}: Readonly<{
-  children: React.ReactNode;
-  params: Promise<{ user_id: string }>;
-}>) => {
+const Page = async ({ params }: { params: Promise<{ user_id: string }> }) => {
   const resolvedParams = await params;
   const userId = resolvedParams.user_id;
 

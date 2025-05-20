@@ -56,6 +56,7 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
         label: t("module.product"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   useEffect(() => {

@@ -28,6 +28,7 @@ const CarList = () => {
   const dispatch = useDispatch();
   const userId = useSelector((state: RootState) => state.profile._id);
 
+  // eslint-disable-next-line react-hooks/exhaustive-deps
   const updateCart = useCallback(
     debounce((productId, purchaseQuantity) => {
       cartService.updateCart({ userId, productId, quantity: purchaseQuantity });

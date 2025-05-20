@@ -51,6 +51,7 @@ const SalesOrderList = ({ salesOrders, userId }: ISalesOrderList) => {
         label: t("module.sales_order"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const cols = getSOCols();

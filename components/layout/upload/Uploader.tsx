@@ -28,6 +28,7 @@ export default function Uploader({
     if (defaultImage && isEmpty(value)) {
       setImages([defaultImage]);
     }
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   const handleUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {

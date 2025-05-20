@@ -121,6 +121,7 @@ const ProfilePage = ({ params }: { params: Promise<{ user_id: string }> }) => {
         label: t("breadcrumb.edit_profile"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

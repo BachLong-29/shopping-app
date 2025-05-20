@@ -63,6 +63,7 @@ const ImportProductPage = ({
         label: t("breadcrumb.import_product"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

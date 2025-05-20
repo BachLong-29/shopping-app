@@ -15,6 +15,7 @@ const WishlistPage = () => {
         label: t("module.wishlist"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
   return <WrapperContent>Wishlist Page</WrapperContent>;
 };

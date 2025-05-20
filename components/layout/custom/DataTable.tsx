@@ -18,7 +18,6 @@ import { Button } from "@/components/ui/button";
 
 interface IProps<T> {
   columns: ColumnDef<T>[];
-  // eslint-disable-next-line @typescript-eslint/no-explicit-any
   table: TableType<T>;
 }
 export function DataTable<T>({ columns, table }: IProps<T>) {

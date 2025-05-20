@@ -95,6 +95,7 @@ const CreateProductPage = ({
         label: t("breadcrumb.create_product"),
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

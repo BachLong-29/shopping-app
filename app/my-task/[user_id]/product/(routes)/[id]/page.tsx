@@ -35,6 +35,7 @@ const ProductDetailPage = ({
         label: productId,
       },
     ]);
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (

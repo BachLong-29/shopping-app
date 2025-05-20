@@ -11,6 +11,7 @@ class SalesOrderService extends HttpService {
     offset: number;
     limit: number;
     search?: string;
+    // eslint-disable-next-line @typescript-eslint/no-explicit-any
   }): Promise<{ data: any[]; total: number }> {
     return this.post(`/api/${id}/sales-order/search`, {
       offset,

@@ -1,5 +1,3 @@
-import { $FixType } from "@/core/types/FixType";
-import Cart from "@/core/schema/Cart";
 import { NextResponse } from "next/server";
 import SalesOrder from "@/core/schema/SalesOrder";
 import { connectDB } from "@/lib/mongodb";

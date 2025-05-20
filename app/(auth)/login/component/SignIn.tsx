@@ -22,6 +22,7 @@ const SignIn = ({
   const [password, setPassword] = useState("");
   const { t } = useLanguage();
   const dispatch = useDispatch();
+  // eslint-disable-next-line @typescript-eslint/no-unused-vars
   const { error, loading } = useSelector((state: RootState) => state.auth);
 
   const handleLogin = (e: React.FormEvent) => {
