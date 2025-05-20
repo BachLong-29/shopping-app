@@ -18,6 +18,10 @@ class SalesOrderService extends HttpService {
       search,
     });
   }
+
+  exportSOList({ userId }: { userId: string }) {
+    return this.get(`/api/${userId}/sales-order/export`, {});
+  }
 }
 
 const salesOrderService = new SalesOrderService();

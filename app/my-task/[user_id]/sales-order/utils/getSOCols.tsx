@@ -11,6 +11,7 @@ import {
 import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
+import dayjs from "dayjs";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getSOCols = (): ColumnDef<any>[] => [
@@ -64,6 +65,20 @@ export const getSOCols = (): ColumnDef<any>[] => [
       );
     },
     cell: ({ row }) => <div>{row.getValue("totalAmount")}</div>,
+  },
+  {
+    accessorKey: "createdAt",
+    header: "Created At",
+    cell: ({ row }) => (
+      <div>{dayjs(row.getValue("createdAt")).format("DD/MM/YYYY")}</div>
+    ),
+  },
+  {
+    accessorKey: "updatedAt",
+    header: "Updated At",
+    cell: ({ row }) => (
+      <div>{dayjs(row.getValue("updatedAt")).format("DD/MM/YYYY")}</div>
+    ),
   },
 
   {

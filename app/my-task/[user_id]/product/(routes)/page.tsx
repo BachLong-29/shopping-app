@@ -3,22 +3,23 @@
 import WrapperTable, {
   WrapperTableType,
 } from "@/components/layout/section/WrapperTable";
-import { use, useEffect, useState } from "react";
+import { getCoreRowModel, useReactTable } from "@tanstack/react-table";
+import { use, useEffect } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
+import { DataTable } from "@/components/layout/custom/DataTable";
 import ExportButton from "@/components/layout/export/ExportButton";
 import ImportButton from "@/components/layout/import/ImportButton";
 import { RootState } from "@/redux/store/store";
 import StyledPagination from "@/components/layout/custom/StyledPagination";
-import { StyledTable } from "@/components/layout/custom/StyledTable";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import { getStudentCols } from "../utils/getProductCols";
 import { menuPagination } from "@/core/utils/pagination";
-import productService from "../services/productService";
 import { setProduct } from "@/redux/reducer/productReducer";
 import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useListProduct } from "../context/ProductListContext";
+import { useProductList } from "../utils/useProductList";
 import { useRouter } from "next/navigation";
 import withMyTask from "@/components/forms/withMyTask";
 
@@ -32,50 +33,22 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
   const columns = getStudentCols(userId);
   const { setBreadcrumb } = useBreadcrumb();
 
-  const [itemsPerPage, setItemsPerPage] = useState(10);
-  const [currentPage, setCurrentPage] = useState(1);
-  const [search, setSearch] = useState("");
-  // const [filter, setFilter] = useState("");
-
-  const handleChangeLimit = (limit: number) => {
-    setItemsPerPage(limit);
-    productService
-      .getList({ id: userId, limit, offset: 0, search })
-      .then((res) => {
-        dispatch(setProduct(res));
-      });
-  };
-
-  const handleExport = () => {
-    return productService.exportProduct({ userId });
-  };
-
-  const handleChangePage = (page: number) => {
-    setCurrentPage(page);
-    productService
-      .getList({
-        id: userId,
-        limit: itemsPerPage,
-        offset: itemsPerPage * (page - 1),
-        search,
-      })
-      .then((res) => {
-        dispatch(setProduct(res));
-      });
-  };
-
-  const handleSearch = () => {
-    productService
-      .getList({
-        id: userId,
-        limit: itemsPerPage,
-        offset: 0,
-        search,
-      })
-      .then((res) => {
-        dispatch(setProduct(res));
-      });
-  };
+  const {
+    handleChangeLimit,
+    onSearch,
+    onShowHideCols,
+    onRowChangeSelection,
+    handleSearch,
+    handleExport,
+    handleChangePage,
+    columnVisibility,
+    sorting,
+    itemsPerPage,
+    currentPage,
+    rowSelection,
+  } = useProductList({
+    userId,
+  });
 
   useEffect(() => {
     setBreadcrumb([
@@ -84,6 +57,7 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
       },
     ]);
   }, []);
+
   useEffect(() => {
     if (productState.total <= 0) {
       dispatch(setProduct({ data: products, total }));
@@ -93,7 +67,7 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
   const header: WrapperTableType = {
     search: {
       placeholder: t("action.search"),
-      onChange: setSearch,
+      onChange: onSearch,
       styles: "",
       onSearch: handleSearch,
     },
@@ -128,12 +102,24 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
       ],
     },
   };
-
+  const table = useReactTable({
+    data: productState.data,
+    columns: columns,
+    getCoreRowModel: getCoreRowModel(),
+    onColumnVisibilityChange: onShowHideCols,
+    onRowSelectionChange: onRowChangeSelection,
+    state: {
+      sorting,
+      columnVisibility,
+      rowSelection,
+      // columnFilters,
+    },
+  });
   return (
     <WrapperContent>
       <div className="space-y-4 p-6">
-        <WrapperTable {...header}>
-          <StyledTable data={productState.data} columns={columns} />
+        <WrapperTable {...header} table={table}>
+          <DataTable table={table} columns={columns} />
           <StyledPagination
             pageSize={itemsPerPage}
             currentPage={currentPage}

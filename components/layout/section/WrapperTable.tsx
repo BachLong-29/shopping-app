@@ -1,11 +1,18 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 
 import { ChevronDown, Filter, Plus, Search } from "lucide-react";
+import {
+  DropdownMenu,
+  DropdownMenuCheckboxItem,
+  DropdownMenuContent,
+  DropdownMenuTrigger,
+} from "@/components/ui/dropdown-menu";
 
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { ReactNode } from "react";
 import { StyledDropdown } from "../custom/StyledDropdown";
+import { Table } from "@tanstack/react-table";
 
 export interface WrapperTableType {
   search: {
@@ -26,10 +33,11 @@ export interface WrapperTableType {
   };
   create: any;
   tools: any;
+  table?: Table<any>;
 }
 
 const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
-  const { search, showing, children, create, tools } = props;
+  const { search, showing, children, create, tools, table } = props;
   return (
     <>
       <div className="flex md:flex-row flex-col justify-between items-center mb-4 space-x-0 md:space-x-6">
@@ -81,6 +89,32 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
           >
             <Plus />
           </Button>
+          <DropdownMenu>
+            <DropdownMenuTrigger asChild>
+              <Button variant="outline" className="ml-auto">
+                Columns <ChevronDown />
+              </Button>
+            </DropdownMenuTrigger>
+            <DropdownMenuContent align="end">
+              {table
+                ?.getAllColumns()
+                .filter((column) => column.getCanHide())
+                .map((column) => {
+                  return (
+                    <DropdownMenuCheckboxItem
+                      key={column.id}
+                      className="capitalize"
+                      checked={column.getIsVisible()}
+                      onCheckedChange={(value) =>
+                        column.toggleVisibility(!!value)
+                      }
+                    >
+                      {column.id}
+                    </DropdownMenuCheckboxItem>
+                  );
+                })}
+            </DropdownMenuContent>
+          </DropdownMenu>
         </div>
       </div>
       {children}

@@ -17,7 +17,11 @@ const Page = async ({
     search: "",
   });
   return (
-    <SalesOrderList salesOrders={salesOrders.data} total={salesOrders.total} />
+    <SalesOrderList
+      salesOrders={salesOrders.data}
+      total={salesOrders.total}
+      userId={userId}
+    />
   );
 };
 

@@ -1,39 +1,56 @@
-import { ColumnType } from "@/components/layout/custom/StyledTable";
+import { ColumnDef } from "@tanstack/react-table";
 import Link from "next/link";
 import ProductAction from "../component/ProductAction";
 import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
-export const getStudentCols = (userId: string): ColumnType<any>[] => [
+export const getStudentCols = (userId: string): ColumnDef<any>[] => [
   {
-    title: "Product Name",
-    key: "name",
-    render: (value, record) => (
-      <Link href={`/my-task/${userId}/product/${record._id}`}>{value}</Link>
-    ),
+    accessorKey: "name",
+    header: "Product Name",
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <Link href={`/my-task/${userId}/product/${product._id}`}>
+          {row.getValue("name")}
+        </Link>
+      );
+    },
   },
   {
-    title: "Product ID",
-    key: "product_id",
+    accessorKey: "product_id",
+    header: "Product ID",
+    cell: ({ row }) => {
+      const product = row.original;
+      return (
+        <Link href={`/my-task/${userId}/product/${product._id}`}>
+          {row.getValue("product_id")}
+        </Link>
+      );
+    },
   },
   {
-    title: "Price",
-    key: "price",
+    accessorKey: "price",
+    header: "Price",
   },
+
   {
-    title: "Quantity",
-    key: "quantity",
+    accessorKey: "quantity",
+    header: "Quantity",
   },
+
   {
-    title: "Status",
-    key: "status",
-    render: (value) => <ProductStatusTag value={value} />,
+    accessorKey: "status",
+    header: "Status",
+    cell: ({ row }) => <ProductStatusTag value={row.getValue("status")} />,
   },
+
   {
-    title: "Action",
-    key: "action",
-    render: (_, record) => (
-      <ProductAction productId={record._id} userId={userId} />
-    ),
+    id: "actions",
+    enableHiding: false,
+    cell: ({ row }) => {
+      const product = row.original;
+      return <ProductAction productId={product._id} userId={userId} />;
+    },
   },
 ];

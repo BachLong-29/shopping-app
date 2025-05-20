@@ -6,6 +6,7 @@ import { persistStore } from "redux-persist";
 import productReducer from "../reducer/productReducer";
 import { profileReducer } from "../reducer/profileReducer";
 import rootSaga from "../saga/rootSaga";
+import salesOrderReducer from "../reducer/salesOrderReducer";
 import { useDispatch } from "react-redux";
 
 const sagaMiddleware = createSagaMiddleware();
@@ -14,6 +15,7 @@ export const store = configureStore({
   reducer: {
     profile: profileReducer,
     product: productReducer,
+    SalesOrder: salesOrderReducer,
     cart: cartReducer,
     auth: authReducer,
   },
