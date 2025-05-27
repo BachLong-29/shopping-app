@@ -25,7 +25,7 @@ const Checkout = () => {
       0
     ) || 0;
   const total = subtotal + shippingFee;
-
+  console.log(selectedShop);
   const handlePayment = async () => {
     const res = await paymentService.checkout({
       userId,
@@ -35,6 +35,7 @@ const Checkout = () => {
           product: item._id,
           quantity: item.purchaseQuantity,
         })) ?? [],
+      sellerId: selectedShop,
     });
     console.log({ res });
   };

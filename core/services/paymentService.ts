@@ -11,15 +11,17 @@ class PaymentService extends HttpService {
   async checkout(req: {
     userId: string;
     amount: number;
+    sellerId: string;
     products: {
       product: string;
       quantity: number;
     }[];
   }) {
-    const { userId, amount, products } = req;
+    const { userId, amount, products, sellerId } = req;
     return await this.post(`/api/${userId}/payment`, {
       amount,
       products,
+      sellerId,
       currency: "VND",
     });
   }

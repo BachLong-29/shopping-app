@@ -1,4 +1,5 @@
 import { NextResponse } from "next/server";
+import PurchaseOrder from "@/core/schema/PurchaseOrder";
 import SalesOrder from "@/core/schema/SalesOrder";
 import { connectDB } from "@/lib/mongodb";
 import paymentService from "@/core/services/paymentService";
@@ -9,7 +10,7 @@ export async function POST(req: any) {
     await connectDB();
 
     const body = await req.json();
-    const { amount, currency, products } = body;
+    const { amount, currency, products, sellerId } = body;
     const userId = req.nextUrl.pathname.split("/")[2];
     if (!amount || !currency) {
       return NextResponse.json(
@@ -22,11 +23,21 @@ export async function POST(req: any) {
       status: "draft",
       totalAmount: amount,
       currency,
-      user: userId,
+      user: sellerId,
       products,
     });
     await newOrder.save();
-    // console.log("📝 Đơn hàng đã tạo:", newOrder);
+    // console.log("📝 Đơn hàng bán đã tạo:", newOrder);
+
+    const newPurchaseOrder = new PurchaseOrder({
+      status: "pending",
+      totalAmount: amount,
+      currency,
+      seller: userId,
+      products,
+    });
+    await newPurchaseOrder.save();
+    // console.log("📝 Đơn hàng mua đã tạo:", newOrder);
 
     // 🔹 Gọi API thanh toán
     const paymentResponse = await paymentService.payment({
