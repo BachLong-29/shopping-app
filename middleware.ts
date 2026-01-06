@@ -8,7 +8,9 @@ export function middleware(req: NextRequest) {
   const currentPath = req.nextUrl.pathname;
   const isLoginPage = currentPath === "/login";
   const isAuthenticated = !!token;
-
+  console.log("token", token);
+  console.log("currentPath", currentPath);
+  console.log("isAuthenticated", isAuthenticated);
   // check auth in login page.
   if (isLoginPage) {
     return isAuthenticated
