@@ -16,7 +16,7 @@ class AuthService extends HttpService {
   logout() {
     return this.post("/api/auth/logout", {});
   }
-  me() {
+  me(): Promise<{ user: UserInfo }> {
     return this.get("/api/auth/me", {});
   }
 }

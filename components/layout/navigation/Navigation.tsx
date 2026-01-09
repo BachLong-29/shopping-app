@@ -3,26 +3,31 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 import { Search, ShoppingCart } from "lucide-react";
-import { useDispatch, useSelector } from "react-redux";
 import { useEffect, useState } from "react";
+import { useDispatch, useSelector } from "react-redux";
 
+import cartService from "@/app/cart/services/cartServices";
 import { Badge } from "@/components/ui/badge";
-import Image from "next/image";
+import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
-import LanguageSwitcher from "./LanguageSwitcher";
-import Link from "next/link";
+import { useLanguage } from "@/core/context/LanguageContext";
+import authService from "@/core/services/authService";
+import { setTotal } from "@/redux/reducer/cartReducer";
+import { setUser } from "@/redux/reducer/profileReducer";
 import { RootState } from "@/redux/store/store";
+import Image from "next/image";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 import UserCard from "./UserCard";
 import UserDropdown from "./UserPopover";
-import cartService from "@/app/cart/services/cartServices";
-import { setTotal } from "@/redux/reducer/cartReducer";
-import { useLanguage } from "@/core/context/LanguageContext";
 
 const Navigation = () => {
   const userProfile = useSelector((state: RootState) => state.profile);
   const total = useSelector((state: RootState) => state.cart.total);
   const dispatch = useDispatch();
+  const router = useRouter();
   const { t } = useLanguage();
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
@@ -36,7 +41,22 @@ const Navigation = () => {
     }
   }, [dispatch, userProfile]);
 
+  useEffect(() => {
+    console.log("refetch profile");
+    const getUserInfo = async () => {
+      const userInfo = await authService.me();
+      console.log("userInfo", userInfo);
+      dispatch(setUser(userInfo.user));
+    };
+    if (!userProfile) {
+      getUserInfo();
+    }
+  }, []);
+
   const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const handleLogin = () => {
+    router.push("/login");
+  };
 
   return (
     <nav className="w-full bg-white shadow-md p-4 sticky top-0 left-0 z-50 transition-all border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
@@ -85,13 +105,18 @@ const Navigation = () => {
         </button>
 
         {/* User Actions (Desktop) */}
-        <div className="hidden xl:flex gap-2.5">
+        <div className="hidden xl:flex justify-center items-center gap-2.5">
           <ThemeToggle />
           <LanguageSwitcher />
           {userProfile._id ? (
             <UserDropdown userInfo={userProfile as any} />
           ) : (
-            <></>
+            <Button
+              className="w-32 bg-blue-500 hover:bg-blue-600"
+              onClick={handleLogin}
+            >
+              {t("action.sign_in")}
+            </Button>
           )}
         </div>
       </div>

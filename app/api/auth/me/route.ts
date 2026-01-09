@@ -1,6 +1,7 @@
 import { NextResponse } from "next/server";
 import { cookies } from "next/headers";
 import { verifyToken } from "@/lib/auth";
+import User from "@/core/schema/User";
 
 export async function GET() {
   const cookieStore = await cookies(); // Lấy cookies từ request
@@ -11,6 +12,12 @@ export async function GET() {
   }
 
   const user = verifyToken(token); // Giải mã token để lấy user
+  const email = user?.email ?? "";
+  console.log("user", user);
+  const userDetail = await User.findOne({ email });
+  console.log("userDetail", userDetail);
+  console.log("user?.user?.email", user?.user?.email);
+
   if (!user) {
     return NextResponse.json(
       { message: "Token không hợp lệ" },
@@ -18,5 +25,5 @@ export async function GET() {
     );
   }
 
-  return NextResponse.json({ user }); // Trả về thông tin người dùng
+  return NextResponse.json({ user: userDetail }); // Trả về thông tin người dùng
 }

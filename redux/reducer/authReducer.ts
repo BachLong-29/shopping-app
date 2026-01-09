@@ -55,11 +55,7 @@ const authSlice = createSlice({
   },
 });
 
-const persistConfig = {
-  key: "auth",
-  storage,
-};
-
 export const { signInRequest, signInSuccess, signInFailure, signOut } =
   authSlice.actions;
-export const authReducer = persistReducer(persistConfig, authSlice.reducer);
+
+export default authSlice.reducer;

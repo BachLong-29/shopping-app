@@ -8,9 +8,12 @@ export function middleware(req: NextRequest) {
   const currentPath = req.nextUrl.pathname;
   const isLoginPage = currentPath === "/login";
   const isAuthenticated = !!token;
+
   console.log("token", token);
   console.log("currentPath", currentPath);
+  console.log("req", req);
   console.log("isAuthenticated", isAuthenticated);
+
   // check auth in login page.
   if (isLoginPage) {
     return isAuthenticated
@@ -26,5 +29,5 @@ export function middleware(req: NextRequest) {
 
 // Chỉ áp dụng middleware cho các route cần bảo vệ
 export const config = {
-  matcher: ["/", "/my-task/:path*", "/cart", "/login"], // Các route yêu cầu đăng nhập
+  matcher: ["/my-task/:path*", "/cart", "/login"], // Các route yêu cầu đăng nhập
 };

@@ -1,4 +1,4 @@
-import { authReducer } from "../reducer/authReducer";
+import authReducer from "../reducer/authReducer";
 import cartReducer from "../reducer/cartReducer";
 import { configureStore } from "@reduxjs/toolkit";
 import createSagaMiddleware from "@redux-saga/core";

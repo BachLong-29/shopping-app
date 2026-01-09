@@ -10,9 +10,14 @@ import {
 
 import { $FixType } from "@/core/types/FixType";
 import authService from "@/core/services/authService";
+import { UserInfo } from "@/core/model/User";
 
 const signIn = (email: string, password: string): Promise<$FixType> => {
   return authService.login({ email, password });
+};
+
+export const getUserInfo = (): Promise<{ user: UserInfo }> => {
+  return authService.me();
 };
 
 function* handleSignIn(action: {
@@ -20,14 +25,11 @@ function* handleSignIn(action: {
   payload: { email: string; password: string };
 }): Generator {
   try {
-    const { email, password } = action.payload;
+    const userInfo: { user: UserInfo } = yield call(getUserInfo);
 
-    const response = (yield call(signIn, email, password)) as $FixType;
-    if (response.status === "success") {
-      yield put(signInSuccess(response.user));
-      yield put(setUser(response.user));
-      yield put(fetchCartTotal({ userId: response.user._id }));
-    }
+    yield put(setUser(userInfo.user));
+    yield put(fetchCartTotal({ userId: userInfo.user._id }));
+    console.log({ userInfo });
   } catch (error) {
     yield put(signInFailure((error as Error)?.message));
   }

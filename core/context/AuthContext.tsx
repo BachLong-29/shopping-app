@@ -20,6 +20,7 @@ const AuthContext = createContext<AuthContextType | null>(null);
 
 export const AuthProvider = ({ children }: { children: ReactNode }) => {
   const [user, setUser] = useState<User | null>(null);
+  console.log("useAuth");
 
   const fetchUser = async () => {
     try {
@@ -63,6 +64,7 @@ export function useAuth() {
   const pathName = usePathname();
 
   useEffect(() => {
+    console.log("useAuth");
     if (pathName !== "/login") {
       fetch("/api/auth/me")
         .then((res) => res.json())

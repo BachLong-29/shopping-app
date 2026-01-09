@@ -1,15 +1,15 @@
 import React, { useState } from "react";
-import { useDispatch, useSelector } from "react-redux";
+import { useDispatch } from "react-redux";
 
-import { AuthType } from "@/core/types/AuthType";
 import { Button } from "@/components/ui/button";
 import { CardContent } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
-import { RootState } from "@/redux/store/store";
-import { cn } from "@/lib/utils";
-import { redirect } from "next/navigation";
-import { signInRequest } from "@/redux/reducer/authReducer";
 import { useLanguage } from "@/core/context/LanguageContext";
+import authService from "@/core/services/authService";
+import { AuthType } from "@/core/types/AuthType";
+import { cn } from "@/lib/utils";
+import { signInRequest } from "@/redux/reducer/authReducer";
+import { redirect } from "next/navigation";
 
 const SignIn = ({
   currentForm,
@@ -20,17 +20,26 @@ const SignIn = ({
 }) => {
   const [email, setEmail] = useState("");
   const [password, setPassword] = useState("");
+  const [error, setError] = useState("");
   const { t } = useLanguage();
   const dispatch = useDispatch();
-  // eslint-disable-next-line @typescript-eslint/no-unused-vars
-  const { error, loading } = useSelector((state: RootState) => state.auth);
 
-  const handleLogin = (e: React.FormEvent) => {
+  const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
-    dispatch(signInRequest({ email, password }));
-    setTimeout(() => {
-      redirect("/");
-    }, 1000);
+    try {
+      const result = await authService.login({ email, password });
+      setTimeout(() => {
+        dispatch(signInRequest({ email, password }));
+        redirect("/");
+      }, 1000);
+    } catch (e) {
+      if (e && typeof e === "object") {
+        if ("message" in e && typeof e.message === "string") {
+          setError(e?.message);
+          console.error(error);
+        }
+      }
+    }
   };
 
   return (
