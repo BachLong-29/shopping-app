@@ -27,7 +27,7 @@ const SignIn = ({
   const handleLogin = async (e: React.FormEvent) => {
     e.preventDefault();
     try {
-      const result = await authService.login({ email, password });
+      await authService.login({ email, password });
       setTimeout(() => {
         dispatch(signInRequest({ email, password }));
         redirect("/");
