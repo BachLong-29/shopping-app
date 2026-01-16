@@ -31,7 +31,7 @@ const ProductionSection = ({ data }: IProps) => {
   const handleNextPage = async () => {
     setPage((p) => Math.min(p + 1, totalPages));
     const res = await productService.getProductsMKP({
-      limit: 18,
+      limit: 15,
       page: page + 1,
     });
     setProducts(res.data);
@@ -40,7 +40,7 @@ const ProductionSection = ({ data }: IProps) => {
   const handlePrevPage = async () => {
     setPage((p) => Math.max(p - 1, 1));
     const res = await productService.getProductsMKP({
-      limit: 18,
+      limit: 15,
       page: page - 1,
     });
     setProducts(res.data);
@@ -49,8 +49,8 @@ const ProductionSection = ({ data }: IProps) => {
 
   return (
     <div>
-      <Section title={t("general.all_products")}>
-        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-6 gap-4">
+      <Section title={t("general.top_seller")}>
+        <div className="grid grid-cols-2 sm:grid-cols-4 lg:grid-cols-5 gap-4">
           {products.map((product) => (
             <ProductCard product={product} key={product._id} />
           ))}

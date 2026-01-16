@@ -1,6 +1,7 @@
 const commonMessage = {
   general: {
     all_products: "all_products",
+    top_seller: "top seller",
     product: "product",
     category: "Loại sản phẩm",
     see_more: "see_more",

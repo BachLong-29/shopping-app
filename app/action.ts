@@ -34,7 +34,7 @@ export async function getProductMKP() {
     minPrice: 100000,
     order: "asc",
     sortBy: "price",
-    limit: 18,
+    limit: 15,
     page: 1,
   });
   return products;

@@ -34,7 +34,7 @@ const Home = async () => {
   return (
     <div className="space-y-10 p-4 container mx-auto">
       <Banner />
-      <CategoriesSection data={categories} />
+      {/* <CategoriesSection data={categories} /> */}
       <ProductionSection data={products} />
     </div>
   );

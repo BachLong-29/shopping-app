@@ -10,30 +10,32 @@ const HeartButton = () => {
   const [liked, setLiked] = useState(false);
   const { t } = useLanguage();
 
+  const handleToggleLikeButton = () => {
+    toast.success(t("product.message.update_wishlist"), {
+      description: (
+        <span className="text-black">
+          {liked
+            ? t("product.message.remove_from_wishlist")
+            : t("product.message.add_to_wishlist")}
+        </span>
+      ),
+      duration: 3000,
+    });
+    setLiked((prev) => !prev);
+  };
+
   return (
     <motion.button
-      whileTap={{ scale: 0.9 }} // Hiệu ứng co lại khi click
+      whileTap={{ scale: 0.9 }}
       animate={{
         scale: liked ? 1.1 : 1,
         transition: { type: "spring", stiffness: 300 },
       }}
       className="p-1 rounded-full transition-all duration-300"
-      onClick={() => {
-        toast.success(t("product.message.update_wishlist"), {
-          description: (
-            <span className="text-gray-500 dark:text-white">
-              {liked
-                ? t("product.message.remove_from_wishlist")
-                : t("product.message.add_to_wishlist")}
-            </span>
-          ),
-          duration: 3000,
-        });
-        setLiked(!liked);
-      }}
+      onClick={handleToggleLikeButton}
     >
       <Heart
-        className="w-5 h-5 transition-all duration-300" // Giảm kích thước icon
+        className="w-5 h-5 transition-all duration-300"
         fill={liked ? "#ff4081" : "transparent"}
         color={liked ? "#ff4081" : "gray"}
         strokeWidth={liked ? 0 : 2}
