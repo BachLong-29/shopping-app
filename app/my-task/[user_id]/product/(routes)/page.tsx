@@ -11,7 +11,6 @@ import { DataTable } from "@/components/layout/custom/DataTable";
 import ExportButton from "@/components/layout/export/ExportButton";
 import ImportButton from "@/components/layout/import/ImportButton";
 import { RootState } from "@/redux/store/store";
-import StyledPagination from "@/components/layout/custom/StyledPagination";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import { getStudentCols } from "../utils/getProductCols";
 import { menuPagination } from "@/core/utils/pagination";
@@ -121,13 +120,13 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
       <div className="space-y-4 p-6">
         <WrapperTable {...header} table={table}>
           <DataTable table={table} columns={columns} />
-          <StyledPagination
+          {/* <StyledPagination
             pageSize={itemsPerPage}
             currentPage={currentPage}
             onChange={handleChangePage}
             total={productState.total}
             styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border border-gray-300"
-          />
+          /> */}
         </WrapperTable>
       </div>
     </WrapperContent>

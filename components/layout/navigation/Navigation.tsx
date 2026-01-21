@@ -51,7 +51,7 @@ const Navigation = () => {
     }
   }, []);
 
-  const toggleMobileMenu = () => setIsMobileMenuOpen(!isMobileMenuOpen);
+  const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
   const handleLogin = () => {
     router.push("/login");
   };
@@ -129,7 +129,11 @@ const Navigation = () => {
             className="xl:hidden border-t border-gray-200 mt-4 p-4"
           >
             <div className="container mx-auto flex gap-4 justify-between items-center">
-              <Link className="cursor-pointer lg:hidden block" href="/">
+              <Link
+                onClick={toggleMobileMenu}
+                className="cursor-pointer lg:hidden block"
+                href="/"
+              >
                 <Image
                   width={40}
                   height={40}
@@ -142,7 +146,11 @@ const Navigation = () => {
                 <ThemeToggle />
                 <LanguageSwitcher />
                 {userProfile._id ? (
-                  <UserDropdown userInfo={userProfile as any} isShorten />
+                  <UserDropdown
+                    userInfo={userProfile as any}
+                    isShorten
+                    onChangeAfterSelect={toggleMobileMenu}
+                  />
                 ) : (
                   <></>
                 )}
