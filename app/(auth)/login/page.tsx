@@ -6,10 +6,25 @@ import Image from "next/image";
 import SignIn from "./component/SignIn";
 import SignUp from "./component/SignUp";
 import { cn } from "@/lib/utils";
-import { useState } from "react";
+import { useEffect, useState } from "react";
+import { useDispatch } from "react-redux";
+import { signOut } from "@/redux/reducer/authReducer";
+import { useRouter } from "next/navigation";
 
 const LoginPage = () => {
   const [currentForm, setCurrentForm] = useState<AuthType>(AuthType.SignIn);
+  const dispatch = useDispatch();
+  const router = useRouter();
+
+  useEffect(() => {
+    const hasToken = document.cookie.includes("token=");
+
+    if (!hasToken) {
+      dispatch(signOut());
+      router.replace("/login");
+    }
+  }, []);
+
   return (
     <div className="flex justify-center items-center h-[84vh]">
       <Card className="relative w-[1000px] h-[600px] overflow-hidden shadow-lg">

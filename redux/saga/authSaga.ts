@@ -1,20 +1,10 @@
 import { call, put, takeEvery } from "redux-saga/effects";
+import { signInFailure, signInRequest, signOut } from "../reducer/authReducer";
 import { fetchCartTotal, setTotal } from "../reducer/cartReducer";
 import { initialProfileState, setUser } from "../reducer/profileReducer";
-import {
-  signInFailure,
-  signInRequest,
-  signInSuccess,
-  signOut,
-} from "../reducer/authReducer";
 
-import { $FixType } from "@/core/types/FixType";
-import authService from "@/core/services/authService";
 import { UserInfo } from "@/core/model/User";
-
-const signIn = (email: string, password: string): Promise<$FixType> => {
-  return authService.login({ email, password });
-};
+import authService from "@/core/services/authService";
 
 export const getUserInfo = (): Promise<{ user: UserInfo }> => {
   return authService.me();

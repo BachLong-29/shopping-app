@@ -42,10 +42,8 @@ const Navigation = () => {
   }, [dispatch, userProfile]);
 
   useEffect(() => {
-    console.log("refetch profile");
     const getUserInfo = async () => {
       const userInfo = await authService.me();
-      console.log("userInfo", userInfo);
       dispatch(setUser(userInfo.user));
     };
     if (!userProfile) {
