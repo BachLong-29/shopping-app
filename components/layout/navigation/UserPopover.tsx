@@ -6,13 +6,12 @@ import {
   PopoverTrigger,
 } from "@/components/ui/popover";
 
-import Link from "next/link";
-import UserCard from "./UserCard";
-import { UserInfo } from "@/core/model/User";
-import { redirect, useRouter } from "next/navigation";
-import { signOut } from "@/redux/reducer/authReducer";
-import { useDispatch } from "react-redux";
 import { useLanguage } from "@/core/context/LanguageContext";
+import { UserInfo } from "@/core/model/User";
+import { signOut } from "@/redux/reducer/authReducer";
+import { redirect, useRouter } from "next/navigation";
+import { useDispatch } from "react-redux";
+import UserCard from "./UserCard";
 
 export default function UserDropdown({
   userInfo,

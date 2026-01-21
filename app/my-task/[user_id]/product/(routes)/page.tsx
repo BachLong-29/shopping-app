@@ -39,11 +39,9 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
     onRowChangeSelection,
     handleSearch,
     handleExport,
-    handleChangePage,
     columnVisibility,
     sorting,
     itemsPerPage,
-    currentPage,
     rowSelection,
   } = useProductList({
     userId,
