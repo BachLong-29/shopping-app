@@ -107,10 +107,10 @@ const SalesOrderList = ({ salesOrders, userId }: ISalesOrderList) => {
       rowSelection,
     },
   });
-  console.log({ rowSelection });
+
   return (
     <WrapperContent>
-      <div className="space-y-4 p-6">
+      <div className="space-y-4 p-2 md:p-6">
         <WrapperTable {...header} table={table}>
           <DataTable table={table} columns={cols} />
         </WrapperTable>

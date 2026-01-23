@@ -40,7 +40,7 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
   const { search, showing, children, create, tools, table } = props;
   return (
     <>
-      <div className="flex md:flex-row flex-col justify-between items-center mb-4 space-x-0 md:space-x-6">
+      <div className="flex flex-row justify-between items-center mb-4 space-x-2 md:space-x-6">
         <div className="relative flex items-center w-full">
           <Input
             type="text"
@@ -60,11 +60,11 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
             onClick={search.onSearch}
           />
         </div>
-        <div className="flex mt-2 md:mt-0 w-full md:w-[auto] justify-between items-center space-x-2 md:space-x-6">
+        <div className="flex w-auto justify-end md:justify-between items-center space-x-2 md:space-x-6">
           <Button variant="outline">
             <Filter /> Filter
           </Button>
-          <div className="flex items-center gap-4">
+          <div className="md:flex lg:flex items-center gap-4 hidden">
             <StyledDropdown
               menu={showing.menu}
               isCheckbox
@@ -77,44 +77,48 @@ const WrapperTable = (props: WrapperTableType & { children: ReactNode }) => {
               </Button>
             </StyledDropdown>
           </div>
-          <StyledDropdown menu={tools.menu} onChange={tools.onChange}>
-            <Button variant="outline">
-              Tools
-              <ChevronDown />
-            </Button>
-          </StyledDropdown>
+          <div className="show-hide">
+            <StyledDropdown menu={tools.menu} onChange={tools.onChange}>
+              <Button variant="outline">
+                Tools
+                <ChevronDown />
+              </Button>
+            </StyledDropdown>
+          </div>
           <Button
             className="bg-blue-400 hover:bg-blue-500"
             onClick={create.onClick}
           >
             <Plus />
           </Button>
-          <DropdownMenu>
-            <DropdownMenuTrigger asChild>
-              <Button variant="outline" className="ml-auto">
-                Columns <ChevronDown />
-              </Button>
-            </DropdownMenuTrigger>
-            <DropdownMenuContent align="end">
-              {table
-                ?.getAllColumns()
-                .filter((column) => column.getCanHide())
-                .map((column) => {
-                  return (
-                    <DropdownMenuCheckboxItem
-                      key={column.id}
-                      className="capitalize"
-                      checked={column.getIsVisible()}
-                      onCheckedChange={(value) =>
-                        column.toggleVisibility(!!value)
-                      }
-                    >
-                      {column.id}
-                    </DropdownMenuCheckboxItem>
-                  );
-                })}
-            </DropdownMenuContent>
-          </DropdownMenu>
+          <div className="show-hide">
+            <DropdownMenu>
+              <DropdownMenuTrigger asChild>
+                <Button variant="outline" className="ml-auto">
+                  Columns <ChevronDown />
+                </Button>
+              </DropdownMenuTrigger>
+              <DropdownMenuContent align="end">
+                {table
+                  ?.getAllColumns()
+                  .filter((column) => column.getCanHide())
+                  .map((column) => {
+                    return (
+                      <DropdownMenuCheckboxItem
+                        key={column.id}
+                        className="capitalize"
+                        checked={column.getIsVisible()}
+                        onCheckedChange={(value) =>
+                          column.toggleVisibility(!!value)
+                        }
+                      >
+                        {column.id}
+                      </DropdownMenuCheckboxItem>
+                    );
+                  })}
+              </DropdownMenuContent>
+            </DropdownMenu>
+          </div>
         </div>
       </div>
       {children}

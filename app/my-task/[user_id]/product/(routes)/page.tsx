@@ -110,21 +110,13 @@ const ProductPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
       sorting,
       columnVisibility,
       rowSelection,
-      // columnFilters,
     },
   });
   return (
     <WrapperContent>
-      <div className="space-y-4 p-6">
+      <div className="space-y-4 p-2 md:p-6">
         <WrapperTable {...header} table={table}>
           <DataTable table={table} columns={columns} />
-          {/* <StyledPagination
-            pageSize={itemsPerPage}
-            currentPage={currentPage}
-            onChange={handleChangePage}
-            total={productState.total}
-            styles="!m-0 bg-[hsl(var(--reverse-background))] rounded-bl-lg p-2 rounded-br-lg border border-gray-300"
-          /> */}
         </WrapperTable>
       </div>
     </WrapperContent>
