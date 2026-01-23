@@ -2,15 +2,14 @@
 
 import { AnimatePresence, motion } from "framer-motion";
 
+import { Button } from "@/components/ui/button";
+import { useLanguage } from "@/core/context/LanguageContext";
+import { RootState } from "@/redux/store/store";
+import { usePathname, useRouter } from "next/navigation";
+import { useSelector } from "react-redux";
 import LanguageSwitcher from "./LanguageSwitcher";
 import ThemeToggle from "./ThemeToggle";
 import UserDropdown from "./UserPopover";
-import { useSelector } from "react-redux";
-import { RootState } from "@/redux/store/store";
-import { usePathname, useRouter } from "next/navigation";
-import { Button } from "@/components/ui/button";
-import { useLanguage } from "@/core/context/LanguageContext";
-import { useMemo } from "react";
 
 const MenuMobile = ({
   id,
@@ -32,21 +31,21 @@ const MenuMobile = ({
     router.push("/login");
   };
 
-  const menu = useMemo(() => {
-    return (
-      <>
-        <ThemeToggle />
-        <LanguageSwitcher />
-        {hasUserInfo && (
-          <UserDropdown
-            userInfo={userProfile as any}
-            isShorten
-            onChangeAfterSelect={onToggle}
-          />
-        )}
-      </>
-    );
-  }, []);
+  // const menu = useMemo(() => {
+  //   return (
+  //     <>
+  //       <ThemeToggle />
+  //       <LanguageSwitcher />
+  //       {hasUserInfo && (
+  //         <UserDropdown
+  //           userInfo={userProfile as any}
+  //           isShorten
+  //           onChangeAfterSelect={onToggle}
+  //         />
+  //       )}
+  //     </>
+  //   );
+  // }, []);
 
   return (
     <>
