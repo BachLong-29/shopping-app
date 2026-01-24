@@ -22,10 +22,10 @@ const Checkout = () => {
   const subtotal =
     selectedShopData?.products.reduce(
       (acc, p) => acc + p.price * p.purchaseQuantity,
-      0
+      0,
     ) || 0;
   const total = subtotal + shippingFee;
-  console.log(selectedShop);
+
   const handlePayment = async () => {
     const res = await paymentService.checkout({
       userId,
@@ -37,7 +37,6 @@ const Checkout = () => {
         })) ?? [],
       sellerId: selectedShop,
     });
-    console.log({ res });
   };
   return (
     <Card className="p-4">
@@ -45,7 +44,6 @@ const Checkout = () => {
         <CardTitle>Thanh toán</CardTitle>
       </CardHeader>
       <CardContent className="space-y-4">
-        {/* Coupon */}
         <div className="flex items-center gap-2">
           <Tag size={20} />
           <Input
@@ -56,7 +54,6 @@ const Checkout = () => {
           <Button variant="outline">Áp dụng</Button>
         </div>
 
-        {/* Phí vận chuyển */}
         <div className="flex items-center justify-between">
           <div className="flex items-center gap-2">
             <Truck size={20} />
@@ -67,7 +64,6 @@ const Checkout = () => {
 
         <Separator />
 
-        {/* Tổng thanh toán */}
         <div className="flex justify-between text-lg font-semibold">
           <span>Tổng tiền:</span>
           <span>{total.toLocaleString()} VND</span>
@@ -80,7 +76,6 @@ const Checkout = () => {
         >
           <ShoppingCart size={20} className="mr-2" />
           Thanh toán
-          {/* {selectedShop} */}
         </Button>
       </CardContent>
     </Card>

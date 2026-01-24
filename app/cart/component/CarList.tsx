@@ -33,7 +33,7 @@ const CarList = () => {
     debounce((productId, purchaseQuantity) => {
       cartService.updateCart({ userId, productId, quantity: purchaseQuantity });
     }, 500),
-    [userId]
+    [userId],
   );
 
   const handleRemoveFromCart = (productId: string) => {
@@ -55,7 +55,7 @@ const CarList = () => {
                 if (product._id === productId) {
                   const newQuantity = Math.max(
                     0,
-                    product.purchaseQuantity + delta
+                    product.purchaseQuantity + delta,
                   );
                   tempQuantity = newQuantity;
                   return {
@@ -69,7 +69,7 @@ const CarList = () => {
               .filter((product) => product.purchaseQuantity > 0),
           };
         })
-        .filter((shop) => shop.products.length > 0)
+        .filter((shop) => shop.products.length > 0),
     );
     if (tempQuantity !== 0) {
       updateCart(productId, tempQuantity);
@@ -158,7 +158,7 @@ const CarList = () => {
                     updateQuantity(
                       item.shop.id,
                       product._id,
-                      -product.purchaseQuantity
+                      -product.purchaseQuantity,
                     );
                     handleRemoveFromCart(product._id);
                   }}

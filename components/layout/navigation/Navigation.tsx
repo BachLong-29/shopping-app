@@ -5,39 +5,29 @@ import { Search } from "lucide-react";
 import { useEffect, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
-import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { useLanguage } from "@/core/context/LanguageContext";
 import authService from "@/core/services/authService";
 import { setUser } from "@/redux/reducer/profileReducer";
 import { RootState } from "@/redux/store/store";
-import { usePathname, useRouter } from "next/navigation";
 import Cart from "./Cart";
-import LanguageSwitcher from "./LanguageSwitcher";
 import Logo from "./Logo";
 import MenuMobile from "./MenuMobile";
-import ThemeToggle from "./ThemeToggle";
 import UserCard from "./UserCard";
-import UserDropdown from "./UserPopover";
+
+const navClass =
+  "w-full bg-white shadow-md p-4 sticky top-0 left-0 z-50 transition-all border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60";
 
 const Navigation = () => {
   const dispatch = useDispatch();
   const { t } = useLanguage();
-  const router = useRouter();
-  const pathname = usePathname();
   const userProfile = useSelector((state: RootState) => state.profile);
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const isLoginPage = pathname === "/login";
   const hasUserInfo = !!userProfile._id;
-  const requiredLogin = !isLoginPage && !hasUserInfo;
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
-
-  const handleLogin = () => {
-    router.push("/login");
-  };
 
   useEffect(() => {
     const getUserInfo = async () => {
@@ -50,7 +40,7 @@ const Navigation = () => {
   }, []);
 
   return (
-    <nav className="w-full bg-white shadow-md p-4 sticky top-0 left-0 z-50 transition-all border-b bg-background/95 backdrop-blur supports-[backdrop-filter]:bg-background/60">
+    <nav className={navClass}>
       <div className="container mx-auto flex justify-between items-center">
         <Logo />
 
@@ -76,20 +66,8 @@ const Navigation = () => {
           {hasUserInfo && <UserCard userInfo={userProfile as any} />}
         </button>
 
-        {/* User Actions (Desktop) */}
         <div className="show-hide-flex flex-all-center gap-2.5">
-          <ThemeToggle />
-          <LanguageSwitcher />
-          {hasUserInfo && <UserDropdown userInfo={userProfile as any} />}
-
-          {requiredLogin && (
-            <Button
-              className="w-32 bg-blue-500 hover:bg-blue-600"
-              onClick={handleLogin}
-            >
-              {t("action.sign_in")}
-            </Button>
-          )}
+          <MenuMobile onToggle={toggleMobileMenu} id={userProfile._id} />
         </div>
       </div>
 

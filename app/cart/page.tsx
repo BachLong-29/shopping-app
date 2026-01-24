@@ -7,7 +7,7 @@ import { cookies } from "next/headers";
 import { defaultAvatar } from "@/core/utils/common";
 import { verifyToken } from "@/lib/auth";
 
-export default async function CartPage() {
+const CartPage = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const user = verifyToken(token);
@@ -41,7 +41,7 @@ export default async function CartPage() {
       });
 
       return acc;
-    }, {})
+    }, {}),
   );
 
   return (
@@ -52,4 +52,6 @@ export default async function CartPage() {
       </CartProvider>
     </div>
   );
-}
+};
+
+export default CartPage;
