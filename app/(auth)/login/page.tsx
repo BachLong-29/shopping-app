@@ -34,8 +34,8 @@ const LoginPage = () => {
             src="/banner/login.jpg"
             alt="sign-in"
             className={cn(
-              "w-1/2 h-full relative transition-all duration-500",
-              currentForm === "sign-in" ? "left-0" : "left-[-100%]"
+              "w-1/2 h-full relative transition-all duration-500 show-hide",
+              currentForm === "sign-in" ? "left-0" : "left-[-100%]",
             )}
             width={500}
             height={600}
@@ -46,8 +46,8 @@ const LoginPage = () => {
             src="/banner/register.jpg"
             alt="sign-up"
             className={cn(
-              "w-1/2 h-full relative transition-all duration-500",
-              currentForm === "sign-up" ? "left-0" : "left-[-100%]"
+              "w-1/2 h-full relative transition-all duration-500 show-hide",
+              currentForm === "sign-up" ? "left-0" : "left-[-100%]",
             )}
             width={500}
             height={600}
@@ -60,5 +60,3 @@ const LoginPage = () => {
 };
 
 export default LoginPage;
-
-// thêm các icon đăng nhập bằng google, facebook, ...

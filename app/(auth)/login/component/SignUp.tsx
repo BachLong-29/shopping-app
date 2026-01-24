@@ -23,7 +23,7 @@ const SignUp = ({
   const [password, setPassword] = useState("");
   // eslint-disable-next-line @typescript-eslint/no-explicit-any
   const { error, fetchData, loading } = useFetch((req: any) =>
-    authService.register(req)
+    authService.register(req),
   );
 
   const handleSignUp = async (e: React.FormEvent) => {
@@ -37,8 +37,8 @@ const SignUp = ({
   return (
     <CardContent
       className={cn(
-        "relative w-1/2 h-full flex flex-col justify-center items-center transition-all duration-500 p-[40px] px-[80px]",
-        currentForm === "sign-up" ? "left-0" : "left-full"
+        "relative w-full md:w-1/2 h-full flex flex-col justify-center items-center transition-all duration-500 p-[40px] px-[80px]",
+        currentForm === "sign-up" ? "left-0" : "left-full",
       )}
     >
       <h2 className="text-lg font-semibold uppercase">

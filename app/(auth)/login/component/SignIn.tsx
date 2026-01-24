@@ -45,8 +45,8 @@ const SignIn = ({
   return (
     <CardContent
       className={cn(
-        "relative w-1/2 h-full flex flex-col justify-center items-center transition-all duration-500  p-[40px] px-[80px]",
-        currentForm === "sign-in" ? "left-0" : "left-full"
+        "relative w-full md:w-1/2 h-full flex flex-col justify-center items-center transition-all duration-500  p-[40px] px-[80px]",
+        currentForm === "sign-in" ? "left-0" : "left-full",
       )}
     >
       <div className="text-lg font-semibold uppercase">
