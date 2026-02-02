@@ -47,7 +47,7 @@ const MenuMobile = ({
           <UserDropdown
             userInfo={userProfile as any}
             isShorten={isMobile}
-            onChangeAfterSelect={onToggle}
+            onChangeAfterSelect={isMobile ? onToggle : undefined}
           />
         )}
 
@@ -61,7 +61,7 @@ const MenuMobile = ({
         )}
       </>
     );
-  }, []);
+  }, [hasUserInfo, requiredLogin, userProfile, isMobile]);
 
   return (
     <>

@@ -26,6 +26,7 @@ export default function UserDropdown({
   const router = useRouter();
   const dispatch = useDispatch();
   const handleLogout = () => {
+    onChangeAfterSelect?.();
     dispatch(signOut());
     setTimeout(() => {
       redirect("/login");

@@ -15,8 +15,9 @@ const UserCard = ({
   const userAvatar = userInfo.avatar
     ? userInfo.avatar
     : userInfo?.gender === Gender.Female
-    ? "/images/female-avatar.jpg"
-    : "/images/male-avatar.jpg";
+      ? "/images/female-avatar.jpg"
+      : "/images/male-avatar.jpg";
+
   return (
     <>
       {isShorten ? (
@@ -30,7 +31,7 @@ const UserCard = ({
       ) : (
         <div
           className={cn(
-            "flex items-center border bg-black text-white gap-2 rounded-full p-2 pr-3 cursor-pointer shrink-0 min-w-[140px] lg:min-w-[auto]"
+            "flex items-center border bg-black text-white gap-2 rounded-full p-2 pr-3 cursor-pointer shrink-0 min-w-[140px] lg:min-w-[auto]",
           )}
         >
           <Image

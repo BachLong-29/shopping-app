@@ -2,7 +2,7 @@
 "use client";
 
 import { Search } from "lucide-react";
-import { useEffect, useState } from "react";
+import { useEffect, useMemo, useState } from "react";
 import { useDispatch, useSelector } from "react-redux";
 
 import { Input } from "@/components/ui/input";
@@ -25,7 +25,7 @@ const Navigation = () => {
 
   const [isMobileMenuOpen, setIsMobileMenuOpen] = useState(false);
 
-  const hasUserInfo = !!userProfile._id;
+  const hasUserInfo = useMemo(() => !!userProfile._id, [userProfile]);
 
   const toggleMobileMenu = () => setIsMobileMenuOpen((prev) => !prev);
 
@@ -44,7 +44,6 @@ const Navigation = () => {
       <div className="container mx-auto flex justify-between items-center">
         <Logo />
 
-        {/* Desktop Search Bar + Cart */}
         <div className="flex items-center gap-4 w-full max-w-3xl mr-4 ml-0 lg:ml-4">
           <div className="relative flex items-center w-full">
             <Input
