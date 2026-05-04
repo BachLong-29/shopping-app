@@ -11,9 +11,9 @@ const CartPage = async () => {
   const cookieStore = await cookies();
   const token = cookieStore.get("token")?.value;
   const user = verifyToken(token);
-  const data = await cartService.getCart(user._id);
-  const mapData = Object.values(
-    data.items.reduce<
+  const dataCart = await cartService.getCart(user._id);
+  const mapDataCart = Object.values(
+    dataCart?.items?.reduce<
       Record<
         string,
         {
@@ -46,7 +46,7 @@ const CartPage = async () => {
 
   return (
     <div className="container mx-auto p-6 grid grid-cols-1 lg:grid-cols-3 gap-6">
-      <CartProvider cartData={mapData}>
+      <CartProvider cartData={mapDataCart}>
         <CarList />
         <Checkout />
       </CartProvider>
