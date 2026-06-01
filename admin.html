@@ -1,0 +1,141 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Halo Admin · Products</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="tokens.css"/>
+<link rel="stylesheet" href="components.css"/>
+<style>
+  .desktop-only { display: flex; }
+  .mobile-only { display: none; }
+
+  /* Sidebar collapsed tooltip */
+  .sidebar-tt {
+    position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+    background: var(--fg); color: var(--bg);
+    padding: 6px 10px; border-radius: var(--r-sm);
+    font-size: 12px; font-weight: 500; white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.15s ease;
+    box-shadow: var(--shadow-md);
+    z-index: 200;
+  }
+  .admin-sidebar.collapsed .sidebar-item:hover .sidebar-tt { opacity: 1; }
+
+  .admin-sidebar.collapsed .sidebar-item:hover {
+    background: var(--bg-muted);
+  }
+
+  /* Sticky table cells */
+  .admin-table thead th { position: sticky; top: 0; z-index: 2; background: var(--bg-tint); }
+  .admin-table .th-sticky-l { position: sticky; z-index: 3; background: var(--bg-tint); }
+  .admin-table .th-sticky-l[data-pos="0"] { left: 0; }
+  .admin-table .th-sticky-l[data-pos="1"] { left: 44px; }
+  .admin-table .th-sticky-l[data-pos="2"] { left: 144px; }
+  .admin-table .th-sticky-r { position: sticky; right: 0; z-index: 3; background: var(--bg-tint); }
+
+  .admin-table .td-sticky-l { position: sticky; z-index: 1; background: inherit; }
+  .admin-table .td-sticky-l[data-pos="0"] { left: 0; }
+  .admin-table .td-sticky-l[data-pos="1"] { left: 44px; }
+  .admin-table .td-sticky-l[data-pos="2"] { left: 144px; }
+  .admin-table .td-sticky-r { position: sticky; right: 0; z-index: 1; background: inherit; }
+
+  /* Shadow on sticky boundaries */
+  .admin-table .th-sticky-l[data-pos="2"]::after,
+  .admin-table .td-sticky-l[data-pos="2"]::after {
+    content: ''; position: absolute; top: 0; right: -8px; bottom: 0; width: 8px;
+    background: linear-gradient(90deg, rgba(0,0,0,0.05), transparent);
+    pointer-events: none;
+  }
+  .admin-table .th-sticky-r::before,
+  .admin-table .td-sticky-r::before {
+    content: ''; position: absolute; top: 0; left: -8px; bottom: 0; width: 8px;
+    background: linear-gradient(-90deg, rgba(0,0,0,0.05), transparent);
+    pointer-events: none;
+  }
+
+  .admin-table tbody tr { background: var(--surface); }
+  .admin-table tbody tr td { border-bottom: 1px solid var(--border); }
+
+  /* Density */
+  .density-compact .admin-table tbody td { padding-top: 8px; padding-bottom: 8px; }
+
+  .filter-chip {
+    display: inline-flex; align-items: center; gap: 4px;
+    padding: 4px 8px 4px 10px;
+    border-radius: 999px;
+    background: var(--bg-muted);
+    font-size: 11px; font-weight: 500;
+    transition: opacity 0.15s ease;
+  }
+  .filter-chip:hover { opacity: 0.85; }
+
+  /* Range dual thumbs */
+  input[type="range"]::-webkit-slider-thumb { pointer-events: all; -webkit-appearance: none; width: 18px; height: 18px; border-radius: 50%; background: white; border: 2px solid var(--fg); box-shadow: var(--shadow-md); cursor: grab; }
+  input[type="range"]::-moz-range-thumb { pointer-events: all; width: 18px; height: 18px; border-radius: 50%; background: white; border: 2px solid var(--fg); box-shadow: var(--shadow-md); cursor: grab; }
+
+  .mobile-cards { display: none; }
+
+  /* Tablet breakpoint */
+  @media (max-width: 1100px) {
+    .stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  }
+
+  /* Mobile breakpoint */
+  @media (max-width: 900px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: inline-flex !important; }
+    .admin-sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.3s var(--ease-out);
+      width: 248px !important;
+    }
+    .admin-sidebar.mobile-open { transform: translateX(0); }
+    .admin-sidebar.collapsed { width: 248px !important; }
+    .stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+    .desktop-table { display: none; }
+    .mobile-cards { display: block; }
+  }
+
+  /* Viewport simulator */
+  .viewport-mobile {
+    max-width: 414px;
+    margin: 0 auto;
+    box-shadow: 0 0 0 1px var(--border), 0 24px 60px rgba(0,0,0,0.12);
+  }
+  .viewport-mobile .desktop-only { display: none !important; }
+  .viewport-mobile .mobile-only { display: inline-flex !important; }
+  .viewport-mobile .admin-sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+    transform: translateX(-100%); width: 248px !important;
+  }
+  .viewport-mobile .admin-sidebar.mobile-open { transform: translateX(0); }
+  .viewport-mobile .stat-grid { grid-template-columns: 1fr !important; }
+  .viewport-mobile .desktop-table { display: none; }
+  .viewport-mobile .mobile-cards { display: block; }
+
+  body { overflow-x: hidden; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js"></script>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="shop-header.jsx"></script>
+<script type="text/babel" src="shop-overlays.jsx"></script>
+<script type="text/babel" src="admin-sidebar.jsx"></script>
+<script type="text/babel" src="admin-products.jsx"></script>
+<script type="text/babel" src="admin-app.jsx"></script>
+</body>
+</html>

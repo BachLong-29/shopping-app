@@ -2,6 +2,7 @@
 
 import Link from 'next/link'
 import { Mail, MapPin, Phone } from 'lucide-react'
+import { usePathname } from 'next/navigation'
 import { useLanguage } from '@/core/context/LanguageContext'
 
 const SOCIAL = [
@@ -32,7 +33,10 @@ function HaloLogo() {
 }
 
 export default function Footer() {
+  const pathname = usePathname()
   const { t, tArr } = useLanguage()
+
+  if (pathname.startsWith('/my-task')) return null
 
   const COLS = [
     { titleKey: 'footer.cols.shop',    items: tArr('footer.shop_items') },
