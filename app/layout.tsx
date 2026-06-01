@@ -3,9 +3,17 @@ import "./globals.css";
 import Footer from "@/components/layout/Footer";
 import { LanguageProvider } from "@/core/context/LanguageContext";
 import type { Metadata } from "next";
+import { Instrument_Serif } from "next/font/google";
 import Navigation from "@/components/layout/navigation/Navigation";
 import ReduxProvider from "@/redux/Provider";
 import { ThemeProvider } from "@/core/context/ThemeContext";
+
+const instrumentSerif = Instrument_Serif({
+  weight: "400",
+  subsets: ["latin"],
+  variable: "--font-instrument-serif",
+  display: "swap",
+});
 
 export const metadata: Metadata = {
   title: "Home Page",
@@ -23,15 +31,14 @@ export default async function RootLayout({
   children: React.ReactNode;
 }>) {
   return (
-    <html lang="en" className="dark">
+    <html lang="en" className={`${instrumentSerif.variable}`}>
       <body>
         <ReduxProvider>
           <LanguageProvider>
             <ThemeProvider>
               <div className="flex flex-col min-h-screen">
-                {<Navigation />}
-                {/* Main Content */}
-                <main className="flex-1 pt-4 container mx-auto p-4">
+                <Navigation />
+                <main className="flex-1">
                   {children}
                 </main>
                 <Footer />

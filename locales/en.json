@@ -1,15 +1,19 @@
 {
   "general": {
     "product": "product",
-    "all_products": "all products",
-    "top_seller": "top seller",
+    "all_products": "All products",
+    "top_seller": "Top seller",
     "category": "category",
     "see_more": "See more",
     "male": "Male",
     "female": "Female",
     "other": "Other",
+    "reviews": "reviews",
+    "view_all": "View all",
+    "scroll_left": "Scroll left",
+    "scroll_right": "Scroll right",
     "import": {
-      "drag_file": "Drag and drop file into here or upload from your devices",
+      "drag_file": "Drag and drop file here or click to upload",
       "file_choosen": "File:"
     }
   },
@@ -22,6 +26,7 @@
     "my_task": "My task",
     "product": "Product",
     "wishlist": "Wishlist",
+    "cart": "Cart",
     "category": "Category",
     "sales_order": "Sales order",
     "purchase_order": "Purchase order",
@@ -32,7 +37,8 @@
   },
   "action": {
     "log_out": "Log out",
-    "search": "Search for product...",
+    "search": "Search products...",
+    "search_hint": "Search {count}+ products",
     "create_account": "Create an account",
     "sign_up": "Sign up",
     "sign_in": "Sign in",
@@ -93,12 +99,19 @@
     },
     "images": "Images",
     "message": {
-      "confirm_delete": "Are you sure to remove this product?",
-      "add_to_cart": "Successfully added the product to the cart.",
+      "confirm_delete": "Are you sure you want to delete this product?",
+      "add_to_cart": "Successfully added to cart.",
       "updare_cart": "Update cart.",
       "update_wishlist": "Update wishlist.",
-      "add_to_wishlist": "Successfully added the product to the wishlist.",
-      "remove_from_wishlist": "Successfully removed the product from the wishlist."
+      "add_to_wishlist": "Added to wishlist.",
+      "remove_from_wishlist": "Removed from wishlist."
+    },
+    "card": {
+      "add_to_bag": "Add to bag · {price}",
+      "out_of_stock": "Out of stock",
+      "quick_add": "Quick add",
+      "wishlist": "Wishlist",
+      "quick_view": "Quick view"
     }
   },
   "breadcrumb": {
@@ -111,5 +124,182 @@
     "cancel": "Cancel",
     "continue": "Continue",
     "confirm": "Confirmation"
+  },
+  "nav": {
+    "promo_text": "Flash sale ends in {time} · Free shipping over {min}",
+    "promo_cta": "Shop now →",
+    "notifications": "Notifications",
+    "wishlist": "Wishlist · {count}",
+    "cart": "Cart · {count}",
+    "toggle_theme": "Toggle theme",
+    "open_menu": "Open menu",
+    "close": "Close",
+    "discover": "Discover"
+  },
+  "footer": {
+    "tagline": "An editorial-led shop for considered objects. Independent since 2019, employee-owned since 2024.",
+    "get_app": "Get the Halo app",
+    "app_store": "App Store",
+    "play_store": "Play Store",
+    "payment_methods": "Payment methods",
+    "copyright": "© 2026 Halo Studio Ltd.",
+    "cols": {
+      "shop": "Shop",
+      "help": "Help",
+      "studio": "Studio",
+      "connect": "Connect"
+    },
+    "shop_items": ["New In", "Best Sellers", "Sale", "Gift cards", "Halo Loves", "Last chance"],
+    "help_items": ["Contact us", "Shipping & returns", "Order status", "Size guide", "Care guides", "Repair program"],
+    "studio_items": ["About Halo", "The Journal", "Maker network", "Sustainability", "Press kit", "Careers"],
+    "connect_items": ["Wholesale", "Affiliate", "Refer a friend", "Trade program", "Open call"],
+    "address": "42 Nguyen Hue, D.1, Ho Chi Minh City",
+    "phone": "+84 28 1234 5678",
+    "email": "hello@halo.studio",
+    "legal_items": ["Privacy", "Terms", "Cookie", "Accessibility"]
+  },
+  "home": {
+    "hero": {
+      "slide_1_eyebrow": "NEW COLLECTION 2026",
+      "slide_1_title_1": "Quiet things",
+      "slide_1_title_2": "for loud lives.",
+      "slide_1_sub": "Curated products from independent makers. Real quality, transparent pricing.",
+      "slide_1_cta_1": "Shop now",
+      "slide_1_cta_2": "Learn more",
+      "slide_1_stat_1_value": "500+",
+      "slide_1_stat_1_label": "products",
+      "slide_1_stat_2_value": "100%",
+      "slide_1_stat_2_label": "quality",
+      "slide_2_eyebrow": "HOT SALE · TODAY ONLY",
+      "slide_2_title_1": "Special deals",
+      "slide_2_title_2": "today only.",
+      "slide_2_sub": "Thousands of products on sale — from fashion to electronics and home goods.",
+      "slide_2_cta_1": "See deals",
+      "slide_2_cta_2": "Set reminder",
+      "slide_2_stat_1_value": "Up to",
+      "slide_2_stat_1_label": "40% off",
+      "slide_2_stat_2_value": "24h",
+      "slide_2_stat_2_label": "remaining",
+      "slide_3_eyebrow": "PRE-ORDER · OPEN NOW",
+      "slide_3_title_1": "New arrivals,",
+      "slide_3_title_2": "in your hands first.",
+      "slide_3_sub": "Pre-order today for exclusive early pricing. On-time delivery, guaranteed.",
+      "slide_3_cta_1": "Pre-order now",
+      "slide_3_cta_2": "Watch video",
+      "slide_3_stat_1_value": "2–3",
+      "slide_3_stat_1_label": "day delivery",
+      "slide_3_stat_2_value": "Free",
+      "slide_3_stat_2_label": "shipping",
+      "chip_browsing": "Now browsing",
+      "chip_people": "{count} people",
+      "chip_verified": "Verified",
+      "chip_verified_detail": "4.9 · 12k reviews"
+    },
+    "features": {
+      "shipping_title": "Free shipping",
+      "shipping_sub": "Orders from $50",
+      "returns_title": "30-day returns",
+      "returns_sub": "No questions asked",
+      "payment_title": "Secure payment",
+      "payment_sub": "SSL · 256-bit encryption",
+      "delivery_title": "Fast delivery",
+      "delivery_sub": "Inner city in 2 hours"
+    },
+    "categories": {
+      "eyebrow": "Shop by category",
+      "title": "Six worlds, one studio.",
+      "sub": "Every category is editorial-led. We don't list a product unless we've used it for at least 30 days.",
+      "products_count": "{count} products"
+    },
+    "top_seller": {
+      "eyebrow": "Top seller",
+      "title": "Hand-picked, never algorithmic.",
+      "sub": "A short list, updated by editors every day. No sponsored placements.",
+      "view_all": "View all"
+    },
+    "featured": {
+      "eyebrow": "Featured this week",
+      "title": "Curated, never algorithmic.",
+      "sub": "Short list, refreshed every Monday by our editors. No sponsored placements.",
+      "view_all": "View all {count}",
+      "tab_all": "All",
+      "tab_audio": "Audio",
+      "tab_home": "Home",
+      "tab_workspace": "Workspace",
+      "tab_wearables": "Wearables",
+      "add_to_bag": "Add to bag · ${price}",
+      "wishlist": "Wishlist",
+      "quick_view": "Quick view"
+    },
+    "flash_sale": {
+      "badge": "FLASH SALE",
+      "title_main": "Big savings,",
+      "title_accent": "quiet pieces.",
+      "sub": "Up to 40% off audio, lighting and home essentials. Once stock runs out, the price returns.",
+      "hrs": "HRS",
+      "min": "MIN",
+      "sec": "SEC",
+      "claimed": "{pct}% claimed",
+      "buy_now": "Buy now"
+    },
+    "trending": {
+      "eyebrow": "Trending right now",
+      "title": "What people are saving today.",
+      "sub": "Updated every hour from anonymized wishlist signals.",
+      "view_all": "View all"
+    },
+    "best_sellers": {
+      "eyebrow": "Best sellers · This month",
+      "title": "What 38,219 people actually bought.",
+      "sub": "Ranked by orders, not search volume. Updated daily at midnight UTC.",
+      "cta_primary": "Shop best sellers",
+      "cta_secondary": "View report →",
+      "this_week": "This week",
+      "vs_last_week": "vs last week",
+      "add": "Add",
+      "days": "Mon,Tue,Wed,Thu,Fri,Sat,Sun"
+    },
+    "browse": {
+      "eyebrow": "Browse everything",
+      "title": "Find your style.",
+      "sub": "2,318 products, refined by 18 filters.",
+      "filters_btn": "Filters",
+      "filters_title": "Filters",
+      "products_count": "{count} products",
+      "filter_category": "Category",
+      "filter_price": "Max price: ${price}",
+      "filter_rating": "Min rating",
+      "filter_brand": "Brand",
+      "and_up": "& up",
+      "sort_featured": "Featured",
+      "sort_newest": "Newest",
+      "sort_price_asc": "Price: low→high",
+      "sort_price_desc": "Price: high→low",
+      "sort_top_rated": "Top rated"
+    },
+    "recommended": {
+      "eyebrow": "Recommended for you",
+      "title": "Picked for your taste profile.",
+      "sub": "Based on your browsing history and 12 recently viewed products.",
+      "view_all": "View all"
+    },
+    "testimonials": {
+      "eyebrow": "What people say",
+      "title": "38,219 quietly happy people.",
+      "featured_in": "Featured in",
+      "verified": "Verified"
+    },
+    "newsletter": {
+      "subscribers": "{count} subscribers",
+      "title": "The",
+      "title_accent": "Monday Note.",
+      "sub": "Five quiet picks, one studio visit, zero spam. Every Monday at 7am.",
+      "placeholder": "you@studio.com",
+      "subscribe": "Subscribe",
+      "subscribed": "Subscribed",
+      "trust_1": "Unsubscribe anytime",
+      "trust_2": "No third-party sharing",
+      "trust_3": "1% to maker workshops"
+    }
   }
 }

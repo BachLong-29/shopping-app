@@ -2,11 +2,16 @@
   "general": {
     "product": "sản phẩm",
     "all_products": "Tất cả sản phẩm",
+    "top_seller": "top seller",
     "category": "Loại sản phẩm",
     "see_more": "Xem thêm",
     "male": "Nam",
     "female": "Nữ",
     "other": "Khác",
+    "reviews": "đánh giá",
+    "view_all": "Xem tất cả",
+    "scroll_left": "Cuộn trái",
+    "scroll_right": "Cuộn phải",
     "import": {
       "drag_file": "Kéo và thả file vào đây hoặc nhấp để tải lên",
       "file_choosen": "File đã chọn:"
@@ -21,6 +26,7 @@
     "my_task": "Công việc",
     "product": "Sản phẩm",
     "wishlist": "Danh sách yêu thích",
+    "cart": "Giỏ hàng",
     "category": "Ngành hàng",
     "sales_order": "Đơn bán hàng",
     "purchase_order": "Đơn mua hàng",
@@ -32,6 +38,7 @@
   "action": {
     "log_out": "Đăng xuất",
     "search": "Tìm kiếm sản phẩm...",
+    "search_hint": "Tìm kiếm {count}+ sản phẩm",
     "create_account": "Tạo tài khoản",
     "sign_up": "Đăng ký",
     "sign_in": "Đăng nhập",
@@ -98,6 +105,13 @@
       "update_wishlist": "Cập nhật danh sách thích.",
       "add_to_wishlist": "Đã thêm thành công sản phẩm vào danh sách thích.",
       "remove_from_wishlist": "Đã xóa thành công sản phẩm khỏi danh sách thích."
+    },
+    "card": {
+      "add_to_bag": "Thêm vào giỏ · {price}",
+      "out_of_stock": "Hết hàng",
+      "quick_add": "Thêm nhanh",
+      "wishlist": "Yêu thích",
+      "quick_view": "Xem nhanh"
     }
   },
   "breadcrumb": {
@@ -110,5 +124,182 @@
     "cancel": "Hủy",
     "continue": "Tiếp tục",
     "confirm": "Xác nhận"
+  },
+  "nav": {
+    "promo_text": "Flash sale kết thúc sau {time} · Miễn phí ship từ {min}",
+    "promo_cta": "Mua ngay →",
+    "notifications": "Thông báo",
+    "wishlist": "Yêu thích · {count}",
+    "cart": "Giỏ hàng · {count}",
+    "toggle_theme": "Đổi giao diện",
+    "open_menu": "Mở menu",
+    "close": "Đóng",
+    "discover": "Khám phá"
+  },
+  "footer": {
+    "tagline": "Cửa hàng do biên tập viên dẫn dắt cho những vật dụng được suy nghĩ kỹ lưỡng. Độc lập từ 2019, sở hữu bởi nhân viên từ 2024.",
+    "get_app": "Tải ứng dụng Halo",
+    "app_store": "App Store",
+    "play_store": "Play Store",
+    "payment_methods": "Phương thức thanh toán",
+    "copyright": "© 2026 Halo Studio Ltd.",
+    "cols": {
+      "shop": "Shop",
+      "help": "Hỗ trợ",
+      "studio": "Studio",
+      "connect": "Kết nối"
+    },
+    "shop_items": ["New In", "Best Sellers", "Khuyến mãi", "Thẻ quà tặng", "Halo Loves", "Hàng cuối kho"],
+    "help_items": ["Liên hệ", "Vận chuyển & đổi trả", "Tra cứu đơn hàng", "Hướng dẫn size", "Hướng dẫn bảo quản", "Chương trình sửa chữa"],
+    "studio_items": ["Về Halo", "Nhật ký", "Mạng lưới nhà sản xuất", "Bền vững", "Bộ press kit", "Tuyển dụng"],
+    "connect_items": ["Bán sỉ", "Affiliate", "Giới thiệu bạn bè", "Chương trình Trade", "Open call"],
+    "address": "42 Nguyễn Huệ, Q.1, TP.HCM",
+    "phone": "+84 28 1234 5678",
+    "email": "hello@halo.studio",
+    "legal_items": ["Bảo mật", "Điều khoản", "Cookie", "Khả năng tiếp cận"]
+  },
+  "home": {
+    "hero": {
+      "slide_1_eyebrow": "BỘ SƯU TẬP MỚI 2026",
+      "slide_1_title_1": "Những điều yên tĩnh",
+      "slide_1_title_2": "cho cuộc sống ồn ào.",
+      "slide_1_sub": "Sản phẩm được tuyển chọn từ các nhà sản xuất độc lập. Chất lượng thật, giá cả minh bạch.",
+      "slide_1_cta_1": "Mua ngay",
+      "slide_1_cta_2": "Xem thêm",
+      "slide_1_stat_1_value": "500+",
+      "slide_1_stat_1_label": "sản phẩm",
+      "slide_1_stat_2_value": "100%",
+      "slide_1_stat_2_label": "chất lượng",
+      "slide_2_eyebrow": "HOT SALE · CHỈ HÔM NAY",
+      "slide_2_title_1": "Ưu đãi đặc biệt",
+      "slide_2_title_2": "chỉ hôm nay.",
+      "slide_2_sub": "Hàng ngàn sản phẩm giảm giá mạnh — từ thời trang đến điện tử, đồ gia dụng.",
+      "slide_2_cta_1": "Xem khuyến mãi",
+      "slide_2_cta_2": "Đặt nhắc nhở",
+      "slide_2_stat_1_value": "Đến",
+      "slide_2_stat_1_label": "40% off",
+      "slide_2_stat_2_value": "24h",
+      "slide_2_stat_2_label": "còn lại",
+      "slide_3_eyebrow": "PRE-ORDER · MỞ ĐẶT TRƯỚC",
+      "slide_3_title_1": "Sản phẩm mới,",
+      "slide_3_title_2": "về tay bạn trước.",
+      "slide_3_sub": "Đặt trước hôm nay để nhận ưu đãi sớm nhất. Giao hàng đúng hẹn, không điều kiện.",
+      "slide_3_cta_1": "Đặt trước ngay",
+      "slide_3_cta_2": "Xem video",
+      "slide_3_stat_1_value": "2–3",
+      "slide_3_stat_1_label": "ngày giao",
+      "slide_3_stat_2_value": "Miễn phí",
+      "slide_3_stat_2_label": "vận chuyển",
+      "chip_browsing": "Đang mua sắm",
+      "chip_people": "{count} người",
+      "chip_verified": "Đã xác minh",
+      "chip_verified_detail": "4.9 · 12k đánh giá"
+    },
+    "features": {
+      "shipping_title": "Miễn phí vận chuyển",
+      "shipping_sub": "Đơn hàng từ 500.000₫",
+      "returns_title": "Đổi trả 30 ngày",
+      "returns_sub": "Không cần giải thích",
+      "payment_title": "Thanh toán bảo mật",
+      "payment_sub": "SSL · Mã hoá 256-bit",
+      "delivery_title": "Giao hàng nhanh",
+      "delivery_sub": "Nội thành trong 2 giờ"
+    },
+    "categories": {
+      "eyebrow": "Mua sắm theo danh mục",
+      "title": "Sáu thế giới, một cửa hàng.",
+      "sub": "Mỗi danh mục đều do biên tập viên dẫn dắt. Chúng tôi không liệt kê sản phẩm nếu chưa dùng ít nhất 30 ngày.",
+      "products_count": "{count} sản phẩm"
+    },
+    "top_seller": {
+      "eyebrow": "Bán chạy nhất",
+      "title": "Được chọn lọc, không thuật toán.",
+      "sub": "Danh sách ngắn, được biên tập viên cập nhật mỗi ngày. Không có vị trí tài trợ.",
+      "view_all": "Xem tất cả"
+    },
+    "featured": {
+      "eyebrow": "Nổi bật tuần này",
+      "title": "Được chọn lọc, không thuật toán.",
+      "sub": "Danh sách ngắn, được cập nhật mỗi thứ Hai bởi biên tập viên. Không có vị trí tài trợ.",
+      "view_all": "Xem tất cả {count}",
+      "tab_all": "Tất cả",
+      "tab_audio": "Audio",
+      "tab_home": "Nhà cửa",
+      "tab_workspace": "Không gian làm việc",
+      "tab_wearables": "Phụ kiện",
+      "add_to_bag": "Thêm vào giỏ · ${price}",
+      "wishlist": "Yêu thích",
+      "quick_view": "Xem nhanh"
+    },
+    "flash_sale": {
+      "badge": "FLASH SALE",
+      "title_main": "Tiết kiệm lớn,",
+      "title_accent": "món đồ yên tĩnh.",
+      "sub": "Giảm đến 40% audio, đèn và đồ gia dụng. Hết hàng là hết giá ưu đãi.",
+      "hrs": "GIỜ",
+      "min": "PHÚT",
+      "sec": "GIÂY",
+      "claimed": "{pct}% đã được đặt",
+      "buy_now": "Mua ngay"
+    },
+    "trending": {
+      "eyebrow": "Đang được quan tâm",
+      "title": "Những gì mọi người đang lưu hôm nay.",
+      "sub": "Cập nhật mỗi giờ từ tín hiệu wishlist ẩn danh.",
+      "view_all": "Xem tất cả"
+    },
+    "best_sellers": {
+      "eyebrow": "Best sellers · Tháng này",
+      "title": "Điều 38.219 người thực sự đã mua.",
+      "sub": "Xếp hạng theo đơn đặt hàng, không theo lượng tìm kiếm. Cập nhật hàng ngày lúc nửa đêm UTC.",
+      "cta_primary": "Xem best sellers",
+      "cta_secondary": "Xem báo cáo →",
+      "this_week": "Tuần này",
+      "vs_last_week": "so với tuần trước",
+      "add": "Thêm",
+      "days": "T2,T3,T4,T5,T6,T7,CN"
+    },
+    "browse": {
+      "eyebrow": "Duyệt tất cả",
+      "title": "Tìm phong cách của bạn.",
+      "sub": "2.318 sản phẩm, lọc bằng 18 bộ lọc.",
+      "filters_btn": "Bộ lọc",
+      "filters_title": "Bộ lọc",
+      "products_count": "{count} sản phẩm",
+      "filter_category": "Danh mục",
+      "filter_price": "Giá tối đa: ${price}",
+      "filter_rating": "Đánh giá tối thiểu",
+      "filter_brand": "Thương hiệu",
+      "and_up": "& lên",
+      "sort_featured": "Nổi bật",
+      "sort_newest": "Mới nhất",
+      "sort_price_asc": "Giá: thấp→cao",
+      "sort_price_desc": "Giá: cao→thấp",
+      "sort_top_rated": "Đánh giá cao nhất"
+    },
+    "recommended": {
+      "eyebrow": "Gợi ý cho bạn",
+      "title": "Được chọn dựa trên hồ sơ sở thích.",
+      "sub": "Dựa trên lịch sử xem và 12 sản phẩm gần đây nhất.",
+      "view_all": "Xem tất cả"
+    },
+    "testimonials": {
+      "eyebrow": "Khách hàng nói gì",
+      "title": "38.219 người hài lòng.",
+      "featured_in": "Được giới thiệu bởi",
+      "verified": "Đã xác minh"
+    },
+    "newsletter": {
+      "subscribers": "{count} người đăng ký",
+      "title": "Bản tin",
+      "title_accent": "Thứ Hai.",
+      "sub": "Năm lựa chọn yên tĩnh, một chuyến thăm xưởng, không spam. Mỗi thứ Hai lúc 7 giờ sáng.",
+      "placeholder": "ban@studio.com",
+      "subscribe": "Đăng ký",
+      "subscribed": "Đã đăng ký",
+      "trust_1": "Hủy bất cứ lúc nào",
+      "trust_2": "Không chia sẻ bên thứ ba",
+      "trust_3": "1% hỗ trợ xưởng thủ công"
+    }
   }
 }
