@@ -1,52 +1,44 @@
-import { Gender, UserInfo } from "@/core/model/User";
-
-import Image from "next/image";
-import { Menu } from "lucide-react";
-import React from "react";
-import { cn } from "@/lib/utils";
+import { Gender, UserInfo } from "@/core/model/User"
+import Image from "next/image"
+import React from "react"
 
 const UserCard = ({
   userInfo,
   isShorten,
 }: {
-  userInfo: UserInfo;
-  isShorten?: boolean;
+  userInfo: UserInfo
+  isShorten?: boolean
 }) => {
   const userAvatar = userInfo.avatar
     ? userInfo.avatar
     : userInfo?.gender === Gender.Female
       ? "/images/female-avatar.jpg"
-      : "/images/male-avatar.jpg";
+      : "/images/male-avatar.jpg"
+
+  if (isShorten) {
+    return (
+      <Image
+        width={32}
+        height={32}
+        alt="avatar-user"
+        src={userAvatar}
+        className="w-8 h-8 rounded-full border-2 border-halo-violet/40 cursor-pointer object-cover"
+      />
+    )
+  }
 
   return (
-    <>
-      {isShorten ? (
-        <Image
-          width={35}
-          height={35}
-          alt="avatar-user"
-          src={userAvatar}
-          className="w-[45px] h-[45px] rounded-full border border-pink-500 cursor-pointer"
-        />
-      ) : (
-        <div
-          className={cn(
-            "flex items-center border bg-black text-white gap-2 rounded-full p-2 pr-3 cursor-pointer shrink-0 min-w-[140px] lg:min-w-[auto]",
-          )}
-        >
-          <Image
-            width={35}
-            height={35}
-            alt="avatar-user"
-            src={userAvatar}
-            className="w-[35px] h-[35px] rounded-full border border-pink-500"
-          />
-          <span className="truncate">{userInfo.name}</span>
-          <Menu size={14} className="mt-[3px] xl:hidden" />
-        </div>
-      )}
-    </>
-  );
-};
+    <div className="flex items-center gap-2 bg-foreground text-background rounded-full py-1.5 pl-1.5 pr-3 cursor-pointer shrink-0 hover:opacity-90 transition-opacity">
+      <Image
+        width={28}
+        height={28}
+        alt="avatar-user"
+        src={userAvatar}
+        className="w-7 h-7 rounded-full border border-halo-violet/50 object-cover"
+      />
+      <span className="text-sm font-medium truncate max-w-[100px]">{userInfo.name}</span>
+    </div>
+  )
+}
 
-export default UserCard;
+export default UserCard
