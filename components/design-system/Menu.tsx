@@ -82,7 +82,7 @@ function Dropdown({ trigger, children, align = 'right', className }: DropdownPro
 
   return (
     <div ref={ref} className="relative inline-flex">
-      {React.cloneElement(trigger, { onClick: () => setOpen((v) => !v) })}
+      {React.cloneElement(trigger as React.ReactElement<{ onClick?: React.MouseEventHandler }>, { onClick: () => setOpen((v) => !v) })}
       {open && (
         <div
           className={cn(

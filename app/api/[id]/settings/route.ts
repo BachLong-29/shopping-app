@@ -4,16 +4,13 @@ import { connectDB } from "@/lib/mongodb";
 import Settings from "@/core/schema/Settings";
 
 type Params = {
-  params: {
-    userId: string;
-  };
+  params: Promise<{ id: string }>;
 };
 
 export async function GET(req: any, { params }: Params) {
   await connectDB();
 
-  //   const { userId } = params;
-  const userId = req.nextUrl.pathname.split("/")[2];
+  const { id: userId } = await params;
 
   if (!userId) {
     return NextResponse.json({ message: "Missing userId" }, { status: 400 });
@@ -26,9 +23,9 @@ export async function GET(req: any, { params }: Params) {
 
 export async function POST(req: any, { params }: Params) {
   await connectDB();
-  const userId = req.nextUrl.pathname.split("/")[2];
 
-  //   const { userId } = params;
+  const { id: userId } = await params;
+
   const body = await req.json();
   const { address, theme, language } = body;
 

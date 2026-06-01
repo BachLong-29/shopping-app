@@ -11,12 +11,12 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
   const { t } = useLanguage()
   const [wished, setWished] = useState(false)
 
-  const badgeVariant = {
+  const badgeVariant = ({
     sale:    'sale',
     new:     'new',
     hot:     'hot',
     limited: 'limited',
-  }[product.badge ?? ''] as 'sale' | 'new' | 'hot' | 'limited' | undefined
+  } as Record<string, string>)[product.badge ?? ''] as 'sale' | 'new' | 'hot' | 'limited' | undefined
 
   return (
     <article
