@@ -2,7 +2,7 @@ import { CartItem } from "@/core/model/Cart";
 import HttpService from "@/core/services/httpService";
 
 class CartService extends HttpService {
-  async getCart(userId: { userId: string }): Promise<{
+  async getCart(userId: string): Promise<{
     userId: string;
     items: CartItem[];
   }> {

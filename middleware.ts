@@ -1,27 +1,25 @@
-// middleware.ts (Next.js 15)
-
 import type { NextRequest } from "next/server";
 import { NextResponse } from "next/server";
 
 export function middleware(req: NextRequest) {
-  const token = req.cookies.get("token")?.value; // Lấy giá trị token từ cookie
+  const accessToken = req.cookies.get("access_token")?.value;
+  const refreshToken = req.cookies.get("refresh_token")?.value;
+  const isAuthenticated = !!(accessToken || refreshToken);
+
   const currentPath = req.nextUrl.pathname;
   const isLoginPage = currentPath === "/login";
-  const isAuthenticated = !!token;
 
-  // check auth in login page.
   if (isLoginPage) {
     return isAuthenticated
       ? NextResponse.redirect(new URL("/", req.url))
       : NextResponse.next();
   }
 
-  // check auth in other page.
   return !isAuthenticated
     ? NextResponse.redirect(new URL("/login", req.url))
     : NextResponse.next();
 }
 
 export const config = {
-  matcher: ["/my-task/:path*", "/cart", "/login"], // Các route yêu cầu đăng nhập
+  matcher: ["/my-task/:path*", "/cart", "/login"],
 };

@@ -4,7 +4,7 @@ import Cart from "@/core/schema/Cart";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
+import { verifyAccessToken } from "@/lib/auth";
 
 export async function POST(req: any) {
   try {
@@ -12,13 +12,16 @@ export async function POST(req: any) {
     const body = await req.json();
     const { productId, quantity } = body;
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = cookieStore.get("access_token")?.value;
 
     if (!token) {
       return NextResponse.json({ message: "Chưa đăng nhập" }, { status: 401 });
     }
 
-    const user = verifyToken(token);
+    const user = verifyAccessToken(token);
+    if (!user) {
+      return NextResponse.json({ message: "Token không hợp lệ" }, { status: 401 });
+    }
 
     let cart = await Cart.findOne({ userId: user._id });
 
@@ -38,7 +41,7 @@ export async function POST(req: any) {
     await cart.save();
 
     return NextResponse.json(
-      { message: "✅ Lấy chi tiết sản phẩm", cart },
+      { message: "✅ Thêm vào giỏ hàng thành công", cart },
       { status: 200 }
     );
   } catch (error) {

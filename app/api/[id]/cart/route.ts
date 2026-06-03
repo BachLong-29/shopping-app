@@ -4,7 +4,7 @@ import Cart from "@/core/schema/Cart";
 import { NextResponse } from "next/server";
 import { connectDB } from "@/lib/mongodb";
 import { cookies } from "next/headers";
-import { verifyToken } from "@/lib/auth";
+import { verifyAccessToken } from "@/lib/auth";
 
 export async function GET(req: any) {
   try {
@@ -42,22 +42,25 @@ export async function GET(req: any) {
     return NextResponse.json({ message: "Internal Error" }, { status: 500 });
   }
 }
+
 export async function DELETE(req: any) {
   try {
     await connectDB();
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = cookieStore.get("access_token")?.value;
     const body = await req.json();
     const { productId } = body;
 
     if (!token) {
       return NextResponse.json({ message: "Chưa đăng nhập" }, { status: 401 });
     }
-    const user = verifyToken(token);
 
-    // Tìm giỏ hàng của user
+    const user = verifyAccessToken(token);
+    if (!user) {
+      return NextResponse.json({ message: "Token không hợp lệ" }, { status: 401 });
+    }
+
     const cart = await Cart.findOne({ userId: user._id });
-
     if (!cart) {
       return NextResponse.json(
         { message: "Giỏ hàng không tồn tại" },
@@ -65,12 +68,10 @@ export async function DELETE(req: any) {
       );
     }
 
-    // Lọc bỏ sản phẩm có productId khỏi danh sách items
     cart.items = cart.items.filter(
       (item: any) => item.productId.toString() !== productId
     );
 
-    // Lưu lại giỏ hàng đã cập nhật
     await cart.save();
 
     return NextResponse.json({ message: "✅ Đã xóa", cart }, { status: 200 });
@@ -84,18 +85,20 @@ export async function PUT(req: any) {
   try {
     await connectDB();
     const cookieStore = await cookies();
-    const token = cookieStore.get("token")?.value;
+    const token = cookieStore.get("access_token")?.value;
     const body = await req.json();
     const { productId, quantity } = body;
 
     if (!token) {
       return NextResponse.json({ message: "Chưa đăng nhập" }, { status: 401 });
     }
-    const user = verifyToken(token);
 
-    // Tìm giỏ hàng của user
+    const user = verifyAccessToken(token);
+    if (!user) {
+      return NextResponse.json({ message: "Token không hợp lệ" }, { status: 401 });
+    }
+
     const cart = await Cart.findOne({ userId: user._id });
-
     if (!cart) {
       return NextResponse.json(
         { message: "Giỏ hàng không tồn tại" },
