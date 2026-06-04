@@ -1,6 +1,8 @@
 import HttpService from "@/core/services/httpService";
 import { UserInfo } from "@/core/model/User";
 
+type EditPayload = Omit<UserInfo, "_id" | "role"> & { id: string };
+
 class ProfileService extends HttpService {
   getUserInfo(): Promise<{ user: UserInfo }> {
     return this.get("/api/user", {});
@@ -8,13 +10,8 @@ class ProfileService extends HttpService {
   getProfile(id: string): Promise<UserInfo> {
     return this.get(`/api/user/${id}`, {});
   }
-  editUserProfile({
-    id,
-    ...data
-  }: Omit<UserInfo, "_id" | "role"> & {
-    id: string;
-  }) {
-    return this.put(`api/user/${id}`, { ...data });
+  editUserProfile({ id, ...data }: EditPayload) {
+    return this.put(`/api/user/${id}`, { ...data });
   }
 }
 

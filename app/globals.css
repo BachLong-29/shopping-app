@@ -1,4 +1,5 @@
 @import url("https://fonts.googleapis.com/css2?family=Poppins:wght@200&display=swap");
+@import url("https://fonts.googleapis.com/css2?family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap");
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
@@ -38,9 +39,15 @@
     --sidebar-accent-foreground: 240 5.9% 10%;
     --sidebar-border: 220 13% 91%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    /* custom */
     --muted-custom: 240 5.9% 90%;
     --reverse-background: 0 0% 100%;
+    --font-instrument-serif: 'Instrument Serif';
+
+    /* ── Profile palette tokens (light) ── */
+    --halo-soft:    264 6% 55%;    /* #8A8295 — softer muted text  */
+    --halo-surface: 0 0% 100%;     /* #FFFFFF — card surface        */
+    --halo-subtle:  40 33% 97%;    /* #FBF9F4 — surface-2 / tinted  */
+    --halo-tint:    38 27% 95%;    /* #F7F3EB — bg-tint             */
   }
 
   .dark {
@@ -76,36 +83,96 @@
     --sidebar-accent-foreground: 240 4.8% 95.9%;
     --sidebar-border: 240 3.7% 15.9%;
     --sidebar-ring: 217.2 91.2% 59.8%;
-    /* custom */
     --muted-custom: 240 3.7% 15.9%;
     --reverse-background: 240 10% 3.9%;
+
+    /* ── Profile palette tokens (dark) ── */
+    --halo-soft:    267 11% 40%;   /* #6B6478 */
+    --halo-surface: 249 20% 9%;    /* #11101A */
+    --halo-subtle:  252 17% 12%;   /* #16151F */
+    --halo-tint:    249 19% 14%;   /* #1A1828 */
   }
 }
 
 @layer base {
-  * {
-    @apply border-border outline-ring/50;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
-
-  .show-hide {
-    @apply md:block hidden;
-  }
-  .show-hide-flex {
-    @apply md:flex hidden;
-  }
-  .all-center {
-    @apply justify-center items-center;
-  }
+  * { @apply border-border outline-ring/50; }
+  body { @apply bg-background text-foreground; }
+  .show-hide       { @apply md:block hidden; }
+  .show-hide-flex  { @apply md:flex hidden; }
+  .all-center      { @apply justify-center items-center; }
 }
 
-@layer base {
-  * {
-    @apply border-border;
-  }
-  body {
-    @apply bg-background text-foreground;
-  }
+/* ── Profile: keyframe animations ──────────────────────────────────── */
+@keyframes p-spin {
+  to { transform: rotate(360deg); }
+}
+@keyframes p-bob {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-8px); }
+}
+@keyframes p-sheen {
+  0%         { background-position: 130% 0; }
+  60%, 100%  { background-position: -40% 0; }
+}
+@keyframes p-pulse-ring {
+  0%   { box-shadow: 0 0 0 0 rgba(16,185,129,0.5); }
+  70%  { box-shadow: 0 0 0 12px rgba(16,185,129,0); }
+  100% { box-shadow: 0 0 0 0 rgba(16,185,129,0); }
+}
+@keyframes p-map-ping {
+  0%   { transform: translate(-50%,-50%) scale(0.6); opacity: 0.8; }
+  100% { transform: translate(-50%,-50%) scale(4);   opacity: 0;   }
+}
+@keyframes p-cta-float {
+  0%, 100% { transform: translateY(0); }
+  50%       { transform: translateY(-4px); }
+}
+
+/* ── Profile: avatar spinning ring (::before/::after can't be Tailwind) ── */
+.avatar-frame {
+  position: relative;
+  width: clamp(120px, 13vw, 156px);
+  aspect-ratio: 1;
+  flex-shrink: 0;
+  border-radius: 30%;
+  padding: 5px;
+  animation: p-bob 6s ease-in-out infinite;
+}
+.avatar-frame::before,
+.avatar-frame::after {
+  content: '';
+  position: absolute;
+  inset: -3px;
+  border-radius: inherit;
+  background: conic-gradient(from 0deg, #7c3aed, #ec4899, #f59e0b, #0ea5e9, #7c3aed);
+  animation: p-spin 6s linear infinite;
+}
+.avatar-frame::before { z-index: 0; }
+.avatar-frame::after  { filter: blur(18px); opacity: 0.6; z-index: -1; }
+
+/* ── Profile: hero sheen animation (complex background-position keyframe) ── */
+.hero-sheen {
+  position: absolute;
+  inset: 0;
+  background: linear-gradient(105deg, transparent 30%, rgba(255,255,255,0.18) 48%, transparent 62%);
+  background-size: 280% 100%;
+  animation: p-sheen 7s cubic-bezier(0.65, 0, 0.35, 1) infinite;
+}
+
+/* ── Profile: map grid mask (mask-image has no Tailwind utility) ── */
+.map-grid {
+  position: absolute;
+  inset: 0;
+  background-image:
+    linear-gradient(rgba(0,0,0,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(0,0,0,0.12) 1px, transparent 1px);
+  background-size: 28px 28px;
+  opacity: 0.5;
+  -webkit-mask-image: radial-gradient(circle at 58% 50%, black 30%, transparent 78%);
+  mask-image: radial-gradient(circle at 58% 50%, black 30%, transparent 78%);
+}
+.dark .map-grid {
+  background-image:
+    linear-gradient(rgba(255,255,255,0.12) 1px, transparent 1px),
+    linear-gradient(90deg, rgba(255,255,255,0.12) 1px, transparent 1px);
 }

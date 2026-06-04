@@ -10,7 +10,7 @@ const NAV = [
   ]},
   { section: 'Commerce', items: [
     { id: 'orders', icon: 'package', label: 'Orders', badge: 28 },
-    { id: 'products', icon: 'shopping_bag', label: 'Products', children: [
+    { id: 'products', icon: 'shopping_bag', label: 'Products', href: 'admin.html', children: [
       { id: 'p-all', label: 'All products' },
       { id: 'p-drafts', label: 'Drafts', count: 3 },
       { id: 'p-archived', label: 'Archived' },
@@ -24,7 +24,8 @@ const NAV = [
     { id: 'customers', icon: 'user', label: 'Customers' },
     { id: 'reviews', icon: 'star', label: 'Reviews', badge: 12 },
   ]},
-  { section: 'System', items: [
+  { section: 'Account', items: [
+    { id: 'profile', icon: 'user', label: 'My profile', href: 'profile.html' },
     { id: 'settings', icon: 'shield', label: 'Settings' },
   ]},
 ];
@@ -117,9 +118,11 @@ function Sidebar({ collapsed, onToggle, active = 'products', activeChild = 'p-al
                 {group.items.map(item => {
                   const isActive = item.id === active;
                   const isExpanded = expanded.includes(item.id);
+                  const NavTag = (item.href && !item.children) ? 'a' : 'button';
                   return (
                     <li key={item.id}>
-                      <button
+                      <NavTag
+                        href={(item.href && !item.children) ? item.href : undefined}
                         onClick={() => {
                           if (item.children && !collapsed) {
                             setExpanded(e => e.includes(item.id) ? e.filter(x => x !== item.id) : [...e, item.id]);
@@ -173,7 +176,7 @@ function Sidebar({ collapsed, onToggle, active = 'products', activeChild = 'p-al
                             {item.badge && <span style={{ marginLeft: 6, padding: '0 6px', borderRadius: 999, background: 'rgba(255,255,255,0.15)', fontSize: 10 }}>{item.badge}</span>}
                           </span>
                         )}
-                      </button>
+                      </NavTag>
                       {!collapsed && item.children && isExpanded && (
                         <ul style={{ display: 'flex', flexDirection: 'column', gap: 1, marginTop: 2, marginLeft: 14, paddingLeft: 14, borderLeft: '1px solid var(--border)' }}>
                           {item.children.map(child => {
@@ -319,7 +322,7 @@ function AdminTopbar({ theme, onThemeToggle, onOpenSearch, onOpenMobile, breadcr
 
         <div className="divider-v desktop-only" style={{ height: 24, margin: '0 6px' }}/>
 
-        <button style={{
+        <a href="profile.html" style={{
           display: 'flex', alignItems: 'center', gap: 8, padding: '4px 4px 4px 10px',
           height: 36, borderRadius: 'var(--r-full)', background: 'var(--bg-muted)',
           fontSize: 12, fontWeight: 500,
@@ -331,7 +334,7 @@ function AdminTopbar({ theme, onThemeToggle, onOpenSearch, onOpenMobile, breadcr
             fontSize: 11, fontWeight: 600,
             display: 'inline-flex', alignItems: 'center', justifyContent: 'center',
           }}>AP</span>
-        </button>
+        </a>
       </div>
     </header>
   );

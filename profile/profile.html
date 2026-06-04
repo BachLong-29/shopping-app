@@ -1,0 +1,99 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8"/>
+<meta name="viewport" content="width=device-width, initial-scale=1"/>
+<title>Halo · My Profile</title>
+<link rel="preconnect" href="https://fonts.googleapis.com"/>
+<link rel="preconnect" href="https://fonts.gstatic.com" crossorigin/>
+<link href="https://fonts.googleapis.com/css2?family=Plus+Jakarta+Sans:wght@400;500;600;700;800&family=Instrument+Serif:ital@0;1&family=JetBrains+Mono:wght@400;500;600&display=swap" rel="stylesheet"/>
+<link rel="stylesheet" href="tokens.css"/>
+<link rel="stylesheet" href="components.css"/>
+<link rel="stylesheet" href="profile.css"/>
+<style>
+  .desktop-only { display: flex; }
+  .mobile-only { display: none; }
+
+  /* Sidebar collapsed tooltip (shared with admin) */
+  .sidebar-tt {
+    position: absolute; left: calc(100% + 12px); top: 50%; transform: translateY(-50%);
+    background: var(--fg); color: var(--bg);
+    padding: 6px 10px; border-radius: var(--r-sm);
+    font-size: 12px; font-weight: 500; white-space: nowrap;
+    opacity: 0; pointer-events: none;
+    transition: opacity 0.15s ease;
+    box-shadow: var(--shadow-md);
+    z-index: 200;
+  }
+  .admin-sidebar.collapsed .sidebar-item:hover .sidebar-tt { opacity: 1; }
+  .admin-sidebar.collapsed .sidebar-item:hover { background: var(--bg-muted); }
+
+  /* Reduced-motion toggle from Tweaks */
+  body.motion-off *,
+  body.motion-off *::before,
+  body.motion-off *::after { animation: none !important; }
+  body.motion-off .r-up, body.motion-off .pv-reveal { opacity: 1 !important; transform: none !important; }
+
+  body { overflow-x: hidden; }
+
+  /* Mobile breakpoint */
+  @media (max-width: 900px) {
+    .desktop-only { display: none !important; }
+    .mobile-only { display: inline-flex !important; }
+    .admin-sidebar {
+      position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+      transform: translateX(-100%);
+      transition: transform 0.3s var(--ease-out);
+      width: 248px !important;
+    }
+    .admin-sidebar.mobile-open { transform: translateX(0); }
+    .admin-sidebar.collapsed { width: 248px !important; }
+  }
+
+  /* Viewport simulator (Tweaks → Mobile) */
+  .viewport-mobile { max-width: 414px; margin: 0 auto; box-shadow: 0 0 0 1px var(--border), 0 24px 60px rgba(0,0,0,0.12); min-height: 100vh; }
+  .viewport-mobile .desktop-only { display: none !important; }
+  .viewport-mobile .mobile-only { display: inline-flex !important; }
+  .viewport-mobile .admin-sidebar {
+    position: fixed; top: 0; left: 0; bottom: 0; z-index: 100;
+    transform: translateX(-100%); width: 248px !important;
+  }
+  .viewport-mobile .admin-sidebar.mobile-open { transform: translateX(0); }
+  .viewport-mobile .bento .col-3,
+  .viewport-mobile .bento .col-4,
+  .viewport-mobile .bento .col-5,
+  .viewport-mobile .bento .col-6,
+  .viewport-mobile .bento .col-7,
+  .viewport-mobile .bento .col-8 { grid-column: span 12; }
+  .viewport-mobile .info-grid, .viewport-mobile .addr-block, .viewport-mobile .form-grid { grid-template-columns: 1fr !important; }
+  .viewport-mobile .form-grid .span-2 { grid-column: span 1 !important; }
+  .viewport-mobile .social-grid { grid-template-columns: repeat(2, 1fr) !important; }
+  .viewport-mobile .edit-shell { grid-template-columns: 1fr !important; }
+  .viewport-mobile .edit-nav { display: none !important; }
+  .viewport-mobile .hero-identity { flex-direction: column; align-items: flex-start; }
+  .viewport-mobile .pv-split { grid-template-columns: 1fr !important; }
+  .viewport-mobile .pv-split.rev > .pv-split-media { order: 0 !important; }
+  .viewport-mobile .pv-stat-grid { grid-template-columns: repeat(2, 1fr) !important; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+
+<script src="data.js"></script>
+<script type="text/babel" src="icons.jsx"></script>
+<script type="text/babel" src="tweaks-panel.jsx"></script>
+<script type="text/babel" src="shop-header.jsx"></script>
+<script type="text/babel" src="shop-overlays.jsx"></script>
+<script type="text/babel" src="admin-sidebar.jsx"></script>
+<script type="text/babel" src="profile-data.js"></script>
+<script type="text/babel" src="profile-bits.jsx"></script>
+<script type="text/babel" src="profile-showcase.jsx"></script>
+<script type="text/babel" src="profile-edit.jsx"></script>
+<script type="text/babel" src="profile-preview.jsx"></script>
+<script type="text/babel" src="profile-app.jsx"></script>
+</body>
+</html>

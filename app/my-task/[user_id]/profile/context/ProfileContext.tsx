@@ -4,6 +4,7 @@ import { Gender, Role, UserInfo } from "@/core/model/User";
 import { createContext, useContext } from "react";
 
 const ProfileContext = createContext<UserInfo>({
+  _id: "",
   role: Role.User,
   avatar: "",
   birthdate: new Date(),
@@ -12,7 +13,35 @@ const ProfileContext = createContext<UserInfo>({
   name: "",
   address: "",
   phone: "",
-  _id: "",
+  bio: "",
+  username: "",
+  title: "",
+  nationality: "",
+  phone2: "",
+  emergency: "",
+  languages: [],
+  timezone: "",
+  district: "",
+  state: "",
+  city: "",
+  postal: "",
+  country: "",
+  website: "",
+  linkedin: "",
+  github: "",
+  twitter: "",
+  instagram: "",
+  facebook: "",
+  preferences: {
+    theme: "System",
+    language: "English",
+    orderUpdates: true,
+    productNews: true,
+    marketingEmails: false,
+    publicProfile: true,
+    showActivity: false,
+    searchable: true,
+  },
 });
 
 export function ProfileProvider({
