@@ -32,14 +32,14 @@ class HttpService {
             await axios.post(
               `${process.env.NEXT_PUBLIC_API_BASE_URL}api/auth/refresh`,
               {},
-              { withCredentials: true }
+              { withCredentials: true },
             );
             this.isRefreshing = false;
             return this.axiosInstance.request(originalRequest);
           } catch {
             this.isRefreshing = false;
             if (typeof window !== "undefined") {
-              window.location.href = "/login";
+              // window.location.href = "/login";
             }
             return Promise.reject(error);
           }
@@ -49,7 +49,7 @@ class HttpService {
           return Promise.reject(error.response?.data || error.message);
         }
         return Promise.reject(error);
-      }
+      },
     );
   }
 
