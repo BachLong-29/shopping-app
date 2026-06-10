@@ -4,10 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import { use, useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Product } from "@/core/model/Product";
-import ProductForm from "../../../component/ProductForm";
-import WrapperContent from "@/components/layout/section/WrapperContent";
+import { ProductStatus } from "@/core/model/Product";
+import ProductForm, { ProductFormData } from "../../../component/ProductForm";
 import { editProduct } from "@/redux/reducer/productReducer";
 import productService from "../../../services/productService";
 import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
@@ -23,19 +21,16 @@ import { zodResolver } from "@hookform/resolvers/zod";
 const productSchema = z.object({
   name: z.string().min(1, { message: "Tên là bắt buộc" }),
   price: z.preprocess(
-    (value) => (value === "" ? undefined : Number(value)),
-    z.number().min(1, { message: "Giá là bắt buộc" })
+    (v) => (v === "" ? undefined : Number(v)),
+    z.number().min(0, { message: "Giá là bắt buộc" })
   ),
   description: z.optional(z.string()),
   quantity: z.number(),
   category: z.optional(z.string()),
+  sku: z.optional(z.string()),
   images: z.optional(z.array(z.string())),
+  status: z.optional(z.nativeEnum(ProductStatus)),
 });
-
-export type ProductFormData = Omit<
-  Product,
-  "_id" | "productId" | "ownerId" | "status"
->;
 
 const EditProductPage = ({
   params,
@@ -49,17 +44,18 @@ const EditProductPage = ({
   const dispatch = useDispatch();
   const { setBreadcrumb } = useBreadcrumb();
 
-  const initialValues = {
-    name: product.name,
-    description: product.description,
-    quantity: product.quantity,
-    price: product.price,
-    category: product.category,
-    images: product.images ?? [],
-  };
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      name: product.name,
+      description: product.description ?? "",
+      quantity: product.quantity,
+      price: product.price,
+      category: product.category ?? "",
+      sku: product.sku ?? "",
+      images: product.images ?? [],
+      status: product.status ?? ProductStatus.Draft,
+    },
   });
 
   const { loading, fetchData: execEdit } = useFetch(
@@ -68,11 +64,7 @@ const EditProductPage = ({
   );
 
   const onSubmit: SubmitHandler<ProductFormData> = (data) => {
-    execEdit({
-      ...data,
-      userId,
-      productId,
-    })
+    execEdit({ ...data, userId, productId })
       .then((res) => {
         if (res?.product) {
           dispatch(editProduct(res.product));
@@ -94,42 +86,25 @@ const EditProductPage = ({
 
   useEffect(() => {
     setBreadcrumb([
-      {
-        label: t("module.product"),
-        href: `/my-task/${userId}/product`,
-      },
-      {
-        label: t("breadcrumb.edit_product"),
-      },
+      { label: t("module.product"), href: `/my-task/${userId}/product` },
+      { label: t("breadcrumb.edit_product") },
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <WrapperContent>
-        <div className="flex flex-col items-center">
-          <ProductForm form={form} />
-        </div>
-      </WrapperContent>
-      <WrapperContent>
-        <div className="w-full flex justify-end gap-4">
-          <Button
-            disabled={loading}
-            onClick={() => router.back()}
-            className="w-auto bg-gray-400 hover:bg-gray-600"
-          >
-            {t("action.cancel")}
-          </Button>
-          <Button
-            disabled={loading}
-            onClick={form.handleSubmit(onSubmit)}
-            className="w-auto bg-blue-500 hover:bg-blue-600"
-          >
-            {t("action.save")}
-          </Button>
-        </div>
-      </WrapperContent>
+      <div className="p-3 md:p-6">
+        <ProductForm
+          form={form}
+          isNew={false}
+          productId={productId}
+          userId={userId}
+          loading={loading}
+          onSave={() => form.handleSubmit(onSubmit)()}
+          onCancel={() => router.back()}
+        />
+      </div>
       <Toaster position="top-right" />
     </>
   );

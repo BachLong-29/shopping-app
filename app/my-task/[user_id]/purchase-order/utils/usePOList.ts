@@ -1,8 +1,7 @@
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 
 import purchaseOrderService from "../services/purchaseOrdertService";
-import { setProduct } from "@/redux/reducer/productReducer";
-import { setSOList } from "@/redux/reducer/salesOrderReducer";
+import { setPOList } from "@/redux/reducer/purchaseOrderReducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
 
@@ -13,30 +12,19 @@ export const usePPOList = ({ userId }: { userId: string }) => {
   const [sorting] = useState<SortingState>([]);
   const [rowSelection, setRowSelection] = useState({});
   const [columnVisibility, setColumnVisibility] = useState<VisibilityState>({});
-  // const [columnFilters, setColumnFilters] = useState<ColumnFiltersState>([]);
-  // const [filter, setFilter] = useState("");
   const dispatch = useDispatch();
 
   const handleChangeLimit = (limit: number) => {
     setItemsPerPage(limit);
     purchaseOrderService
       .getList({ id: userId, limit, offset: 0, search })
-      .then((res) => {
-        dispatch(setProduct(res));
-      });
+      .then((res) => dispatch(setPOList(res)));
   };
 
   const handleSearch = () => {
     purchaseOrderService
-      .getList({
-        id: userId,
-        limit: itemsPerPage,
-        offset: 0,
-        search,
-      })
-      .then((res) => {
-        dispatch(setSOList(res));
-      });
+      .getList({ id: userId, limit: itemsPerPage, offset: 0, search })
+      .then((res) => dispatch(setPOList(res)));
   };
 
   const handleExport = () => {
@@ -52,17 +40,8 @@ export const usePPOList = ({ userId }: { userId: string }) => {
         offset: itemsPerPage * (page - 1),
         search,
       })
-      .then((res) => {
-        dispatch(setSOList(res));
-      });
+      .then((res) => dispatch(setPOList(res)));
   };
-
-  //   const onRowSelection = (row: () => Record<string, boolean>) => {
-  //     setRowSelection((prev) => ({
-  //       ...prev,
-  //       ...row(),
-  //     }));
-  //   };
 
   return {
     handleChangeLimit,

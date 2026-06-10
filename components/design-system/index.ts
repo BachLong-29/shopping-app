@@ -41,3 +41,6 @@ export { Swatch, SwatchGroup } from './Swatch'
 export { EmptyState } from './EmptyState'
 
 export { Pagination } from './Pagination'
+
+export { UpComing } from './UpComing'
+export type { UpComingProps } from './UpComing'

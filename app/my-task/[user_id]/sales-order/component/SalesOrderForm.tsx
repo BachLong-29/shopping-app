@@ -1,6 +1,6 @@
 "use client";
 
-import { useEffect, useRef, useState } from "react";
+import { useEffect, useState } from "react";
 
 import {
   Form,
@@ -13,42 +13,31 @@ import { Badge } from "@/components/design-system/Badge";
 import { Button } from "@/components/design-system/Button";
 import { Icon } from "@/components/design-system/Icon";
 import type { IconName } from "@/components/design-system/Icon";
-import { ProductStatus } from "@/core/model/Product";
+import { SalesOrder, SalesOrderStatus } from "@/core/model/SO";
 import { UseFormReturn } from "react-hook-form";
-import Uploader from "@/components/layout/upload/Uploader";
 import { cn } from "@/lib/utils";
 import { useLanguage } from "@/core/context/LanguageContext";
-
-export type ProductFormData = {
-  name: string;
-  price: number;
-  description?: string;
-  quantity: number;
-  category?: string;
-  sku?: string;
-  images?: string[];
-  status?: ProductStatus;
-};
+import { SOFormData } from "../services/salesOrdertService";
+import { formatCurrency, formatNumber } from "@/core/utils/format";
 
 interface Props {
-  form: UseFormReturn<ProductFormData>;
+  form: UseFormReturn<SOFormData>;
   isNew?: boolean;
-  productId?: string;
+  orderId?: string;
+  order?: SalesOrder;
   userId: string;
   loading?: boolean;
   onSave: () => void;
   onCancel: () => void;
 }
 
-/* ─── local helpers ─── */
-
-type SectionId = "media" | "basics" | "pricing" | "inv";
+/* ─── Section IDs ─── */
+type SectionId = "details" | "items" | "notes";
 
 const SECTION_GRADIENTS: Record<SectionId, string> = {
-  media:   "linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)",
-  basics:  "linear-gradient(135deg, #6d28d9 0%, #a855f7 100%)",
-  pricing: "linear-gradient(135deg, #ec4899 0%, #f97316 100%)",
-  inv:     "linear-gradient(135deg, #0ea5e9 0%, #0d9488 100%)",
+  details: "linear-gradient(135deg, #6d28d9 0%, #a855f7 100%)",
+  items:   "linear-gradient(135deg, #ec4899 0%, #f97316 100%)",
+  notes:   "linear-gradient(135deg, #0ea5e9 0%, #6366f1 100%)",
 };
 
 function PESection({
@@ -56,8 +45,6 @@ function PESection({
   icon,
   title,
   sub,
-  tag,
-  tagVariant,
   open,
   onToggle,
   children,
@@ -66,8 +53,6 @@ function PESection({
   icon: IconName;
   title: string;
   sub: string;
-  tag?: string;
-  tagVariant?: "success" | "warning" | "error" | "soft";
   open: boolean;
   onToggle: () => void;
   children: React.ReactNode;
@@ -75,7 +60,7 @@ function PESection({
   return (
     <section
       id={id}
-      className="bg-card border border-border rounded-2xl mb-4 overflow-hidden scroll-mt-20 transition-colors hover:border-border"
+      className="bg-card border border-border rounded-2xl mb-4 overflow-hidden scroll-mt-20 transition-colors"
     >
       <button
         type="button"
@@ -94,11 +79,6 @@ function PESection({
           </span>
           <span className="text-xs text-muted-foreground mt-0.5">{sub}</span>
         </div>
-        {tag && (
-          <Badge variant={tagVariant ?? "soft"} className="text-[10px] px-2 h-5">
-            {tag}
-          </Badge>
-        )}
         <span
           className={cn(
             "w-7 h-7 rounded-md flex items-center justify-center text-muted-foreground transition-transform duration-200",
@@ -120,14 +100,12 @@ function Field({
   required,
   optional,
   hint,
-  hintVariant,
   children,
 }: {
   label: string;
   required?: boolean;
   optional?: boolean;
   hint?: string;
-  hintVariant?: "default" | "warn" | "ok" | "error";
   children: React.ReactNode;
 }) {
   return (
@@ -143,16 +121,7 @@ function Field({
       </label>
       {children}
       {hint && (
-        <span
-          className={cn("text-[11px] mt-0.5", {
-            "text-muted-foreground": !hintVariant || hintVariant === "default",
-            "text-halo-amber": hintVariant === "warn",
-            "text-halo-emerald": hintVariant === "ok",
-            "text-halo-rose": hintVariant === "error",
-          })}
-        >
-          {hint}
-        </span>
+        <span className="text-[11px] mt-0.5 text-muted-foreground">{hint}</span>
       )}
     </div>
   );
@@ -165,21 +134,22 @@ const textareaCls =
   "w-full px-3 py-2.5 bg-card border border-border rounded-lg text-[13px] text-foreground outline-none resize-y min-h-[80px] leading-relaxed transition-colors placeholder:text-muted-foreground/60 hover:border-foreground/20 focus:border-halo-violet focus:ring-2 focus:ring-halo-violet/10";
 
 const STATUS_CONFIG: Record<
-  ProductStatus,
+  SalesOrderStatus,
   { dot: string; label: string; sub: string }
 > = {
-  [ProductStatus.Available]: { dot: "#10b981", label: "Active — Live", sub: "All channels" },
-  [ProductStatus.Draft]:     { dot: "#8b5cf6", label: "Draft",         sub: "Only you" },
-  [ProductStatus.OutOfStock]:{ dot: "#f59e0b", label: "Out of stock",  sub: "Unavailable" },
-  [ProductStatus.Inactive]:  { dot: "#71717a", label: "Archived",      sub: "Hidden" },
+  [SalesOrderStatus.Draft]:     { dot: "#8b5cf6", label: "Draft",     sub: "Not submitted" },
+  [SalesOrderStatus.Pending]:   { dot: "#f59e0b", label: "Pending",   sub: "Awaiting review" },
+  [SalesOrderStatus.Completed]: { dot: "#10b981", label: "Completed", sub: "Fulfilled" },
+  [SalesOrderStatus.Cancelled]: { dot: "#71717a", label: "Cancelled", sub: "Voided" },
 };
 
 /* ─── Main component ─── */
 
-const ProductForm = ({
+const SalesOrderForm = ({
   form,
   isNew = false,
-  productId,
+  orderId,
+  order,
   loading,
   onSave,
   onCancel,
@@ -188,12 +158,11 @@ const ProductForm = ({
   const isDirty = form.formState.isDirty;
 
   const [open, setOpen] = useState<Record<SectionId, boolean>>({
-    media:   true,
-    basics:  true,
-    pricing: false,
-    inv:     false,
+    details: true,
+    items:   true,
+    notes:   false,
   });
-  const [activeSection, setActiveSection] = useState<SectionId>("media");
+  const [activeSection, setActiveSection] = useState<SectionId>("details");
 
   function toggle(id: SectionId) {
     setOpen((prev) => ({ ...prev, [id]: !prev[id] }));
@@ -209,10 +178,13 @@ const ProductForm = ({
 
   // Scroll-spy
   useEffect(() => {
-    const sectionIds: SectionId[] = ["media", "basics", "pricing", "inv"];
+    const sectionIds: SectionId[] = ["details", "items", "notes"];
     function onScroll() {
       const passed = sectionIds
-        .map((id) => ({ id, top: document.getElementById(id)?.getBoundingClientRect().top ?? Infinity }))
+        .map((id) => ({
+          id,
+          top: document.getElementById(id)?.getBoundingClientRect().top ?? Infinity,
+        }))
         .filter((o) => o.top <= 140);
       if (passed.length) setActiveSection(passed[passed.length - 1].id);
     }
@@ -220,7 +192,7 @@ const ProductForm = ({
     return () => window.removeEventListener("scroll", onScroll);
   }, []);
 
-  // Ctrl+S save
+  // Ctrl+S
   useEffect(() => {
     function onKey(e: KeyboardEvent) {
       if ((e.metaKey || e.ctrlKey) && e.key === "s") {
@@ -232,16 +204,21 @@ const ProductForm = ({
     return () => window.removeEventListener("keydown", onKey);
   }, [onSave]);
 
-  const name = form.watch("name");
-  const currentStatus = form.watch("status") ?? ProductStatus.Draft;
-  const statusConf = STATUS_CONFIG[currentStatus as ProductStatus] ?? STATUS_CONFIG[ProductStatus.Draft];
+  const currentStatus = form.watch("status") ?? SalesOrderStatus.Draft;
+  const statusConf =
+    STATUS_CONFIG[currentStatus as SalesOrderStatus] ?? STATUS_CONFIG[SalesOrderStatus.Draft];
 
   const navSections: Array<{ id: SectionId; label: string; icon: IconName }> = [
-    { id: "media",   label: "Media",     icon: "image"   },
-    { id: "basics",  label: "Basics",    icon: "info"    },
-    { id: "pricing", label: "Pricing",   icon: "zap"     },
-    { id: "inv",     label: "Inventory", icon: "package" },
+    { id: "details", label: "Details",  icon: "info"     },
+    { id: "items",   label: "Items",    icon: "shopping_bag" },
+    { id: "notes",   label: "Notes",    icon: "chat"     },
   ];
+
+  const headTitle = isNew
+    ? "New Sales Order"
+    : order
+    ? `Order #${order._id.slice(-6).toUpperCase()}`
+    : `Order #${orderId?.slice(-6).toUpperCase() ?? "—"}`;
 
   return (
     <Form {...form}>
@@ -258,32 +235,24 @@ const ProductForm = ({
 
           <div className="flex-1 flex flex-col gap-1 min-w-0">
             <div className="flex items-center gap-2.5 flex-wrap">
-              <FormField
-                control={form.control}
-                name="name"
-                render={({ field }) => (
-                  <input
-                    {...field}
-                    className="font-display text-[clamp(22px,3vw,34px)] font-normal tracking-tight bg-transparent border-0 outline-none text-foreground px-1 -mx-1 rounded-md transition-colors hover:bg-muted focus:bg-muted focus:ring-2 focus:ring-halo-violet min-w-0 flex-1 max-w-2xl"
-                    placeholder={t("product.placeholder.name") || "Untitled product"}
-                  />
-                )}
-              />
+              <h1 className="font-display text-[clamp(22px,3vw,34px)] font-normal tracking-tight text-foreground">
+                {headTitle}
+              </h1>
               <Badge
                 variant={
-                  currentStatus === ProductStatus.Available ? "success" :
-                  currentStatus === ProductStatus.OutOfStock ? "warning" :
-                  currentStatus === ProductStatus.Inactive ? "error" : "soft"
+                  currentStatus === SalesOrderStatus.Completed ? "success" :
+                  currentStatus === SalesOrderStatus.Pending   ? "warning" :
+                  currentStatus === SalesOrderStatus.Cancelled ? "error"   : "soft"
                 }
               >
                 {statusConf.label}
               </Badge>
             </div>
             <div className="flex items-center gap-3 text-xs text-muted-foreground flex-wrap">
-              {!isNew && productId && (
+              {!isNew && orderId && (
                 <>
                   <span className="font-mono text-[11px] px-2 py-0.5 rounded bg-muted tracking-wide">
-                    {productId.slice(0, 8)}…
+                    {orderId.slice(0, 8)}…
                   </span>
                   <span>·</span>
                 </>
@@ -324,7 +293,7 @@ const ProductForm = ({
               loading={loading}
             >
               <Icon name="zap" size={13} />
-              {isNew ? "Create" : "Publish"}
+              {isNew ? "Create order" : "Update"}
             </Button>
           </div>
         </div>
@@ -353,82 +322,55 @@ const ProductForm = ({
         <div className="grid grid-cols-1 xl:grid-cols-[1fr_320px] gap-6 items-start pb-32">
           {/* ── Main content ── */}
           <div>
-            {/* MEDIA */}
+            {/* ORDER DETAILS */}
             <PESection
-              id="media"
-              icon="image"
-              title="Media gallery"
-              sub="Product images — first image is the hero"
-              tag="REQUIRED"
-              tagVariant="error"
-              open={open.media}
-              onToggle={() => toggle("media")}
-            >
-              <FormField
-                control={form.control}
-                name="images"
-                render={({ field }) => (
-                  <FormItem>
-                    <FormControl>
-                      <Uploader
-                        rounded="md"
-                        size={40}
-                        onChange={field.onChange}
-                        isMultiple
-                        value={field.value ?? []}
-                      />
-                    </FormControl>
-                    <FormMessage />
-                  </FormItem>
-                )}
-              />
-            </PESection>
-
-            {/* BASICS */}
-            <PESection
-              id="basics"
+              id="details"
               icon="info"
-              title="Basic information"
-              sub="Title, SKU, category and description"
-              tag="COMPLETE"
-              tagVariant="success"
-              open={open.basics}
-              onToggle={() => toggle("basics")}
+              title="Order details"
+              sub="Status and core order information"
+              open={open.details}
+              onToggle={() => toggle("details")}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-3.5">
-                <div className="md:col-span-2">
-                  <Field label={t("product.name")} required>
-                    <FormField
-                      control={form.control}
-                      name="name"
-                      render={({ field }) => (
-                        <FormItem>
-                          <FormControl>
-                            <input
-                              className={inputCls}
-                              placeholder={t("product.placeholder.name") || "e.g. Wireless Headphones Pro"}
-                              {...field}
-                            />
-                          </FormControl>
-                          <FormMessage />
-                        </FormItem>
-                      )}
-                    />
-                  </Field>
-                </div>
-
-                <Field label="SKU" optional>
+              <div className="flex flex-col gap-4">
+                {/* Status as radio buttons */}
+                <Field label="Order status" required>
                   <FormField
                     control={form.control}
-                    name="sku"
+                    name="status"
                     render={({ field }) => (
                       <FormItem>
                         <FormControl>
-                          <input
-                            className={cn(inputCls, "font-mono text-[12px]")}
-                            placeholder="PROD-001"
-                            {...field}
-                          />
+                          <div className="grid grid-cols-2 gap-2">
+                            {(Object.values(SalesOrderStatus) as SalesOrderStatus[]).map((s) => {
+                              const conf = STATUS_CONFIG[s];
+                              return (
+                                <button
+                                  key={s}
+                                  type="button"
+                                  onClick={() => field.onChange(s)}
+                                  className={cn(
+                                    "flex items-center gap-2.5 px-3 py-2.5 rounded-xl border text-left transition-all",
+                                    field.value === s
+                                      ? "border-halo-violet bg-halo-violet/5 shadow-[0_0_0_1px_#7c3aed]"
+                                      : "border-border bg-card hover:border-foreground/20"
+                                  )}
+                                >
+                                  <span
+                                    className="w-2 h-2 rounded-full shrink-0"
+                                    style={{ background: conf.dot }}
+                                  />
+                                  <div className="flex flex-col min-w-0">
+                                    <span className="text-[13px] font-medium text-foreground">
+                                      {conf.label}
+                                    </span>
+                                    <span className="text-[11px] text-muted-foreground">
+                                      {conf.sub}
+                                    </span>
+                                  </div>
+                                </button>
+                              );
+                            })}
+                          </div>
                         </FormControl>
                         <FormMessage />
                       </FormItem>
@@ -436,65 +378,39 @@ const ProductForm = ({
                   />
                 </Field>
 
-                <Field label={t("product.category")} optional>
+                {/* Customer info (read-only in edit) */}
+                {!isNew && order && (
+                  <div className="flex flex-col gap-1.5">
+                    <label className="text-xs font-medium text-muted-foreground">
+                      Customer
+                    </label>
+                    <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-muted/40">
+                      <div className="w-9 h-9 rounded-full bg-aurora flex items-center justify-center text-white text-sm font-semibold shrink-0">
+                        {(order.user?.name ?? "?")[0].toUpperCase()}
+                      </div>
+                      <div className="flex-1 min-w-0">
+                        <p className="text-[13px] font-medium text-foreground truncate">
+                          {order.user?.name ?? "Unknown"}
+                        </p>
+                        <p className="text-[11px] text-muted-foreground truncate">
+                          {order.user?.email ?? "—"}
+                        </p>
+                      </div>
+                      <Badge variant="outline" className="shrink-0">
+                        Customer
+                      </Badge>
+                    </div>
+                  </div>
+                )}
+
+                {/* Total amount */}
+                <Field
+                  label="Total amount"
+                  hint="Calculated from the order items."
+                >
                   <FormField
                     control={form.control}
-                    name="category"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <input
-                            className={inputCls}
-                            placeholder={t("product.placeholder.category") || "e.g. Electronics"}
-                            {...field}
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </Field>
-              </div>
-
-              <Field
-                label={t("product.description")}
-                optional
-                hint="Appears in product cards and search results."
-              >
-                <FormField
-                  control={form.control}
-                  name="description"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <textarea
-                          className={textareaCls}
-                          placeholder={t("product.placeholder.description") || "Brief product description…"}
-                          rows={3}
-                          {...field}
-                        />
-                      </FormControl>
-                      <FormMessage />
-                    </FormItem>
-                  )}
-                />
-              </Field>
-            </PESection>
-
-            {/* PRICING */}
-            <PESection
-              id="pricing"
-              icon="zap"
-              title="Pricing"
-              sub="Base price and sale price"
-              open={open.pricing}
-              onToggle={() => toggle("pricing")}
-            >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label={t("product.price")} required>
-                  <FormField
-                    control={form.control}
-                    name="price"
+                    name="totalAmount"
                     render={({ field }) => (
                       <FormItem>
                         <div className="relative">
@@ -508,10 +424,11 @@ const ProductForm = ({
                               className={cn(inputCls, "pl-7")}
                               placeholder="0.00"
                               {...field}
-                              onChange={(e) => {
-                                const v = e.target.value;
-                                field.onChange(v === "" ? 0 : Number(v));
-                              }}
+                              onChange={(e) =>
+                                field.onChange(
+                                  e.target.value === "" ? 0 : Number(e.target.value)
+                                )
+                              }
                             />
                           </FormControl>
                         </div>
@@ -523,48 +440,95 @@ const ProductForm = ({
               </div>
             </PESection>
 
-            {/* INVENTORY */}
+            {/* ORDER ITEMS */}
             <PESection
-              id="inv"
-              icon="package"
-              title="Inventory"
-              sub="Stock level and availability"
-              open={open.inv}
-              onToggle={() => toggle("inv")}
+              id="items"
+              icon="shopping_bag"
+              title="Order items"
+              sub="Products included in this order"
+              open={open.items}
+              onToggle={() => toggle("items")}
             >
-              <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
-                <Field label={t("product.quantity")}>
-                  <FormField
-                    control={form.control}
-                    name="quantity"
-                    render={({ field }) => (
-                      <FormItem>
-                        <FormControl>
-                          <input
-                            type="number"
-                            min={0}
-                            className={inputCls}
-                            placeholder={t("product.placeholder.quantity") || "0"}
-                            {...field}
-                            onChange={(e) =>
-                              field.onChange(
-                                Number(e.target.value.replace(/\D/g, ""))
-                              )
-                            }
-                          />
-                        </FormControl>
-                        <FormMessage />
-                      </FormItem>
-                    )}
-                  />
-                </Field>
-              </div>
+              {!isNew && order?.products ? (
+                <div className="flex flex-col gap-2">
+                  <div className="flex items-center gap-3 p-3 rounded-xl border border-border bg-card">
+                    <div className="w-12 h-12 rounded-lg bg-muted flex items-center justify-center shrink-0 overflow-hidden">
+                      {(order.products as any)?.images?.[0] ? (
+                        // eslint-disable-next-line @next/next/no-img-element
+                        <img
+                          src={(order.products as any).images[0]}
+                          alt=""
+                          className="w-full h-full object-cover"
+                        />
+                      ) : (
+                        <Icon name="package" size={20} className="text-muted-foreground" />
+                      )}
+                    </div>
+                    <div className="flex-1 min-w-0">
+                      <p className="text-[13px] font-medium text-foreground truncate">
+                        {(order.products as any)?.name ?? "Product"}
+                      </p>
+                      <p className="text-[11px] text-muted-foreground">
+                        {(order.products as any)?.price != null ? formatCurrency((order.products as any).price) : "—"}
+                      </p>
+                    </div>
+                    <Badge variant="soft">
+                      ×1
+                    </Badge>
+                  </div>
+                  <p className="text-xs text-muted-foreground mt-1">
+                    To modify line items, create a new order.
+                  </p>
+                </div>
+              ) : (
+                <div className="flex flex-col items-center justify-center py-10 gap-3 text-center">
+                  <div className="w-12 h-12 rounded-xl bg-muted flex items-center justify-center">
+                    <Icon name="shopping_bag" size={22} className="text-muted-foreground" />
+                  </div>
+                  <p className="text-[13px] font-medium text-foreground">
+                    No items yet
+                  </p>
+                  <p className="text-xs text-muted-foreground max-w-[240px]">
+                    Product line items will be visible here once the order is created via the API.
+                  </p>
+                </div>
+              )}
+            </PESection>
+
+            {/* NOTES */}
+            <PESection
+              id="notes"
+              icon="chat"
+              title="Notes"
+              sub="Internal notes visible only to your team"
+              open={open.notes}
+              onToggle={() => toggle("notes")}
+            >
+              <Field label="Order notes" optional hint="Not shown to the customer.">
+                <FormField
+                  control={form.control}
+                  name="notes"
+                  render={({ field }) => (
+                    <FormItem>
+                      <FormControl>
+                        <textarea
+                          className={textareaCls}
+                          placeholder="Add internal notes about this order…"
+                          rows={4}
+                          {...field}
+                        />
+                      </FormControl>
+                      <FormMessage />
+                    </FormItem>
+                  )}
+                />
+              </Field>
             </PESection>
           </div>
 
           {/* ── Right rail ── */}
           <aside className="sticky top-20 flex flex-col gap-3">
-            {/* Publishing card */}
+            {/* Order summary card */}
             <div
               className="rounded-2xl overflow-hidden"
               style={{
@@ -573,50 +537,46 @@ const ProductForm = ({
             >
               <div className="p-4 flex flex-col gap-3">
                 <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-white/70">
-                  Publishing
+                  Order summary
                 </div>
 
-                <FormField
-                  control={form.control}
-                  name="status"
-                  render={({ field }) => (
-                    <FormItem>
-                      <FormControl>
-                        <div className="flex flex-col gap-1.5">
-                          {(Object.values(ProductStatus) as ProductStatus[]).map((s) => {
-                            const conf = STATUS_CONFIG[s];
-                            return (
-                              <button
-                                key={s}
-                                type="button"
-                                onClick={() => field.onChange(s)}
-                                className={cn(
-                                  "flex items-center gap-2.5 px-3 py-2.5 rounded-lg border text-left transition-all",
-                                  field.value === s
-                                    ? "bg-white/[0.14] border-white/25"
-                                    : "bg-white/5 border-white/[0.08] hover:bg-white/10"
-                                )}
-                              >
-                                <span
-                                  className="w-2 h-2 rounded-full shrink-0"
-                                  style={{ background: conf.dot }}
-                                />
-                                <span className="flex-1 text-[13px] font-medium text-white">
-                                  {conf.label}
-                                </span>
-                                <span className="text-[11px] text-white/70">
-                                  {conf.sub}
-                                </span>
-                              </button>
-                            );
-                          })}
-                        </div>
-                      </FormControl>
-                    </FormItem>
-                  )}
-                />
+                {/* Status summary */}
+                <div className="flex flex-col gap-1.5">
+                  <div className="text-[11px] font-semibold tracking-[0.08em] uppercase text-white/50 mb-1">
+                    Status
+                  </div>
+                  {(Object.values(SalesOrderStatus) as SalesOrderStatus[]).map((s) => {
+                    const conf = STATUS_CONFIG[s];
+                    const isActive = form.watch("status") === s;
+                    return (
+                      <button
+                        key={s}
+                        type="button"
+                        onClick={() => form.setValue("status", s, { shouldDirty: true })}
+                        className={cn(
+                          "flex items-center gap-2.5 px-3 py-2 rounded-lg border text-left transition-all",
+                          isActive
+                            ? "bg-white/[0.14] border-white/25"
+                            : "bg-white/5 border-white/[0.08] hover:bg-white/10"
+                        )}
+                      >
+                        <span className="w-2 h-2 rounded-full shrink-0" style={{ background: conf.dot }} />
+                        <span className="flex-1 text-[13px] font-medium text-white">{conf.label}</span>
+                        <span className="text-[11px] text-white/70">{conf.sub}</span>
+                      </button>
+                    );
+                  })}
+                </div>
 
-                <div className="flex gap-1.5 mt-1">
+                {/* Total */}
+                <div className="flex items-center justify-between py-2 border-t border-white/10 mt-1">
+                  <span className="text-[12px] text-white/70">Total</span>
+                  <span className="text-[15px] font-semibold text-white">
+                    {formatCurrency(form.watch("totalAmount") ?? 0)}
+                  </span>
+                </div>
+
+                <div className="flex gap-1.5">
                   <Button
                     type="button"
                     variant="ghost"
@@ -637,13 +597,31 @@ const ProductForm = ({
                     className="flex-[1.4]"
                   >
                     <Icon name="zap" size={13} />
-                    {isNew ? "Create" : "Publish"}
+                    {isNew ? "Create" : "Update"}
                   </Button>
                 </div>
               </div>
             </div>
 
-            {/* Keyboard shortcuts */}
+            {/* Danger zone (edit only) */}
+            {!isNew && (
+              <div className="bg-card border border-border rounded-2xl p-4 flex flex-col gap-2">
+                <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-muted-foreground">
+                  Danger zone
+                </div>
+                <Button
+                  type="button"
+                  variant="outline"
+                  size="sm"
+                  className="w-full justify-start !text-halo-rose !border-halo-rose/30 hover:!bg-halo-rose/5"
+                >
+                  <Icon name="trash" size={12} />
+                  Cancel order
+                </Button>
+              </div>
+            )}
+
+            {/* Shortcuts */}
             <div className="bg-card border border-border rounded-2xl p-4 flex flex-col gap-3">
               <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-muted-foreground">
                 Shortcuts
@@ -672,42 +650,6 @@ const ProductForm = ({
                 ))}
               </ul>
             </div>
-
-            {/* Danger zone (edit only) */}
-            {!isNew && (
-              <div className="bg-card border border-border rounded-2xl p-4 flex flex-col gap-2">
-                <div className="text-[11px] font-semibold tracking-[0.1em] uppercase text-muted-foreground">
-                  Danger zone
-                </div>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="w-full justify-start"
-                >
-                  <Icon name="layers" size={12} />
-                  Duplicate product
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="w-full justify-start"
-                >
-                  <Icon name="bookmark" size={12} />
-                  Archive
-                </Button>
-                <Button
-                  type="button"
-                  variant="outline"
-                  size="sm"
-                  className="w-full justify-start !text-halo-rose !border-halo-rose/30 hover:!bg-halo-rose/5"
-                >
-                  <Icon name="trash" size={12} />
-                  Delete permanently
-                </Button>
-              </div>
-            )}
           </aside>
         </div>
 
@@ -744,7 +686,7 @@ const ProductForm = ({
                 loading={loading}
               >
                 <Icon name="zap" size={12} />
-                {isNew ? "Create" : "Publish"}
+                {isNew ? "Create" : "Update"}
               </Button>
             </div>
           </div>
@@ -754,4 +696,4 @@ const ProductForm = ({
   );
 };
 
-export default ProductForm;
+export default SalesOrderForm;

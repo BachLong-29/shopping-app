@@ -6,30 +6,31 @@ import { useEffect } from "react";
 import { useLanguage } from "@/core/context/LanguageContext";
 import withMyTask from "@/components/forms/withMyTask";
 
-const WishlistPage = () => {
+const CategoryPage = () => {
   const { setBreadcrumb } = useBreadcrumb();
   const { t } = useLanguage();
 
   useEffect(() => {
-    setBreadcrumb([{ label: t("module.wishlist") }]);
+    setBreadcrumb([{ label: t("module.category") }]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <UpComing
-      title="Your Wishlist"
-      description="Save the products you love and revisit them anytime. Get notified when prices drop, and checkout in seconds when you're ready."
+      title="Browse Categories"
+      description="Explore a fully organized product catalog with smart filters, trending picks, and curated collections — all in one place."
       features={[
-        "Save favorites",
-        "Price drop alerts",
-        "Share lists",
-        "Quick add to cart",
-        "Organize by collection",
+        "50+ categories",
+        "Smart filters",
+        "Trending picks",
+        "Curated collections",
+        "Sub-categories",
+        "Category analytics",
       ]}
       badge="Coming Soon"
-      accentColor="pink"
+      accentColor="violet"
     />
   );
 };
 
-export default withMyTask(WishlistPage);
+export default withMyTask(CategoryPage);

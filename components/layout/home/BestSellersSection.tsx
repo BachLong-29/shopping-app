@@ -4,6 +4,7 @@ import { Plus } from 'lucide-react'
 import { HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
 import { Stars } from '@/components/design-system'
 import { useLanguage } from '@/core/context/LanguageContext'
+import { formatNumber } from '@/core/utils/format'
 
 export default function BestSellersSection() {
   const { t } = useLanguage()
@@ -95,9 +96,9 @@ export default function BestSellersSection() {
 
                 {/* Price */}
                 <div className="text-right hidden sm:block">
-                  <div className="text-[18px] font-bold tabular-nums">${p.price}</div>
+                  <div className="text-[18px] font-bold tabular-nums">${formatNumber(p.price)}</div>
                   {p.originalPrice && (
-                    <div className="text-xs text-muted-foreground line-through">${p.originalPrice}</div>
+                    <div className="text-xs text-muted-foreground line-through">${formatNumber(p.originalPrice)}</div>
                   )}
                 </div>
 

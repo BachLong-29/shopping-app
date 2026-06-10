@@ -9,6 +9,7 @@ import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useProductDetail } from "../../context/ProductDetailContext";
 import withMyTask from "@/components/forms/withMyTask";
+import { formatCurrency } from "@/core/utils/format";
 
 const images = ["/images/product.jpg"];
 
@@ -71,7 +72,7 @@ const ProductDetailPage = ({
         </div>
 
         <div className="w-1/2 space-y-6">
-          <h2 className="text-3xl font-bold">${product.price}</h2>
+          <h2 className="text-3xl font-bold">{formatCurrency(product.price)}</h2>
           <ProductStatusTag value={product.status} />
           <p className="text-gray-700">
             Category: {product.category || "Uncategorized"}

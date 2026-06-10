@@ -4,6 +4,7 @@ import { useEffect, useState } from 'react'
 import { useLanguage } from '@/core/context/LanguageContext'
 import { HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
 import { Badge } from '@/components/design-system'
+import { formatNumber } from '@/core/utils/format'
 
 function pad(n: number) { return String(n).padStart(2, '0') }
 
@@ -90,8 +91,8 @@ export default function FlashSaleSection() {
                       <div className="text-[11px] opacity-60 uppercase tracking-[0.06em]">{p.brand}</div>
                       <div className="text-[14px] font-semibold mt-1 mb-3">{p.name}</div>
                       <div className="flex items-baseline gap-2 mb-3">
-                        <span className="text-[22px] font-bold">${p.price}</span>
-                        <span className="text-[13px] line-through opacity-50">${p.originalPrice}</span>
+                        <span className="text-[22px] font-bold">${formatNumber(p.price)}</span>
+                        <span className="text-[13px] line-through opacity-50">${formatNumber(p.originalPrice)}</span>
                       </div>
                       <div className="mb-2.5">
                         <div className="h-1 rounded-full bg-white/10 overflow-hidden">

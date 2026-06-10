@@ -4,6 +4,7 @@ import * as React from 'react'
 import { cn } from '@/lib/utils'
 import { Badge } from './Badge'
 import { Stars } from './Stars'
+import { formatNumber } from '@/core/utils/format'
 
 interface ProductCardProps {
   image: string
@@ -137,9 +138,9 @@ function ProductCard({
         )}
 
         <div className="flex items-baseline gap-2 mt-1.5">
-          <span className="text-[17px] font-bold tracking-[-0.02em]">${price}</span>
+          <span className="text-[17px] font-bold tracking-[-0.02em]">${formatNumber(price)}</span>
           {originalPrice && (
-            <span className="text-xs text-muted-foreground line-through">${originalPrice}</span>
+            <span className="text-xs text-muted-foreground line-through">${formatNumber(originalPrice)}</span>
           )}
         </div>
       </div>

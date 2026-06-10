@@ -7,6 +7,7 @@ export interface Product {
   description?: string;
   quantity: number;
   category?: string;
+  sku?: string;
   ownerId: string;
   images?: string[];
 }

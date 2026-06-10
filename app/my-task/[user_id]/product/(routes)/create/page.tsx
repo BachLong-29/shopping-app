@@ -4,10 +4,8 @@ import { SubmitHandler, useForm } from "react-hook-form";
 import { Toaster, toast } from "sonner";
 import { use, useEffect } from "react";
 
-import { Button } from "@/components/ui/button";
-import { Product } from "@/core/model/Product";
-import ProductForm from "../../component/ProductForm";
-import WrapperContent from "@/components/layout/section/WrapperContent";
+import { ProductStatus } from "@/core/model/Product";
+import ProductForm, { ProductFormData } from "../../component/ProductForm";
 import { createProduct } from "@/redux/reducer/productReducer";
 import productService from "../../services/productService";
 import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
@@ -21,17 +19,17 @@ import { zodResolver } from "@hookform/resolvers/zod";
 
 const productSchema = z.object({
   name: z.string().min(1, { message: "Tên là bắt buộc" }),
-  price: z.number().min(1, { message: "Giá là bắt buộc" }),
+  price: z.preprocess(
+    (v) => (v === "" ? undefined : Number(v)),
+    z.number().min(0, { message: "Giá là bắt buộc" })
+  ),
   description: z.optional(z.string()),
   quantity: z.number(),
   category: z.optional(z.string()),
+  sku: z.optional(z.string()),
   images: z.optional(z.array(z.string())),
+  status: z.optional(z.nativeEnum(ProductStatus)),
 });
-
-export type ProductFormData = Omit<
-  Product,
-  "_id" | "productId" | "ownerId" | "status"
->;
 
 const CreateProductPage = ({
   params,
@@ -44,16 +42,18 @@ const CreateProductPage = ({
   const dispatch = useDispatch();
   const { setBreadcrumb } = useBreadcrumb();
 
-  const initialValues = {
-    name: "",
-    description: "",
-    quantity: 0,
-    price: 0,
-    images: [],
-  };
   const form = useForm<ProductFormData>({
     resolver: zodResolver(productSchema),
-    defaultValues: initialValues,
+    defaultValues: {
+      name: "",
+      description: "",
+      quantity: 0,
+      price: 0,
+      sku: "",
+      category: "",
+      images: [],
+      status: ProductStatus.Draft,
+    },
   });
 
   const { loading, fetchData: execCreate } = useFetch(
@@ -62,10 +62,7 @@ const CreateProductPage = ({
   );
 
   const onSubmit: SubmitHandler<ProductFormData> = (data) => {
-    execCreate({
-      ...data,
-      userId,
-    })
+    execCreate({ ...data, userId })
       .then((res) => {
         if (res?.product) {
           dispatch(createProduct(res.product));
@@ -87,42 +84,24 @@ const CreateProductPage = ({
 
   useEffect(() => {
     setBreadcrumb([
-      {
-        label: t("module.product"),
-        href: `/my-task/${userId}/product`,
-      },
-      {
-        label: t("breadcrumb.create_product"),
-      },
+      { label: t("module.product"), href: `/my-task/${userId}/product` },
+      { label: t("breadcrumb.create_product") },
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
   }, []);
 
   return (
     <>
-      <WrapperContent>
-        <div className="flex flex-col items-center">
-          <ProductForm form={form} />
-        </div>
-      </WrapperContent>
-      <WrapperContent>
-        <div className="w-full flex justify-end gap-4">
-          <Button
-            disabled={loading}
-            onClick={() => router.back()}
-            className="w-auto bg-gray-400 hover:bg-gray-600"
-          >
-            {t("action.cancel")}
-          </Button>
-          <Button
-            disabled={loading}
-            onClick={form.handleSubmit(onSubmit)}
-            className="w-auto bg-blue-500 hover:bg-blue-600"
-          >
-            {t("action.save")}
-          </Button>
-        </div>
-      </WrapperContent>
+      <div className="p-3 md:p-6">
+        <ProductForm
+          form={form}
+          isNew
+          userId={userId}
+          loading={loading}
+          onSave={() => form.handleSubmit(onSubmit)()}
+          onCancel={() => router.back()}
+        />
+      </div>
       <Toaster position="top-right" />
     </>
   );

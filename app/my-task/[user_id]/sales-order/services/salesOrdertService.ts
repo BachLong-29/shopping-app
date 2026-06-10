@@ -1,4 +1,11 @@
 import HttpService from "@/core/services/httpService";
+import { SalesOrder, SalesOrderStatus } from "@/core/model/SO";
+
+export type SOFormData = {
+  status: SalesOrderStatus;
+  notes?: string;
+  totalAmount?: number;
+};
 
 class SalesOrderService extends HttpService {
   getList({
@@ -11,13 +18,39 @@ class SalesOrderService extends HttpService {
     offset: number;
     limit: number;
     search?: string;
-    // eslint-disable-next-line @typescript-eslint/no-explicit-any
-  }): Promise<{ data: any[]; total: number }> {
+  }): Promise<{ data: SalesOrder[]; total: number }> {
     return this.post(`/api/${id}/sales-order/search`, {
       offset,
       limit,
       search,
     });
+  }
+
+  getDetail({
+    userId,
+    orderId,
+  }: {
+    userId: string;
+    orderId: string;
+  }): Promise<{ salesOrder: SalesOrder }> {
+    return this.get(`/api/${userId}/sales-order/${orderId}`, {});
+  }
+
+  createSalesOrder({
+    userId,
+    ...data
+  }: SOFormData & { userId: string }): Promise<{ salesOrder: SalesOrder }> {
+    return this.post(`/api/${userId}/sales-order/create`, { ...data });
+  }
+
+  editSalesOrder({
+    userId,
+    orderId,
+    ...data
+  }: SOFormData & { userId: string; orderId: string }): Promise<{
+    salesOrder: SalesOrder;
+  }> {
+    return this.put(`/api/${userId}/sales-order/${orderId}`, { ...data });
   }
 
   exportSOList({ userId }: { userId: string }) {

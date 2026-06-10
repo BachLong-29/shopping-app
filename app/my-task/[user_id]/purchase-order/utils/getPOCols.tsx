@@ -12,6 +12,7 @@ import { Button } from "@/components/ui/button";
 import { Checkbox } from "@/components/ui/checkbox";
 import { ColumnDef } from "@tanstack/react-table";
 import dayjs from "dayjs";
+import { formatNumber } from "@/core/utils/format";
 
 // eslint-disable-next-line @typescript-eslint/no-explicit-any
 export const getPOCols = (): ColumnDef<any>[] => [
@@ -64,7 +65,7 @@ export const getPOCols = (): ColumnDef<any>[] => [
         </Button>
       );
     },
-    cell: ({ row }) => <div>{row.getValue("totalAmount")}</div>,
+    cell: ({ row }) => <div className="tabular-nums">{formatNumber(row.getValue("totalAmount"))}</div>,
   },
   {
     accessorKey: "createdAt",

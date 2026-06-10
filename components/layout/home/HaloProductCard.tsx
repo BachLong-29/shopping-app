@@ -6,6 +6,7 @@ import { cn } from '@/lib/utils'
 import { Badge, Stars } from '@/components/design-system'
 import { COLOR_OPTIONS, HaloProduct, productGradient } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
+import { formatNumber } from '@/core/utils/format'
 
 export default function HaloProductCard({ product }: { product: HaloProduct }) {
   const { t } = useLanguage()
@@ -101,9 +102,9 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
         )}
 
         <div className="flex items-baseline gap-2 mt-1.5">
-          <span className="text-[17px] font-bold tracking-[-0.02em]">${product.price}</span>
+          <span className="text-[17px] font-bold tracking-[-0.02em]">${formatNumber(product.price)}</span>
           {product.originalPrice && (
-            <span className="text-xs text-muted-foreground line-through">${product.originalPrice}</span>
+            <span className="text-xs text-muted-foreground line-through">${formatNumber(product.originalPrice)}</span>
           )}
         </div>
       </div>

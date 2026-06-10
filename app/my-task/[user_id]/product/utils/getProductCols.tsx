@@ -4,6 +4,7 @@ import Link from "next/link";
 import { Badge } from "@/components/design-system/Badge";
 import { ProductStatus } from "@/core/model/Product";
 import ProductAction from "../component/ProductAction";
+import { formatCurrency } from "@/core/utils/format";
 
 type BadgeVariant =
   | "success"
@@ -64,7 +65,7 @@ export const getStudentCols = (userId: string): ColumnDef<any>[] => [
     header: "Price",
     cell: ({ row }) => (
       <span className="font-semibold tabular-nums">
-        ${row.getValue<number>("price")}
+        {formatCurrency(row.getValue<number>("price"))}
       </span>
     ),
   },

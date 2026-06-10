@@ -1,7 +1,6 @@
 import { SortingState, VisibilityState } from "@tanstack/react-table";
 
 import salesOrderService from "../services/salesOrdertService";
-import { setProduct } from "@/redux/reducer/productReducer";
 import { setSOList } from "@/redux/reducer/salesOrderReducer";
 import { useDispatch } from "react-redux";
 import { useState } from "react";
@@ -22,7 +21,7 @@ export const useSOList = ({ userId }: { userId: string }) => {
     salesOrderService
       .getList({ id: userId, limit, offset: 0, search })
       .then((res) => {
-        dispatch(setProduct(res));
+        dispatch(setSOList(res));
       });
   };
 

@@ -5,6 +5,7 @@ import { Filter, Grid, List, Plus, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
 import { HALO_CATEGORIES, HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
+import { formatNumber } from '@/core/utils/format'
 import HaloProductCard from './HaloProductCard'
 import { Stars } from '@/components/design-system'
 
@@ -211,7 +212,7 @@ export default function BrowseSection() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <div className="text-[18px] font-bold">${p.price}</div>
+                      <div className="text-[18px] font-bold">${formatNumber(p.price)}</div>
                       <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-foreground text-background text-xs font-semibold">
                         <Plus size={12} /> {t('home.best_sellers.add')}
                       </button>
