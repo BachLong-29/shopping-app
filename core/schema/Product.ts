@@ -10,6 +10,8 @@ export interface IProduct extends Document {
   status: string;
   quantity: number;
   images?: string[];
+  rating?: number;
+  reviewCount?: number;
 }
 
 const ProductSchema = new Schema<IProduct>(
@@ -22,7 +24,8 @@ const ProductSchema = new Schema<IProduct>(
     images: Array<string>,
     quantity: Number,
     description: String,
-    // rating
+    rating: { type: Number },
+    reviewCount: { type: Number },
   },
   { timestamps: true }
 );

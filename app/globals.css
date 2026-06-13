@@ -102,6 +102,16 @@
   .all-center      { @apply justify-center items-center; }
 }
 
+/* ── Cart: confetti fall animation ─────────────────────────────────── */
+@keyframes confetti-fall {
+  0%   { transform: translateY(-20px) rotate(0deg);   opacity: 1; }
+  80%  { opacity: 1; }
+  100% { transform: translateY(100vh) rotate(720deg); opacity: 0; }
+}
+.animate-confetti-fall {
+  animation: confetti-fall linear forwards;
+}
+
 /* ── Profile: keyframe animations ──────────────────────────────────── */
 @keyframes p-spin {
   to { transform: rotate(360deg); }

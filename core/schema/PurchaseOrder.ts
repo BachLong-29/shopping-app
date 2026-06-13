@@ -1,10 +1,23 @@
 import mongoose, { Document, Schema } from "mongoose";
 
+interface ShippingAddress {
+  name: string;
+  phone: string;
+  email?: string;
+  address: string;
+  city: string;
+  state?: string;
+  postal?: string;
+  country?: string;
+}
+
 export interface IOrder extends Document {
   seller: mongoose.Types.ObjectId;
   products: { product: mongoose.Types.ObjectId; quantity: number }[];
   totalAmount: number;
   status: "pending" | "completed" | "cancelled";
+  shippingAddress?: ShippingAddress;
+  paymentMethod?: string;
 }
 
 const PurchaseOrderSchema = new Schema<IOrder>(
@@ -25,7 +38,18 @@ const PurchaseOrderSchema = new Schema<IOrder>(
       enum: ["pending", "completed", "cancelled"],
       default: "pending",
     },
-    seller: { type: Schema.Types.ObjectId, ref: "User", required: true }, // Ai mua hàng
+    seller: { type: Schema.Types.ObjectId, ref: "User", required: true },
+    shippingAddress: {
+      name: String,
+      phone: String,
+      email: String,
+      address: String,
+      city: String,
+      state: String,
+      postal: String,
+      country: String,
+    },
+    paymentMethod: { type: String, default: "cod" },
   },
   { timestamps: true }
 );

@@ -10,8 +10,9 @@ export async function POST(req: any) {
     await connectDB();
 
     const body = await req.json();
-    const { amount, currency, products, sellerId } = body;
+    const { amount, currency, products, sellerId, shippingAddress, paymentMethod } = body;
     const userId = req.nextUrl.pathname.split("/")[2];
+
     if (!amount || !currency) {
       return NextResponse.json(
         { message: "Thiếu dữ liệu thanh toán" },
@@ -27,7 +28,6 @@ export async function POST(req: any) {
       products,
     });
     await newOrder.save();
-    // console.log("📝 Đơn hàng bán đã tạo:", newOrder);
 
     const newPurchaseOrder = new PurchaseOrder({
       status: "pending",
@@ -35,22 +35,22 @@ export async function POST(req: any) {
       currency,
       seller: userId,
       products,
+      shippingAddress,
+      paymentMethod: paymentMethod ?? "cod",
     });
     await newPurchaseOrder.save();
-    // console.log("📝 Đơn hàng mua đã tạo:", newOrder);
 
-    // 🔹 Gọi API thanh toán
     const paymentResponse = await paymentService.payment({
       userId,
       orderId: newOrder._id,
     });
-    // console.log("💳 Kết quả thanh toán:", paymentResponse);
 
     if (paymentResponse.status === "success") {
       return NextResponse.json({
         message: "Đơn hàng đã được thanh toán thành công",
         order: paymentResponse.order,
         transactionId: paymentResponse.transactionId,
+        purchaseOrderId: newPurchaseOrder._id,
       });
     } else {
       return NextResponse.json(

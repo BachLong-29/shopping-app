@@ -16,7 +16,7 @@ import { useLanguage } from "@/core/context/LanguageContext";
 import { useProfile } from "../../context/ProfileContext";
 import { useGetInfoFromPath } from "@/hooks/useGetInfoFromPath";
 import profileService from "../../services/profileService";
-import withMyTask from "@/components/forms/withMyTask";
+import withAuth from "@/components/forms/withAuth";
 import { ProgressRing, Counter } from "../../components/ProfilePrimitives";
 
 export type UserFormData = Omit<UserInfo, "_id" | "role">;
@@ -608,4 +608,4 @@ const EditPage = ({ params }: { params: Promise<{ user_id: string }> }) => {
   );
 };
 
-export default withMyTask(EditPage);
+export default withAuth(EditPage);

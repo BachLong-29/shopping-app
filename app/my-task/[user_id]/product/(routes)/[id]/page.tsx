@@ -1,17 +1,18 @@
 "use client";
 
-import { use, useEffect, useState } from "react";
-
-import Image from "next/image";
-import ProductStatusTag from "@/components/layout/product/ProductStatusTag";
+import { use, useEffect } from "react";
 import WrapperContent from "@/components/layout/section/WrapperContent";
 import { useBreadcrumb } from "@/core/context/BreadcrumbContext";
 import { useLanguage } from "@/core/context/LanguageContext";
 import { useProductDetail } from "../../context/ProductDetailContext";
 import withMyTask from "@/components/forms/withMyTask";
-import { formatCurrency } from "@/core/utils/format";
 
-const images = ["/images/product.jpg"];
+import { ProductGallery } from "@/components/layout/product/pdp/ProductGallery";
+import { ProductInfoPanel } from "./components/ProductInfoPanel";
+import { HighlightsStrip } from "@/components/layout/product/pdp/HighlightsStrip";
+import { ProductTabs } from "@/components/layout/product/pdp/ProductTabs";
+import { ReviewsSection } from "@/components/layout/product/pdp/ReviewsSection";
+import { FAQSection } from "@/components/layout/product/pdp/FAQSection";
 
 const ProductDetailPage = ({
   params,
@@ -19,66 +20,44 @@ const ProductDetailPage = ({
   params: Promise<{ user_id: string; id: string }>;
 }) => {
   const { user_id: userId, id: productId } = use(params);
-
   const { product } = useProductDetail();
-  const [selectedImage, setSelectedImage] = useState(
-    product.images?.[0] ?? images[0]
-  );
   const { setBreadcrumb } = useBreadcrumb();
   const { t } = useLanguage();
+
   useEffect(() => {
     setBreadcrumb([
       {
         label: t("module.product"),
         href: `/my-task/${userId}/product`,
       },
-      {
-        label: productId,
-      },
+      { label: product.name || productId },
     ]);
     // eslint-disable-next-line react-hooks/exhaustive-deps
-  }, []);
+  }, [product.name]);
 
   return (
     <WrapperContent>
-      <div className="flex gap-8 p-8 max-w-6xl mx-auto">
-        <div className="flex flex-col items-center w-1/2">
-          <Image
-            src={selectedImage}
-            alt={product.name}
-            width={400}
-            height={400}
-            className="object-cover rounded-2xl transition-all duration-300 ease-in-out"
+      <div className="max-w-[1280px] mx-auto px-4 md:px-6 pb-20">
+        {/* Hero: gallery + info panel */}
+        <div className="grid grid-cols-1 lg:grid-cols-2 gap-10 lg:gap-16 py-10">
+          <ProductGallery
+            images={product.images ?? []}
+            productName={product.name}
           />
-
-          <p className="text-2xl font-semibold mt-4">{product.name}</p>
-          <p className="text-gray-500 mt-2">{product.description}</p>
-
-          <div className="flex gap-4 mt-4">
-            {product.images?.map((img, index) => (
-              <Image
-                key={index}
-                src={img}
-                alt="Thumbnail"
-                width={80}
-                height={80}
-                className={`object-cover rounded-xl cursor-pointer transition-all duration-300 ease-in-out ${
-                  selectedImage === img ? "ring-2 ring-blue-500" : ""
-                }`}
-                onClick={() => setSelectedImage(img)}
-              />
-            ))}
-          </div>
+          <ProductInfoPanel product={product} userId={userId} />
         </div>
 
-        <div className="w-1/2 space-y-6">
-          <h2 className="text-3xl font-bold">{formatCurrency(product.price)}</h2>
-          <ProductStatusTag value={product.status} />
-          <p className="text-gray-700">
-            Category: {product.category || "Uncategorized"}
-          </p>
-          <p className="text-gray-700">Quantity: {product.quantity}</p>
-        </div>
+        {/* Highlights strip */}
+        <HighlightsStrip />
+
+        {/* Product tabs: overview / features / specs / story */}
+        <ProductTabs product={product} />
+
+        {/* Reviews */}
+        <ReviewsSection product={product} />
+
+        {/* FAQ */}
+        <FAQSection />
       </div>
     </WrapperContent>
   );

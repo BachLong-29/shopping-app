@@ -10,6 +10,8 @@ export interface Product {
   sku?: string;
   ownerId: string;
   images?: string[];
+  rating?: number;
+  reviewCount?: number;
 }
 
 export enum ProductStatus {
