@@ -1,33 +1,49 @@
 'use client'
 
-import { useState } from 'react'
+import { useMemo, useState } from 'react'
+import Image from 'next/image'
 import { Filter, Grid, List, Plus, X } from 'lucide-react'
 import { cn } from '@/lib/utils'
-import { HALO_CATEGORIES, HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
+import { HaloProduct, productGradient } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
-import { formatNumber } from '@/core/utils/format'
+import { formatVND } from '@/core/utils/format'
 import HaloProductCard from './HaloProductCard'
 import { Stars } from '@/components/design-system'
 
-const BRANDS = ['Aether', 'North&Co', 'Mono Studio', 'Hara', 'Field Lab', 'Lumi']
 const SORT_KEYS = ['featured', 'newest', 'price_asc', 'price_desc', 'top_rated'] as const
 type SortKey = typeof SORT_KEYS[number]
 
-export default function BrowseSection() {
+export default function BrowseSection({ products }: { products: HaloProduct[] }) {
   const { t } = useLanguage()
   const [view, setView] = useState<'grid' | 'list'>('grid')
   const [sort, setSort] = useState<SortKey>('featured')
   const [selCats, setSelCats] = useState<string[]>([])
-  const [priceMax, setPriceMax] = useState(400)
+  const highestPrice = useMemo(() => Math.max(0, ...products.map((p) => p.price)), [products])
+  const [priceMax, setPriceMax] = useState(highestPrice)
   const [minRating, setMinRating] = useState(0)
   const [filterOpen, setFilterOpen] = useState(false)
 
-  const filtered = HALO_PRODUCTS.filter((p) => {
-    if (selCats.length > 0 && !selCats.includes(p.category)) return false
-    if (p.price > priceMax) return false
-    if (p.rating < minRating) return false
-    return true
-  })
+  const categories = useMemo(() => {
+    const counts = new Map<string, number>()
+    products.forEach((p) => counts.set(p.category, (counts.get(p.category) ?? 0) + 1))
+    return [...counts.entries()].map(([name, count]) => ({ id: name, name, count }))
+  }, [products])
+
+  const filtered = products
+    .filter((p) => {
+      if (selCats.length > 0 && !selCats.includes(p.category)) return false
+      if (p.price > priceMax) return false
+      if (p.rating < minRating) return false
+      return true
+    })
+    .sort((a, b) => {
+      switch (sort) {
+        case 'price_asc': return a.price - b.price
+        case 'price_desc': return b.price - a.price
+        case 'top_rated': return b.rating - a.rating
+        default: return 0 // 'featured' / 'newest': API already returns newest first
+      }
+    })
 
   function toggleCat(id: string) {
     setSelCats((v) => v.includes(id) ? v.filter((c) => c !== id) : [...v, id])
@@ -71,25 +87,22 @@ export default function BrowseSection() {
             {/* Active chips */}
             {selCats.length > 0 && (
               <div className="flex flex-wrap gap-1.5 mb-4">
-                {selCats.map((c) => {
-                  const name = HALO_CATEGORIES.find((cat) => cat.id === c)?.name ?? c
-                  return (
-                    <button
-                      key={c}
-                      onClick={() => toggleCat(c)}
-                      className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[11px] font-medium"
-                    >
-                      {name} <X size={10} />
-                    </button>
-                  )
-                })}
+                {selCats.map((c) => (
+                  <button
+                    key={c}
+                    onClick={() => toggleCat(c)}
+                    className="inline-flex items-center gap-1 px-2.5 py-1 rounded-full bg-foreground text-background text-[11px] font-medium"
+                  >
+                    {c} <X size={10} />
+                  </button>
+                ))}
               </div>
             )}
 
             {/* Category filter */}
             <div className="border-t border-border pt-4 pb-2">
               <div className="text-[13px] font-semibold mb-3">{t('home.browse.filter_category')}</div>
-              {HALO_CATEGORIES.map((c) => (
+              {categories.map((c) => (
                 <label key={c.id} className="flex items-center gap-3 py-2 px-1 rounded-[6px] cursor-pointer hover:bg-muted text-[13px]">
                   <input
                     type="checkbox"
@@ -114,10 +127,10 @@ export default function BrowseSection() {
             {/* Price */}
             <div className="border-t border-border pt-4 pb-2">
               <div className="text-[13px] font-semibold mb-3">
-                {t('home.browse.filter_price', { price: priceMax })}
+                {t('home.browse.filter_price', { price: formatVND(priceMax) })}
               </div>
               <input
-                type="range" min={0} max={400} value={priceMax}
+                type="range" min={0} max={highestPrice} step={1000} value={priceMax}
                 onChange={(e) => setPriceMax(+e.target.value)}
                 className="w-full accent-foreground"
               />
@@ -134,14 +147,6 @@ export default function BrowseSection() {
                   </span>
                   <Stars value={r} size={12} /> <span>{t('home.browse.and_up')}</span>
                 </label>
-              ))}
-            </div>
-
-            {/* Brands */}
-            <div className="border-t border-border pt-4">
-              <div className="text-[13px] font-semibold mb-3">{t('home.browse.filter_brand')}</div>
-              {BRANDS.map((b) => (
-                <div key={b} className="py-2 px-1 text-[13px] text-muted-foreground hover:text-foreground cursor-pointer">{b}</div>
               ))}
             </div>
           </aside>
@@ -198,10 +203,14 @@ export default function BrowseSection() {
                     className="grid items-center gap-5 p-4 bg-card border border-border rounded-[14px]"
                     style={{ gridTemplateColumns: '120px 1fr auto' }}
                   >
-                    <div className="h-[100px] w-[100px] rounded-[10px] overflow-hidden" style={productGradient(p.seed)}>
-                      <div className="w-full h-full flex items-center justify-center text-white/80 text-[11px] font-medium">
-                        {p.name.split(' ').slice(-1)[0]}
-                      </div>
+                    <div className="relative h-[100px] w-[100px] rounded-[10px] overflow-hidden" style={productGradient(p.seed)}>
+                      {p.image ? (
+                        <Image src={p.image} alt={p.name} fill sizes="100px" className="object-cover" />
+                      ) : (
+                        <div className="w-full h-full flex items-center justify-center text-white/80 text-[11px] font-medium">
+                          {p.name.split(' ').slice(-1)[0]}
+                        </div>
+                      )}
                     </div>
                     <div>
                       <div className="text-[11px] text-muted-foreground uppercase tracking-[0.06em]">{p.brand}</div>
@@ -212,7 +221,7 @@ export default function BrowseSection() {
                       </div>
                     </div>
                     <div className="flex flex-col items-end gap-2">
-                      <div className="text-[18px] font-bold">${formatNumber(p.price)}</div>
+                      <div className="text-[18px] font-bold">{formatVND(p.price)}</div>
                       <button className="inline-flex items-center gap-1.5 h-9 px-3.5 rounded-full bg-foreground text-background text-xs font-semibold">
                         <Plus size={12} /> {t('home.best_sellers.add')}
                       </button>

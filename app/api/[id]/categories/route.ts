@@ -8,8 +8,8 @@ export async function POST(req: NextRequest) {
   try {
     const body = await req.json();
 
-    const { name, slug, description } = body;
-    const newCategory = new Category({ name, slug, description });
+    const { name, slug, description, image } = body;
+    const newCategory = new Category({ name, slug, description, image });
     await newCategory.save();
 
     return NextResponse.json({

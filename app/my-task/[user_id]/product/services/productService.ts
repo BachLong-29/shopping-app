@@ -72,6 +72,7 @@ class ProductService extends HttpService {
 
   getProductsMKP({
     category,
+    status,
     minPrice,
     maxPrice,
     sortBy,
@@ -80,6 +81,7 @@ class ProductService extends HttpService {
     limit,
   }: {
     category?: string;
+    status?: string;
     minPrice?: number;
     maxPrice?: number;
     sortBy?: string;
@@ -96,6 +98,7 @@ class ProductService extends HttpService {
   }> {
     const params = new URLSearchParams({
       category: category || "",
+      status: status || "",
       minPrice: minPrice?.toString() || "",
       maxPrice: maxPrice?.toString() || "",
       sortBy: sortBy || "createdAt",

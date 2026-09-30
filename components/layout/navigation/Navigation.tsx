@@ -1,6 +1,8 @@
 /* eslint-disable @typescript-eslint/no-explicit-any */
 'use client'
 
+import Image from 'next/image'
+import logo from '@/public/images/logo.png'
 import Link from 'next/link'
 import { useEffect, useMemo, useRef, useState } from 'react'
 import { useDispatch, useSelector } from 'react-redux'
@@ -19,20 +21,10 @@ import ThemeToggle from './ThemeToggle'
 import UserDropdown from './UserPopover'
 
 /* ─── HaloLogo ───────────────────────────────────────────────────── */
-function HaloLogo({ size = 22 }: { size?: number }) {
+function HaloLogo({ size = 36 }: { size?: number }) {
   return (
     <div className="flex items-center gap-2">
-      <svg width={size} height={size} viewBox="0 0 24 24" aria-hidden="true">
-        <defs>
-          <linearGradient id="halo-nav" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#7c3aed" />
-            <stop offset="55%" stopColor="#ec4899" />
-            <stop offset="100%" stopColor="#f59e0b" />
-          </linearGradient>
-        </defs>
-        <circle cx="12" cy="12" r="9" fill="none" stroke="url(#halo-nav)" strokeWidth="2.5" />
-        <circle cx="12" cy="12" r="3.2" fill="url(#halo-nav)" />
-      </svg>
+      <Image src={logo} alt="halo" width={size} height={size} priority className="object-contain" />
       <span className="font-display text-[26px] leading-none font-medium tracking-[-0.02em]">
         halo
       </span>

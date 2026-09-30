@@ -227,7 +227,7 @@
       "tab_home": "Home",
       "tab_workspace": "Workspace",
       "tab_wearables": "Wearables",
-      "add_to_bag": "Add to bag · ${price}",
+      "add_to_bag": "Add to bag · {price}",
       "wishlist": "Wishlist",
       "quick_view": "Quick view"
     },
@@ -267,7 +267,7 @@
       "filters_title": "Filters",
       "products_count": "{count} products",
       "filter_category": "Category",
-      "filter_price": "Max price: ${price}",
+      "filter_price": "Max price: {price}",
       "filter_rating": "Min rating",
       "filter_brand": "Brand",
       "and_up": "& up",

@@ -1,3 +1,4 @@
+import logo from "@/public/images/logo.png";
 import type { Metadata } from "next";
 import { ProductDetailMKPProvider } from "./context/ProductDetailMKP";
 import { getDetailProductFromMKP } from "@/app/action";
@@ -7,9 +8,9 @@ export const metadata: Metadata = {
   title: "Product Detail Page",
   description: "Product Detail Page",
   icons: {
-    icon: "/images/logo.png",
-    shortcut: "/images/logo.png",
-    apple: "/images/logo.png",
+    icon: logo.src,
+    shortcut: logo.src,
+    apple: logo.src,
   },
 };
 

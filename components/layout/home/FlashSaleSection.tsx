@@ -2,9 +2,10 @@
 
 import { useEffect, useState } from 'react'
 import { useLanguage } from '@/core/context/LanguageContext'
-import { HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
+import Image from 'next/image'
+import { HaloProduct, productGradient } from '@/lib/halo-data'
 import { Badge } from '@/components/design-system'
-import { formatNumber } from '@/core/utils/format'
+import { formatVND } from '@/core/utils/format'
 
 function pad(n: number) { return String(n).padStart(2, '0') }
 
@@ -40,9 +41,15 @@ function Countdown() {
   )
 }
 
-export default function FlashSaleSection() {
+export default function FlashSaleSection({ products }: { products: HaloProduct[] }) {
   const { t } = useLanguage()
-  const flash = HALO_PRODUCTS.filter((p) => p.originalPrice).slice(0, 4)
+  const discountOf = (p: HaloProduct) => 1 - p.price / (p.originalPrice ?? p.price)
+  const flash = products
+    .filter((p) => p.originalPrice)
+    .sort((a, b) => discountOf(b) - discountOf(a))
+    .slice(0, 4)
+
+  if (flash.length === 0) return null
 
   return (
     <section>
@@ -80,9 +87,13 @@ export default function FlashSaleSection() {
                 return (
                   <div key={p.id} className="group overflow-hidden rounded-[20px] bg-white/6 border border-white/10 backdrop-blur-sm transition-all duration-300 hover:-translate-y-1">
                     <div className="relative aspect-[4/3] overflow-hidden" style={productGradient(p.seed)}>
-                      <div className="absolute inset-0 flex items-center justify-center">
-                        <div className="h-20 w-20 rounded-full bg-white/12" />
-                      </div>
+                      {p.image ? (
+                        <Image src={p.image} alt={p.name} fill sizes="(min-width: 1024px) 25vw, 50vw" className="object-cover" />
+                      ) : (
+                        <div className="absolute inset-0 flex items-center justify-center">
+                          <div className="h-20 w-20 rounded-full bg-white/12" />
+                        </div>
+                      )}
                       <div className="absolute top-2.5 left-2.5">
                         <Badge variant="sale">−{disc}%</Badge>
                       </div>
@@ -91,8 +102,8 @@ export default function FlashSaleSection() {
                       <div className="text-[11px] opacity-60 uppercase tracking-[0.06em]">{p.brand}</div>
                       <div className="text-[14px] font-semibold mt-1 mb-3">{p.name}</div>
                       <div className="flex items-baseline gap-2 mb-3">
-                        <span className="text-[22px] font-bold">${formatNumber(p.price)}</span>
-                        <span className="text-[13px] line-through opacity-50">${formatNumber(p.originalPrice)}</span>
+                        <span className="text-[22px] font-bold">{formatVND(p.price)}</span>
+                        <span className="text-[13px] line-through opacity-50">{formatVND(p.originalPrice)}</span>
                       </div>
                       <div className="mb-2.5">
                         <div className="h-1 rounded-full bg-white/10 overflow-hidden">

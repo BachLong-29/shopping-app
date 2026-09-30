@@ -4,6 +4,7 @@ import User from "./User";
 export interface IProduct extends Document {
   name: string;
   price: number;
+  originalPrice?: number;
   category: string;
   ownerId: Schema.Types.ObjectId;
   description?: string;
@@ -18,6 +19,7 @@ const ProductSchema = new Schema<IProduct>(
   {
     name: { type: String, required: true },
     price: { type: Number, required: true },
+    originalPrice: { type: Number },
     category: { type: String, required: true },
     ownerId: { type: Schema.Types.ObjectId, ref: User, required: true },
     status: { type: String, required: true },

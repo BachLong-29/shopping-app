@@ -3,25 +3,21 @@
 import { ArrowRight } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
-import { HALO_PRODUCTS } from '@/lib/halo-data'
+import { HaloProduct } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
 import HaloProductCard from './HaloProductCard'
 
-const TAB_KEYS = [
-  { key: 'all',       cat: null },
-  { key: 'audio',     cat: 'audio' },
-  { key: 'home',      cat: 'home' },
-  { key: 'workspace', cat: 'workspace' },
-  { key: 'wearables', cat: 'wearables' },
-]
-
-export default function FeaturedProductsSection() {
+export default function FeaturedProductsSection({ products, total }: { products: HaloProduct[]; total: number }) {
   const { t } = useLanguage()
   const [activeKey, setActiveKey] = useState('all')
 
-  const filtered = activeKey === 'all'
-    ? HALO_PRODUCTS
-    : HALO_PRODUCTS.filter((p) => p.category === activeKey)
+  // Tabs: "All" + the 4 categories with the most products
+  const counts = new Map<string, number>()
+  products.forEach((p) => counts.set(p.category, (counts.get(p.category) ?? 0) + 1))
+  const topCats = [...counts.entries()].sort((a, b) => b[1] - a[1]).slice(0, 4).map(([c]) => c)
+  const tabs = [{ key: 'all', label: t('home.featured.tab_all') }, ...topCats.map((c) => ({ key: c, label: c }))]
+
+  const filtered = activeKey === 'all' ? products : products.filter((p) => p.category === activeKey)
 
   return (
     <section>
@@ -43,7 +39,7 @@ export default function FeaturedProductsSection() {
           <div className="flex items-center gap-3">
             {/* Pill tabs */}
             <div className="hidden sm:inline-flex bg-muted rounded-full p-1 gap-0.5">
-              {TAB_KEYS.map(({ key }) => (
+              {tabs.map(({ key, label }) => (
                 <button
                   key={key}
                   onClick={() => setActiveKey(key)}
@@ -54,12 +50,12 @@ export default function FeaturedProductsSection() {
                       : 'text-muted-foreground hover:text-foreground',
                   )}
                 >
-                  {t(`home.featured.tab_${key}`)}
+                  {label}
                 </button>
               ))}
             </div>
             <button className="inline-flex items-center gap-2 rounded-full border border-border px-5 py-2.5 text-sm font-medium hover:bg-muted transition-colors">
-              {t('home.featured.view_all', { count: 312 })} <ArrowRight size={14} />
+              {t('home.featured.view_all', { count: total })} <ArrowRight size={14} />
             </button>
           </div>
         </div>

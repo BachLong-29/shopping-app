@@ -48,6 +48,7 @@ export interface HaloProduct {
   category: string
   seed: number
   colors: number[]
+  image?: string
 }
 
 export const HALO_PRODUCTS: HaloProduct[] = [
@@ -70,15 +71,16 @@ export interface HaloCategory {
   name: string
   count: number
   seed: number
+  image: string
 }
 
 export const HALO_CATEGORIES: HaloCategory[] = [
-  { id: 'audio',     name: 'Audio',     count: 248, seed: 1 },
-  { id: 'wearables', name: 'Wearables', count: 156, seed: 4 },
-  { id: 'home',      name: 'Home',      count: 412, seed: 0 },
-  { id: 'workspace', name: 'Workspace', count: 184, seed: 8 },
-  { id: 'wellness',  name: 'Wellness',  count: 92,  seed: 3 },
-  { id: 'apparel',   name: 'Apparel',   count: 528, seed: 7 },
+  { id: 'audio',     name: 'Audio',     count: 248, seed: 1, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784135/shopping-app/categories/audio.png' },
+  { id: 'wearables', name: 'Wearables', count: 156, seed: 4, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784139/shopping-app/categories/wearables.png' },
+  { id: 'home',      name: 'Home',      count: 412, seed: 0, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784138/shopping-app/categories/home.png' },
+  { id: 'workspace', name: 'Workspace', count: 184, seed: 8, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784142/shopping-app/categories/workspace.png' },
+  { id: 'wellness',  name: 'Wellness',  count: 92,  seed: 3, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784140/shopping-app/categories/wellness.png' },
+  { id: 'apparel',   name: 'Apparel',   count: 528, seed: 7, image: 'https://res.cloudinary.com/dj9ikpjnj/image/upload/v1790784129/shopping-app/categories/apparel.png' },
 ]
 
 export const HALO_TESTIMONIALS = [

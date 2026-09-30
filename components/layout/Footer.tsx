@@ -1,5 +1,7 @@
 'use client'
 
+import Image from 'next/image'
+import logo from '@/public/images/logo.png'
 import Link from 'next/link'
 import { Mail, MapPin, Phone } from 'lucide-react'
 import { usePathname } from 'next/navigation'
@@ -16,17 +18,7 @@ const PAYMENTS = ['VISA', 'MC', 'AMEX', 'PAYPAL', 'KLARNA', 'MOMO', 'VNPAY']
 function HaloLogo() {
   return (
     <div className="flex items-center gap-2">
-      <svg width={22} height={22} viewBox="0 0 24 24" aria-hidden>
-        <defs>
-          <linearGradient id="halo-footer" x1="0" y1="0" x2="1" y2="1">
-            <stop offset="0%" stopColor="#7c3aed" />
-            <stop offset="55%" stopColor="#ec4899" />
-            <stop offset="100%" stopColor="#f59e0b" />
-          </linearGradient>
-        </defs>
-        <circle cx="12" cy="12" r="9" fill="none" stroke="url(#halo-footer)" strokeWidth="2.5" />
-        <circle cx="12" cy="12" r="3.2" fill="url(#halo-footer)" />
-      </svg>
+      <Image src={logo} alt="halo" width={32} height={32} className="object-contain" />
       <span className="font-display text-[26px] leading-none font-medium tracking-[-0.02em]">halo</span>
     </div>
   )

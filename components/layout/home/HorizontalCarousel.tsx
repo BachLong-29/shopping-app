@@ -2,20 +2,22 @@
 
 import { ArrowRight, ChevronLeft, ChevronRight } from 'lucide-react'
 import { useRef } from 'react'
-import { HALO_PRODUCTS, HaloProduct } from '@/lib/halo-data'
+import { HaloProduct } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
 import HaloProductCard from './HaloProductCard'
 
 interface Props {
   sectionKey: string
-  products?: HaloProduct[]
+  products: HaloProduct[]
 }
 
 export default function HorizontalCarousel({ sectionKey, products }: Props) {
   const { t } = useLanguage()
   const ref = useRef<HTMLDivElement>(null)
   const scroll = (dir: number) => ref.current?.scrollBy({ left: dir * 300, behavior: 'smooth' })
-  const items = products ?? HALO_PRODUCTS
+  const items = products
+
+  if (items.length === 0) return null
 
   return (
     <section>

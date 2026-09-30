@@ -9,10 +9,15 @@ import HorizontalCarousel from "@/components/layout/home/HorizontalCarousel";
 import NewsletterSection from "@/components/layout/home/NewsletterSection";
 import TestimonialsSection from "@/components/layout/home/TestimonialsSection";
 import ProductionSection from "@/components/layout/product/ProductionSection";
-import { getProductMKP } from "./action";
+import { getHomeProducts, getProductMKP } from "./action";
 
 const Home = async () => {
-  const products = await getProductMKP();
+  const [products, home] = await Promise.all([
+    getProductMKP(),
+    getHomeProducts(),
+  ]);
+  const byReviews = [...home.products].sort((a, b) => b.reviews - a.reviews);
+  const byRating = [...home.products].sort((a, b) => b.rating - a.rating);
 
   return (
     <div className="flex flex-col overflow-x-hidden">
@@ -28,23 +33,23 @@ const Home = async () => {
       {/* Real products from API — Featured / Top seller */}
       <ProductionSection data={products} />
 
-      {/* Featured this week (dummy) */}
-      <FeaturedProductsSection />
+      {/* Featured this week */}
+      <FeaturedProductsSection products={home.products} total={home.total} />
 
-      {/* Flash sale */}
-      <FlashSaleSection />
+      {/* Flash sale: products with an originalPrice */}
+      <FlashSaleSection products={home.products} />
 
-      {/* Trending right now (dummy carousel) */}
-      <HorizontalCarousel sectionKey="trending" />
+      {/* Trending right now: most reviewed */}
+      <HorizontalCarousel sectionKey="trending" products={byReviews.slice(0, 12)} />
 
       {/* Best sellers */}
-      <BestSellersSection />
+      <BestSellersSection products={home.products} />
 
       {/* Browse everything */}
-      <BrowseSection />
+      <BrowseSection products={home.products} />
 
-      {/* Recommended for you (dummy carousel) */}
-      <HorizontalCarousel sectionKey="recommended" />
+      {/* Recommended for you: top rated */}
+      <HorizontalCarousel sectionKey="recommended" products={byRating.slice(0, 12)} />
 
       {/* Testimonials */}
       <TestimonialsSection />

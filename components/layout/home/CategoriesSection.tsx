@@ -1,5 +1,6 @@
 'use client'
 
+import Image from 'next/image'
 import { ArrowRight } from 'lucide-react'
 import { useLanguage } from '@/core/context/LanguageContext'
 import { HALO_CATEGORIES, categoryGradient } from '@/lib/halo-data'
@@ -33,7 +34,15 @@ export default function CategoriesSection() {
               className="group relative aspect-[4/5] rounded-[20px] overflow-hidden cursor-pointer transition-all duration-[400ms] hover:-translate-y-1 hover:shadow-lg"
               style={{ animationDelay: `${i * 60}ms` }}
             >
-              <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-[1.06]" style={categoryGradient(cat.seed)} />
+              <div className="absolute inset-0 transition-transform duration-[600ms] group-hover:scale-[1.06]" style={categoryGradient(cat.seed)}>
+                <Image
+                  src={cat.image}
+                  alt={cat.name}
+                  fill
+                  sizes="(min-width: 1024px) 16vw, (min-width: 640px) 33vw, 50vw"
+                  className="object-cover"
+                />
+              </div>
               <div className="absolute inset-0 bg-gradient-to-t from-black/55 to-transparent" />
               <div className="absolute -top-4 -right-4 h-20 w-20 rounded-full bg-white/10" />
               <div className="absolute top-8 -left-6 h-28 w-28 rounded-full bg-white/8" />

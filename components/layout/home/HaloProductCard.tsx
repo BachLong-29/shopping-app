@@ -1,12 +1,14 @@
 'use client'
 
+import Image from 'next/image'
+import Link from 'next/link'
 import { Eye, Heart } from 'lucide-react'
 import { useState } from 'react'
 import { cn } from '@/lib/utils'
 import { Badge, Stars } from '@/components/design-system'
 import { COLOR_OPTIONS, HaloProduct, productGradient } from '@/lib/halo-data'
 import { useLanguage } from '@/core/context/LanguageContext'
-import { formatNumber } from '@/core/utils/format'
+import { formatVND } from '@/core/utils/format'
 
 export default function HaloProductCard({ product }: { product: HaloProduct }) {
   const { t } = useLanguage()
@@ -37,18 +39,30 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
       {/* Media */}
       <div className="relative aspect-[4/5] overflow-hidden">
         <div className="absolute inset-0 transition-transform duration-[600ms] ease-out group-hover:scale-105" style={productGradient(product.seed)}>
-          {/* Decorative circles */}
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-28 w-28 rounded-full bg-white/12" />
-          </div>
-          <div className="absolute inset-0 flex items-center justify-center">
-            <div className="h-16 w-16 rounded-full bg-white/18" />
-          </div>
-          {/* Label */}
-          <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
-            <div className="text-[10px] font-mono font-medium tracking-[0.12em] uppercase opacity-80">{product.brand}</div>
-            <div className="mt-1 text-[16px] font-semibold tracking-[-0.01em]">{product.name.split(' ').slice(-1)[0]}</div>
-          </div>
+          {product.image ? (
+            <Image
+              src={product.image}
+              alt={product.name}
+              fill
+              sizes="(min-width: 1024px) 25vw, 50vw"
+              className="object-cover"
+            />
+          ) : (
+            <>
+              {/* Decorative circles */}
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-28 w-28 rounded-full bg-white/12" />
+              </div>
+              <div className="absolute inset-0 flex items-center justify-center">
+                <div className="h-16 w-16 rounded-full bg-white/18" />
+              </div>
+              {/* Label */}
+              <div className="absolute inset-0 flex flex-col items-center justify-center text-white">
+                <div className="text-[10px] font-mono font-medium tracking-[0.12em] uppercase opacity-80">{product.brand}</div>
+                <div className="mt-1 text-[16px] font-semibold tracking-[-0.01em]">{product.name.split(' ').slice(-1)[0]}</div>
+              </div>
+            </>
+          )}
         </div>
 
         {/* Badges */}
@@ -77,7 +91,7 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
         {/* Quick-add */}
         <div className="absolute bottom-3 left-3 right-3 z-[2] translate-y-[120%] transition-transform duration-[400ms] group-hover:translate-y-0">
           <button className="flex w-full items-center justify-center gap-1.5 h-9 rounded-full bg-foreground text-background text-xs font-semibold hover:opacity-90 transition-opacity">
-            {t('home.featured.add_to_bag', { price: product.price })}
+            {t('home.featured.add_to_bag', { price: formatVND(product.price) })}
           </button>
         </div>
       </div>
@@ -85,7 +99,7 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
       {/* Body */}
       <div className="relative z-[2] flex flex-col gap-1.5 p-4">
         <div className="text-[11px] font-medium uppercase tracking-[0.06em] text-muted-foreground">{product.brand}</div>
-        <div className="text-[15px] font-semibold leading-[1.3] tracking-[-0.01em] line-clamp-2">{product.name}</div>
+        <Link href={`/prod/${product.id}`} className="text-[15px] font-semibold leading-[1.3] tracking-[-0.01em] line-clamp-2 hover:underline">{product.name}</Link>
 
         <div className="flex items-center gap-2 mt-0.5 text-xs text-muted-foreground">
           <Stars value={product.rating} size={12} />
@@ -102,9 +116,9 @@ export default function HaloProductCard({ product }: { product: HaloProduct }) {
         )}
 
         <div className="flex items-baseline gap-2 mt-1.5">
-          <span className="text-[17px] font-bold tracking-[-0.02em]">${formatNumber(product.price)}</span>
+          <span className="text-[17px] font-bold tracking-[-0.02em]">{formatVND(product.price)}</span>
           {product.originalPrice && (
-            <span className="text-xs text-muted-foreground line-through">${formatNumber(product.originalPrice)}</span>
+            <span className="text-xs text-muted-foreground line-through">{formatVND(product.originalPrice)}</span>
           )}
         </div>
       </div>

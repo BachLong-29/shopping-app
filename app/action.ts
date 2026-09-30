@@ -1,6 +1,8 @@
 "use server";
 
 import productService from "./my-task/[user_id]/product/services/productService";
+import { HaloProduct } from "@/lib/halo-data";
+import { toHaloProduct } from "@/lib/halo-adapter";
 import profileService from "./my-task/[user_id]/profile/services/profileService";
 
 export async function getProfile(id: string) {
@@ -25,6 +27,23 @@ export async function getDetailProduct(userId: string, productId: string) {
 export async function getDetailProductFromMKP(productId: string) {
   const product = await productService.getProductDetailFromMKP({ productId });
   return product;
+}
+
+export async function getHomeProducts(): Promise<{
+  products: HaloProduct[];
+  total: number;
+}> {
+  const res = await productService.getProductsMKP({
+    status: "available",
+    sortBy: "createdAt",
+    order: "desc",
+    limit: 100,
+    page: 1,
+  });
+  return {
+    products: res.data.map(toHaloProduct),
+    total: res.pagination.totalProducts,
+  };
 }
 
 export async function getProductMKP() {

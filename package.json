@@ -9,6 +9,7 @@
     "start": "next start",
     "lint": "next lint",
     "translate": "node scripts/translate.js",
+    "seed": "node --env-file=.env scripts/seed.js",
     "type-check": "yarn tsc --noEmit"
   },
   "dependencies": {

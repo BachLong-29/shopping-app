@@ -1,14 +1,15 @@
 'use client'
 
 import { Plus } from 'lucide-react'
-import { HALO_PRODUCTS, productGradient } from '@/lib/halo-data'
+import Image from 'next/image'
+import { HaloProduct, productGradient } from '@/lib/halo-data'
 import { Stars } from '@/components/design-system'
 import { useLanguage } from '@/core/context/LanguageContext'
-import { formatNumber } from '@/core/utils/format'
+import { formatVND } from '@/core/utils/format'
 
-export default function BestSellersSection() {
+export default function BestSellersSection({ products }: { products: HaloProduct[] }) {
   const { t } = useLanguage()
-  const top = [...HALO_PRODUCTS].sort((a, b) => b.reviews - a.reviews).slice(0, 5)
+  const top = [...products].sort((a, b) => b.reviews - a.reviews).slice(0, 5)
   const days = t('home.best_sellers.days').split(',')
 
   return (
@@ -78,10 +79,14 @@ export default function BestSellersSection() {
                 <span className="font-display text-[44px] text-border leading-none tabular-nums">0{i + 1}</span>
 
                 {/* Thumbnail */}
-                <div className="h-[88px] w-[88px] rounded-[10px] overflow-hidden" style={productGradient(p.seed)}>
-                  <div className="w-full h-full flex items-center justify-center text-white text-[11px] font-medium tracking-wide opacity-80">
-                    {p.name.split(' ').slice(-1)[0]}
-                  </div>
+                <div className="relative h-[88px] w-[88px] rounded-[10px] overflow-hidden" style={productGradient(p.seed)}>
+                  {p.image ? (
+                    <Image src={p.image} alt={p.name} fill sizes="88px" className="object-cover" />
+                  ) : (
+                    <div className="w-full h-full flex items-center justify-center text-white text-[11px] font-medium tracking-wide opacity-80">
+                      {p.name.split(' ').slice(-1)[0]}
+                    </div>
+                  )}
                 </div>
 
                 {/* Info */}
@@ -96,9 +101,9 @@ export default function BestSellersSection() {
 
                 {/* Price */}
                 <div className="text-right hidden sm:block">
-                  <div className="text-[18px] font-bold tabular-nums">${formatNumber(p.price)}</div>
+                  <div className="text-[18px] font-bold tabular-nums">{formatVND(p.price)}</div>
                   {p.originalPrice && (
-                    <div className="text-xs text-muted-foreground line-through">${formatNumber(p.originalPrice)}</div>
+                    <div className="text-xs text-muted-foreground line-through">{formatVND(p.originalPrice)}</div>
                   )}
                 </div>
 

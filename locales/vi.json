@@ -227,7 +227,7 @@
       "tab_home": "Nhà cửa",
       "tab_workspace": "Không gian làm việc",
       "tab_wearables": "Phụ kiện",
-      "add_to_bag": "Thêm vào giỏ · ${price}",
+      "add_to_bag": "Thêm vào giỏ · {price}",
       "wishlist": "Yêu thích",
       "quick_view": "Xem nhanh"
     },
@@ -267,7 +267,7 @@
       "filters_title": "Bộ lọc",
       "products_count": "{count} sản phẩm",
       "filter_category": "Danh mục",
-      "filter_price": "Giá tối đa: ${price}",
+      "filter_price": "Giá tối đa: {price}",
       "filter_rating": "Đánh giá tối thiểu",
       "filter_brand": "Thương hiệu",
       "and_up": "& lên",

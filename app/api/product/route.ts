@@ -10,6 +10,7 @@ export async function GET(req: any) {
     const { searchParams } = new URL(req.url);
     // Lấy các query params
     const category = searchParams.get("category");
+    const status = searchParams.get("status");
     const minPrice = Number(searchParams.get("minPrice")) || 0;
     const maxPrice = Number(searchParams.get("maxPrice")) || Number.MAX_VALUE;
     const sortBy = searchParams.get("sortBy") || "createdAt";
@@ -23,6 +24,9 @@ export async function GET(req: any) {
     const filter: any = { price: { $gte: minPrice, $lte: maxPrice } };
     if (category) {
       filter.category = category;
+    }
+    if (status) {
+      filter.status = status;
     }
 
     const products = await Product.find(filter)
